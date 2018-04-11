@@ -26,4 +26,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    compile 'com.google.android.gms:play-services-identity:8.4.0'
+    compile 'pub.devrel:easypermissions:0.1.5'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile('com.google.apis:google-api-services-calendar:v3-rev194-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+
 }
