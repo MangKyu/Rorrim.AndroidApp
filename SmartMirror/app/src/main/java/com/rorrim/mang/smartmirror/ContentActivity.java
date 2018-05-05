@@ -2,8 +2,6 @@ package com.rorrim.mang.smartmirror;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,7 @@ public class ContentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main); //해당 아이디에 자신이 만든 레이아웃의 이름을 쓴다
+        setContentView(R.layout.activity_content); //해당 아이디에 자신이 만든 레이아웃의 이름을 쓴다
         createAction();
     }
 
@@ -38,7 +36,7 @@ public class ContentActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //버튼이 눌렸을 때
-                Intent intent = new Intent(ContentActivity.this, CalanderActivity.class);
+                Intent intent = new Intent(ContentActivity.this, CalendarActivity.class);
                 startActivity(intent); //액티비티 이동
             }
         });
