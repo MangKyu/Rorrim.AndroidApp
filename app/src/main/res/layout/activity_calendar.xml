@@ -74,13 +74,13 @@
             android:layout_marginTop="187dp"
             android:text="알람"
             android:textSize="20sp" />
-<!--    노란색 하이라이트 부분
+
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginStart="75dp"
             android:layout_marginTop="122dp"
-            android:background="@drawable/rounded" />-->
+            android:background="@drawable/rounded" />
 
         <ImageButton
             android:layout_width="50dp"
