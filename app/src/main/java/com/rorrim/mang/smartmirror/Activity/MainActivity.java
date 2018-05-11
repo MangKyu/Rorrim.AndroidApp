@@ -9,9 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.rorrim.mang.smartmirror.Controller.JsonParser;
 import com.rorrim.mang.smartmirror.Controller.NetworkController;
-import com.rorrim.mang.smartmirror.Model.HttpConnection;
+import com.rorrim.mang.smartmirror.Controller.HttpConnection;
+import com.rorrim.mang.smartmirror.Model.Data;
 import com.rorrim.mang.smartmirror.R;
+
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,10 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Intent getJson(){
 
-        conn.setDataList();
+        String jsonStr = HttpConnection.getInstance("http://hezo25.com/get_json.php").getJson();
+        LinkedList<Data> dataList = JsonParser.getInstance().parseJson(jsonStr);
         Intent intent = new Intent(MainActivity.this, ContentActivity.class);
-        intent.putExtra("status", conn.getDataList().get(0).toString());
-        intent.putExtra("result", conn.getDataList().get(1).toString());
+        intent.putExtra("status", dataList.get(0).toString());
+        intent.putExtra("result", dataList.get(1).toString());
         return intent;
     }
 
