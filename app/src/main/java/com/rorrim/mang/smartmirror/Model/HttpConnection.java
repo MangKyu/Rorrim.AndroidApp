@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.rorrim.mang.smartmirror.Exception.HttpConnectionException;
+import com.rorrim.mang.smartmirror.Exception.StreamException;
 import com.rorrim.mang.smartmirror.Interface.Connectable;
 import com.rorrim.mang.smartmirror.Model.Data;
 
@@ -35,19 +36,10 @@ import javax.net.ssl.X509TrustManager;
 
 public class HttpConnection extends Thread implements Connectable {
 
+    private String url;
     private static HttpConnection instance;
     private LinkedList<Data> dataList;
-
-    public static HttpConnection getInstance(){
-        if (instance == null) {
-            synchronized (HttpConnection.class) {
-                if (instance == null) {
-                    instance = new HttpConnection();
-                }
-            }
-        }
-        return instance;
-    }
+    private HttpURLConnection conn;
 
     private HttpConnection(){
         try {
@@ -64,29 +56,48 @@ public class HttpConnection extends Thread implements Connectable {
         }
     }
 
-    public HttpURLConnection createConnection(String url, String method) throws IOException {
+    public static HttpConnection getInstance(String url){
+        if (instance == null) {
+            synchronized (HttpConnection.class) {
+                if (instance == null) {
+                    instance = new HttpConnection();
+                }
+            }
+        }
+        instance.setUrl(url);
+        return instance;
+    }
+
+    @Override
+    public void run(){
+        try {
+            createConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createConnection() throws IOException {
         String encodedUrl = Uri.encode(url, ALLOWED_URI_CHARS);
-        HttpURLConnection conn = (HttpURLConnection) new URL(encodedUrl).openConnection();
+        this.conn = (HttpURLConnection) new URL(encodedUrl).openConnection();
+
         conn.connect();
-        setRequest(conn, method);
+        setRequest();
         int responseCode = conn.getResponseCode();
 
         if(responseCode < 200 || responseCode >= 300){
             try {
                 throw new HttpConnectionException();
-            } catch (HttpConnectionException e1) {
-                e1.printStackTrace();
+            } catch (HttpConnectionException e) {
+                e.printStackTrace();
             }
         }
-
-        return conn;
     }
 
-    public InputStream getInputStream(String url) {
+    public InputStream getInputStream() {
         InputStream is = null;
 
         try {
-            HttpURLConnection conn = createConnection(url, GET_METHOD);
             is = conn.getInputStream();
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,11 +105,10 @@ public class HttpConnection extends Thread implements Connectable {
         return is;
     }
 
-    public OutputStream getOutputStream(HttpURLConnection conn, String url){
+    public OutputStream getOutputStream(){
         OutputStream os = null;
 
         try{
-            conn = createConnection(url, POST_METHOD);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setUseCaches(false);
@@ -109,89 +119,92 @@ public class HttpConnection extends Thread implements Connectable {
         return os;
     }
 
-    private void setRequest(HttpURLConnection conn, String method){
+    private void setRequest(){
         // Connect Time out
         conn.setConnectTimeout(connectTimeout);
 
         // Read Time out
         conn.setReadTimeout(readTimeout);
 
-        // Choose Method
-        try {
-            conn.setRequestMethod(method);
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
     }
 
-    private String getMsg(String url){
+    private String getMsg(){
+        InputStream is = null;
         try {
-            InputStream is = getInputStream(url);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
+            if(conn != null){
+                conn.setRequestMethod(POST_METHOD);
+                is = getInputStream();
 
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                //bufferedReader.close();
+                return sb.toString().trim();
             }
-
-            //bufferedReader.close();
-            return sb.toString().trim();
-
         }catch (IOException e){
             e.getStackTrace();
         }
         return null;
     }
 
-    public String sendMsg(String url, String params) {
+    public String sendMsg(String params) {
         String result = null;
         OutputStream os = null;
         InputStream is = null;
         BufferedReader br = null;
         HttpURLConnection conn = null;
+
         try {
-            if (params != null) {
-                os = getOutputStream(conn, url);
+            if(conn != null && params != null){
+                // conn.setRequestProperty(field, newValue);//header
+                conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
+                conn.setRequestMethod(POST_METHOD);
+                is = conn.getInputStream();
+
+                os = getOutputStream();
                 DataOutputStream dos = new DataOutputStream(os);
                 dos.write(params.getBytes(CHARSET));
                 dos.flush();
                 dos.close();
+
+                br = new BufferedReader(new InputStreamReader(is, CHARSET));
+                String line = null;
+                StringBuffer sb = new StringBuffer();
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                result = sb.toString();
             }
 
-            if(conn != null){
-                // conn.setRequestProperty(field, newValue);//header
-                conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
-                is = conn.getInputStream();
-            }
-
-            br = new BufferedReader(new InputStreamReader(is, CHARSET));
-            String line = null;
-            StringBuffer sb = new StringBuffer();
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            result = sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+
             try {
                 if (os != null) {
                     os.close();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
             try {
                 if (br != null) {
                     br.close();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
             try {
                 if (is != null) {
                     is.close();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -216,8 +229,12 @@ public class HttpConnection extends Thread implements Connectable {
         return dataList;
     }
 
+    public void setUrl(String url){
+        this.url = url;
+    }
+
     public void setDataList(){
-        this.dataList = parseJson(getMsg("http://hezo25.com/get_json.php"));
+        this.dataList = parseJson(getMsg());
     }
 
     public LinkedList<Data> getDataList() {

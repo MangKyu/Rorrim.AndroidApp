@@ -4,17 +4,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.rorrim.mang.smartmirror.Activity.MainActivity;
-import com.rorrim.mang.smartmirror.Model.HttpConnection;
 
 public class NetworkController {
     private ConnectivityManager cm;
     private NetworkInfo ni;
-    private HttpConnection httpConnection;
 
     public NetworkController(MainActivity mainActivity){
         this.cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.ni = cm.getActiveNetworkInfo();
-        this.httpConnection = HttpConnection.getInstance();
     }
 
     public boolean isConnected(){
@@ -40,9 +37,5 @@ public class NetworkController {
             default:
                 return false;
         }
-    }
-
-    public HttpConnection getHttpConnection() {
-        return httpConnection;
     }
 }

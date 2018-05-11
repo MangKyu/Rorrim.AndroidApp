@@ -1,13 +1,15 @@
-package com.rorrim.mang.smartmirror;
+package com.rorrim.mang.smartmirror.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-public class AlarmActivity extends Activity {
+import com.rorrim.mang.smartmirror.R;
+
+public class MusicActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+        setContentView(R.layout.activity_music);
     }
 }

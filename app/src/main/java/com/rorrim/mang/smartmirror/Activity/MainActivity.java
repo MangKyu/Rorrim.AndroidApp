@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Controller.NetworkController;
+import com.rorrim.mang.smartmirror.Model.HttpConnection;
 import com.rorrim.mang.smartmirror.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private NetworkController nc;
+    private HttpConnection conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +31,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if(nc.checkWifi()){
-            nc.getHttpConnection().start();
+            conn = HttpConnection.getInstance("http://hezo25.com/get_json.php");
+            conn.start();
         }
 
         Toast.makeText(this, "Connected on" + nc.getNetworkTypeName(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, CalendarActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, CalendarActivity.class);
+        //startActivity(intent);
     }
 
     @Override
@@ -67,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Intent getJson(){
-        nc.getHttpConnection().setDataList();
+
+        conn.setDataList();
         Intent intent = new Intent(MainActivity.this, ContentActivity.class);
-        intent.putExtra("status", nc.getHttpConnection().getDataList().get(0).toString());
-        intent.putExtra("result", nc.getHttpConnection().getDataList().get(1).toString());
+        intent.putExtra("status", conn.getDataList().get(0).toString());
+        intent.putExtra("result", conn.getDataList().get(1).toString());
         return intent;
     }
 
