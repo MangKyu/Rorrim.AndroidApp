@@ -1,4 +1,4 @@
-package com.rorrim.mang.smartmirror;
+package com.rorrim.mang.smartmirror.Exception;
 
 public class HttpConnectionException extends Exception {
 

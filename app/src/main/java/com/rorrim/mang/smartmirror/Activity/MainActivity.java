@@ -1,13 +1,16 @@
-package com.rorrim.mang.smartmirror;
+package com.rorrim.mang.smartmirror.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.rorrim.mang.smartmirror.Controller.NetworkController;
+import com.rorrim.mang.smartmirror.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -60,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-        nc.disconnect();
         super.onDestroy();
     }
 

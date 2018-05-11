@@ -1,6 +1,4 @@
-package com.rorrim.mang.smartmirror;
-
-import java.util.ArrayList;
+package com.rorrim.mang.smartmirror.Model;
 
 public class Data {
     private String name;

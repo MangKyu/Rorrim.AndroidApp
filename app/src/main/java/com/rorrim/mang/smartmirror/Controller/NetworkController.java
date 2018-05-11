@@ -1,7 +1,10 @@
-package com.rorrim.mang.smartmirror;
+package com.rorrim.mang.smartmirror.Controller;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.rorrim.mang.smartmirror.Activity.MainActivity;
+import com.rorrim.mang.smartmirror.Model.HttpConnection;
 
 public class NetworkController {
     private ConnectivityManager cm;
@@ -11,7 +14,7 @@ public class NetworkController {
     public NetworkController(MainActivity mainActivity){
         this.cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.ni = cm.getActiveNetworkInfo();
-        this.httpConnection = new HttpConnection("http://hezo25.com/get_json.php");
+        this.httpConnection = HttpConnection.getInstance();
     }
 
     public boolean isConnected(){
@@ -37,10 +40,6 @@ public class NetworkController {
             default:
                 return false;
         }
-    }
-
-    public void disconnect(){
-        httpConnection.disconnect();
     }
 
     public HttpConnection getHttpConnection() {
