@@ -32,11 +32,10 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class HttpConnection extends Thread implements Connectable {
+public class HttpConnection implements Connectable {
 
     private String url;
     private static HttpConnection instance;
-    private LinkedList<Data> dataList;
     private HttpURLConnection conn;
 
     private HttpConnection(){
@@ -65,7 +64,7 @@ public class HttpConnection extends Thread implements Connectable {
         instance.setUrl(url);
         return instance;
     }
-
+    /*
     @Override
     public void run(){
         try {
@@ -74,13 +73,15 @@ public class HttpConnection extends Thread implements Connectable {
             e.printStackTrace();
         }
     }
-
+*/
     public void createConnection() throws IOException {
         String encodedUrl = Uri.encode(url, ALLOWED_URI_CHARS);
         this.conn = (HttpURLConnection) new URL(encodedUrl).openConnection();
 
-        conn.connect();
         setRequest();
+
+        conn.connect();
+
         int responseCode = conn.getResponseCode();
 
         if(responseCode < 200 || responseCode >= 300){
@@ -91,15 +92,17 @@ public class HttpConnection extends Thread implements Connectable {
             }
         }
     }
-
     public InputStream getInputStream() {
         InputStream is = null;
 
         try {
+            createConnection();
+            conn.setRequestMethod(GET_METHOD);
             is = conn.getInputStream();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return is;
     }
 
@@ -107,9 +110,13 @@ public class HttpConnection extends Thread implements Connectable {
         OutputStream os = null;
 
         try{
+            createConnection();
+            // conn.setRequestProperty(field, newValue);//header
+            conn.setRequestMethod(POST_METHOD);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setUseCaches(false);
+            conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
             os = conn.getOutputStream();
         }catch(Exception e){
             e.printStackTrace();
@@ -130,7 +137,6 @@ public class HttpConnection extends Thread implements Connectable {
         InputStream is = null;
         try {
             if(conn != null){
-                conn.setRequestMethod(POST_METHOD);
                 is = getInputStream();
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -152,21 +158,18 @@ public class HttpConnection extends Thread implements Connectable {
         return null;
     }
 
-    public String sendJson(String params) {
+    public String sendJson(String jsonStr) {
         String result = "Error in sendJson";
         OutputStream os = null;
         InputStream is = null;
         BufferedReader br = null;
 
         try {
-            if(conn != null && params != null){
-                // conn.setRequestProperty(field, newValue);//header
-                conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
-                conn.setRequestMethod(POST_METHOD);
+            if(conn != null && jsonStr != null){
 
                 os = getOutputStream();
                 DataOutputStream dos = new DataOutputStream(os);
-                dos.write(params.getBytes(CHARSET));
+                dos.write(jsonStr.getBytes(CHARSET));
                 dos.flush();
                 dos.close();
                 is = conn.getInputStream();

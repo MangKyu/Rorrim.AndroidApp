@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.recipes4dev.examples.imagebuttonexample1.MainActivity"
-        tools:showIn="@layout/activity_main">
+        tools:context=".Activity.PathActivity"
+        tools:showIn="@layout/activity_path">
 
         <ImageView
             android:layout_width="match_parent"

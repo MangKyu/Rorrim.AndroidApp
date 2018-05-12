@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(nc.checkWifi()){
             conn = HttpConnection.getInstance("http://hezo25.com/get_json.php");
-            conn.start();
+            //conn.start();
         }
 
         Toast.makeText(this, "Connected on" + nc.getNetworkTypeName(), Toast.LENGTH_SHORT).show();
