@@ -1,6 +1,7 @@
 package com.rorrim.mang.smartmirror.Activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,10 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!nc.isConnected()){
             Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();
             return;
-        }
-        if(nc.checkWifi()){
-            conn = HttpConnection.getInstance("http://hezo25.com/get_json.php");
-            //conn.start();
         }
 
         Toast.makeText(this, "Connected on" + nc.getNetworkTypeName(), Toast.LENGTH_SHORT).show();
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Intent getJson(){
 
-        String jsonStr = HttpConnection.getInstance("http://hezo25.com/get_json.php").getJson();
+        String jsonStr = HttpConnection.getInstance("http://172.16.10.183/get_json").getJson();
         LinkedList<Data> dataList = JsonParser.getInstance().parseJson(jsonStr);
         Intent intent = new Intent(MainActivity.this, ContentActivity.class);
         intent.putExtra("status", dataList.get(0).toString());

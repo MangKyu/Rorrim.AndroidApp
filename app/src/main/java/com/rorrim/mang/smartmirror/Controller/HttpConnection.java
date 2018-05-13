@@ -80,17 +80,6 @@ public class HttpConnection implements Connectable {
 
         setRequest();
 
-        conn.connect();
-
-        int responseCode = conn.getResponseCode();
-
-        if(responseCode < 200 || responseCode >= 300){
-            try {
-                throw new HttpConnectionException();
-            } catch (HttpConnectionException e) {
-                e.printStackTrace();
-            }
-        }
     }
     public InputStream getInputStream() {
         InputStream is = null;
@@ -98,6 +87,18 @@ public class HttpConnection implements Connectable {
         try {
             createConnection();
             conn.setRequestMethod(GET_METHOD);
+            conn.connect();
+
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode < 200 || responseCode >= 300){
+                try {
+                    throw new HttpConnectionException();
+                } catch (HttpConnectionException e) {
+                    e.printStackTrace();
+                }
+            }
+
             is = conn.getInputStream();
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +118,22 @@ public class HttpConnection implements Connectable {
             conn.setDoInput(true);
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
+
+
+            conn.connect();
+
+            int responseCode = conn.getResponseCode();
+
+            if(responseCode < 200 || responseCode >= 300){
+                try {
+                    throw new HttpConnectionException();
+                } catch (HttpConnectionException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
             os = conn.getOutputStream();
         }catch(Exception e){
             e.printStackTrace();
@@ -136,7 +153,6 @@ public class HttpConnection implements Connectable {
     public String getJson(){
         InputStream is = null;
         try {
-            if(conn != null){
                 is = getInputStream();
 
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -149,7 +165,6 @@ public class HttpConnection implements Connectable {
 
                 //bufferedReader.close();
                 return sb.toString().trim();
-            }
         }catch (IOException e){
             e.getStackTrace();
         }finally {
@@ -165,7 +180,7 @@ public class HttpConnection implements Connectable {
         BufferedReader br = null;
 
         try {
-            if(conn != null && jsonStr != null){
+            if(jsonStr != null){
 
                 os = getOutputStream();
                 DataOutputStream dos = new DataOutputStream(os);
@@ -203,7 +218,7 @@ public class HttpConnection implements Connectable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            conn.disconnect();
+            //conn.disconnect();
         }
 
         return result;
