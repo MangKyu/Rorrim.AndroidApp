@@ -28,6 +28,12 @@
         <activity android:name=".Activity.MainActivity"/>
         <activity android:name=".Activity.ContentActivity"/>
         <activity android:name=".Activity.CalendarActivity"/>
+        <activity android:name=".Activity.AlarmActivity"/>
+        <activity android:name=".Activity.MusicActivity"/>
+        <activity android:name=".Activity.PathActivity"/>
+        <activity android:name=".Activity.WeatherActivity"/>
+        <activity android:name=".Activity.MyPageActivity"/>
+
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
 
