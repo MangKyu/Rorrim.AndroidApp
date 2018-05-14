@@ -11,5 +11,5 @@ public interface Connectable {
     /** Timeout when reading from the input stream after establishing a connection to the resource */
     int readTimeout = 10 * 1000;
 
-    String baseURL = "http://172.30.1.13:5000";
+    String baseURL = "http://203.252.166.206:5000";
 }

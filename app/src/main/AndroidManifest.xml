@@ -36,6 +36,7 @@
         <activity android:name=".Activity.PathActivity"/>
         <activity android:name=".Activity.WeatherActivity"/>
         <activity android:name=".Activity.MyPageActivity"/>
+        <activity android:name=".Activity.SignUpActivity"/>
 
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>

@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/login_back"/>
+            android:background="@drawable/user"/>
 
         <TextView
             android:id="@+id/login_email_tv"
@@ -60,7 +60,7 @@
             android:inputType="textEmailAddress" />
 
         <Button
-            android:id="@+id/login_login_btn"
+            android:id="@+id/login_signIn_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

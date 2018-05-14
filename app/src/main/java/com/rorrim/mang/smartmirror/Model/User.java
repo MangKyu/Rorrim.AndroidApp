@@ -23,6 +23,9 @@ public class User {
     @SerializedName("birth")
     private Date birth;
 
+    public User(String email){
+        this.email = email;
+    }
 
     public User(String id,String pw, String email, String phone, Date birth){
         this.id = id;

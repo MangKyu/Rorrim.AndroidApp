@@ -3,23 +3,19 @@ package com.rorrim.mang.smartmirror.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-import com.rorrim.mang.smartmirror.Model.Data;
-import com.rorrim.mang.smartmirror.Model.User;
-import com.rorrim.mang.smartmirror.Network.RetrofitClient;
-import com.rorrim.mang.smartmirror.Network.RetrofitService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.R;
 
-import java.util.LinkedList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class LoginActivity extends Activity {
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +49,8 @@ public class LoginActivity extends Activity {
         }
     }
     */
+
+    /*
     private Intent login(String id){    //RetrorifService Interface 생성
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
 
@@ -82,13 +80,7 @@ public class LoginActivity extends Activity {
         return null;
     }
 
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    private String test(){
-
-        final String[] myStr = new String[1];
+    final String[] myStr = new String[1];
 
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
 
@@ -116,22 +108,34 @@ public class LoginActivity extends Activity {
             }
         });
         return myStr[0];
+
+    */
+
+    private void signUp(){
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    private void signIn(){
+        AuthManager.getInstance().emailSignIn(this, "admin@gmail.com", "admin1234");
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void onClick(View v) {
-        Intent intent = null;
         switch (v.getId()){
-            case R.id.login_login_btn:
-                String str = test();
-                //login("test");
+            case R.id.login_signIn_btn:
+                signIn();
                 break;
-            default:
+                /*
+            case R.id.login_signUp_btn:
+                signUp();
+                break;
+            */default:
                 break;
         }
-
-        if(intent != null){
-            startActivity(intent);
-        }
-
     }
+
 }
