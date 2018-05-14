@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">SmartMirror</string>
-    <string name="action_settings">Settings</string>
-    <string name="status">Status</string>
-    <string name="result">Result</string>
-</resources>
