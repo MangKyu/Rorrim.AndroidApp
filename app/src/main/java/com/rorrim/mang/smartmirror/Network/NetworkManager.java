@@ -1,15 +1,15 @@
-package com.rorrim.mang.smartmirror.Controller;
+package com.rorrim.mang.smartmirror.Network;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.rorrim.mang.smartmirror.Activity.MainActivity;
 
-public class NetworkController {
+public class NetworkManager {
     private ConnectivityManager cm;
     private NetworkInfo ni;
 
-    public NetworkController(MainActivity mainActivity){
+    public NetworkManager(MainActivity mainActivity){
         this.cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         this.ni = cm.getActiveNetworkInfo();
     }

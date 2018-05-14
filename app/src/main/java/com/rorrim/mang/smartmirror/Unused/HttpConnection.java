@@ -1,15 +1,10 @@
-package com.rorrim.mang.smartmirror.Controller;
+package com.rorrim.mang.smartmirror.Unused;
 
 import android.net.Uri;
 import android.util.Log;
 
 import com.rorrim.mang.smartmirror.Exception.HttpConnectionException;
 import com.rorrim.mang.smartmirror.Interface.Connectable;
-import com.rorrim.mang.smartmirror.Model.Data;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -23,7 +18,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.LinkedList;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -119,7 +113,7 @@ public class HttpConnection implements Connectable {
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json; charset=" + CHARSET);
 
-
+            /*
             conn.connect();
 
             int responseCode = conn.getResponseCode();
@@ -131,7 +125,7 @@ public class HttpConnection implements Connectable {
                     e.printStackTrace();
                 }
             }
-
+            */
 
 
             os = conn.getOutputStream();

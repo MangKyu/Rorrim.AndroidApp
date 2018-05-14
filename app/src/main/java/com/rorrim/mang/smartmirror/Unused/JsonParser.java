@@ -1,11 +1,15 @@
-package com.rorrim.mang.smartmirror.Controller;
+package com.rorrim.mang.smartmirror.Unused;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.rorrim.mang.smartmirror.Model.Data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class JsonParser {
@@ -23,7 +27,6 @@ public class JsonParser {
         return instance;
     }
 
-    /* 나중에 JsonParser Class 만들어야 할 듯 */
     public LinkedList<Data> parseJson(String jsonStr){
 
         LinkedList<Data> dataList = new LinkedList<>();
@@ -32,7 +35,12 @@ public class JsonParser {
             JSONArray jsonArray = new JSONArray(jsonStr);
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                dataList.add(new Data(jsonObject.getString("name"), jsonObject.getString("models")));
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<String>>() {}.getType();
+    /*
+                dataList.add(new Data(jsonObject.getString("name"),
+                        gson.fromJson(jsonObject.getString("models"), type)));
+*/
             }
 
         }catch(JSONException e){

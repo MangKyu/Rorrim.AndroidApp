@@ -1,7 +1,6 @@
 package com.rorrim.mang.smartmirror.Activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,9 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.rorrim.mang.smartmirror.Controller.JsonParser;
-import com.rorrim.mang.smartmirror.Controller.NetworkController;
-import com.rorrim.mang.smartmirror.Controller.HttpConnection;
+import com.rorrim.mang.smartmirror.Unused.JsonParser;
+import com.rorrim.mang.smartmirror.Network.NetworkManager;
+import com.rorrim.mang.smartmirror.Unused.HttpConnection;
 import com.rorrim.mang.smartmirror.Model.Data;
 import com.rorrim.mang.smartmirror.R;
 
@@ -20,7 +19,7 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private NetworkController nc;
+    private NetworkManager nc;
     private HttpConnection conn;
 
     @Override
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        nc = new NetworkController(this);
+        nc = new NetworkManager(this);
 
         if(!nc.isConnected()){
             Toast.makeText(this, "Network is not connected", Toast.LENGTH_SHORT).show();

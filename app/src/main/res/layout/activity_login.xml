@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.LoginActivity"
-    tools:showIn="@layout/activity_login">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/login_btn"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="100dp"
-        android:text="@string/login" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".Activity.LoginActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:showIn="@layout/activity_login">
 
-</android.widget.RelativeLayout>
+
+        <TextView
+            android:id="@+id/login_email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="151dp"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/login_pw_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/login_email_tv"
+            android:layout_marginTop="205dp"
+            android:text="PW" />
+
+        <EditText
+            android:id="@+id/login_pw_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/login_pw_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="58dp"
+            android:ems="10"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/login_email_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/login_pw_et"
+            android:layout_marginTop="132dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/login_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="244dp"
+            android:layout_toEndOf="@+id/login_email_tv"
+            android:onClick="onClick"
+            android:text="Login" />
+
+        <Button
+            android:id="@+id/login_signUp_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/login_login_btn"
+            android:layout_marginEnd="80dp"
+            android:onClick="onClick"
+            android:text="Sign Up" />
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
