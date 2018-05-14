@@ -16,6 +16,29 @@
         tools:showIn="@layout/activity_mypage">
 
         <ImageButton
+            android:id="@+id/edit_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="280dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="450dp"
+            android:background="@drawable/rounded" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="287dp"
+            android:layout_marginTop="84dp"
+            android:text="편집하기"
+            android:textSize="21sp"/>
+
+        <ImageButton
             android:id="@+id/face_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
