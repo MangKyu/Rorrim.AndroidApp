@@ -39,6 +39,25 @@
             android:textColor="@color/myWhite"
             android:textSize="25sp"/>
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="475dp"
+            android:background="@drawable/add"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="525dp"
+            android:text="등록하기"
+            android:textColor="@color/myWhite"
+            android:textSize="20sp"/>
+
         <ImageButton
             android:id="@+id/google_connect"
             android:layout_width="match_parent"
@@ -50,6 +69,25 @@
             android:layout_marginTop="370dp"
             android:layout_marginBottom="140dp"
             android:background="@drawable/rounded_google" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="380dp"
+            android:background="@drawable/google_plus"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="380dp"
+            android:textColor="@color/myWhite"
+            android:text="sign in with google"
+            android:textSize="25sp"/>
 
         <ImageButton
             android:id="@+id/menu"
