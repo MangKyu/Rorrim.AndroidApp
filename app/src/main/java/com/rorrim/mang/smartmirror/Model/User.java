@@ -1,45 +1,46 @@
 package com.rorrim.mang.smartmirror.Model;
 
 import com.google.gson.annotations.SerializedName;
+import com.rorrim.mang.smartmirror.Interface.Connectable;
 
 import java.util.Date;
 
-public class User {
+public class User implements Connectable{
 
     //Gson이 Json키를 필드에 매핑하기 위해서 필요한데 두개가 같은 경우는 안해도 되지만 소스코드의
     //난독화를 해결하기 위해 사용하는 것이 좋다.
-    @SerializedName("id")
-    private String id;
-
-    @SerializedName("pw")
-    private String pw;
+    @SerializedName("uid")
+    private String uid;
 
     @SerializedName("email")
     private String email;
 
-    @SerializedName("phone")
-    private String phone;
+    @SerializedName("imageUrl")
+    private String imageUrl;
 
-    @SerializedName("birth")
-    private Date birth;
-
-    public User(String email){
+    public User(String uid, String email){
+        this.uid = uid;
         this.email = email;
+        this.imageUrl = baseURL + imageURL+ uid+".jpg" ;
+        //this.imageUrl = baseURL + imageURL + "1.jpg";
+        //this.imageUrl = baseURL + "/test.jpg";
     }
 
-    public User(String id,String pw, String email, String phone, Date birth){
-        this.id = id;
-        this.pw = pw;
-        this.email = email;
-        this.phone = phone;
-        this.birth = birth;
+    public String getUid(){
+        return uid;
     }
 
+    public String getEmail(){
+        return email;
+    }
 
+    public String getImageUrl(){
+        return imageUrl;
+    }
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", email =" + email + ", phone =" + phone + ", birth = " + birth;
+        return "User [uid=" + uid + ", email =" + email;
     }
 
 }

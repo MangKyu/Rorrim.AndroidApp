@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.rorrim.mang.smartmirror.Exception.HttpConnectionException;
-import com.rorrim.mang.smartmirror.Interface.Connectable;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -26,7 +25,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class HttpConnection implements Connectable {
+public class HttpConnection implements ConnectableUnused {
 
     private String url;
     private static HttpConnection instance;

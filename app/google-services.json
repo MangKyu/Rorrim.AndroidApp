@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "435561635761",
-    "firebase_url": "https://smartmirror-ef149.firebaseio.com",
-    "project_id": "smartmirror-ef149",
-    "storage_bucket": "smartmirror-ef149.appspot.com"
+    "project_number": "219303619506",
+    "firebase_url": "https://smartmirror-75b89.firebaseio.com",
+    "project_id": "smartmirror-75b89",
+    "storage_bucket": "smartmirror-75b89.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:435561635761:android:4f08b02d894e6081",
+        "mobilesdk_app_id": "1:219303619506:android:22ce74b52fa84bdc",
         "android_client_info": {
           "package_name": "com.rorrim.mang.smartmirror"
         }
       },
       "oauth_client": [
         {
-          "client_id": "435561635761-l56g257cfojfe2agnl5rtr4i2fvffu65.apps.googleusercontent.com",
+          "client_id": "219303619506-1idqfkkqblqjhuvd6fqo0gq25dntp1ki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rorrim.mang.smartmirror",
+            "certificate_hash": "3411c042f8193188bbf6e0d4167569656eb6051f"
+          }
+        },
+        {
+          "client_id": "219303619506-5urmn53lk8h9f4chikh31d64c0nqoc5n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCioPJAwjN6GkRzVDJxuz_ZLDO1hIfFUno"
+          "current_key": "AIzaSyCUgCt_57jncqTuzjjBVPygsVjuGuCAULs"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219303619506-5urmn53lk8h9f4chikh31d64c0nqoc5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

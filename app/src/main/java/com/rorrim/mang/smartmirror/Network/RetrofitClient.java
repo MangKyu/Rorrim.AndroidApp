@@ -24,11 +24,6 @@ public class RetrofitClient implements Connectable {
     public static RetrofitClient getInstance() {
         if (instance == null) {
             instance = new RetrofitClient();
-            /*
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();*/
         }
         return instance;
     }

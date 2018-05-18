@@ -1,14 +1,14 @@
 package com.rorrim.mang.smartmirror.Network;
 
-import com.rorrim.mang.smartmirror.Model.Data;
+import com.rorrim.mang.smartmirror.Model.JSonMessage;
 import com.rorrim.mang.smartmirror.Model.User;
 
-import java.util.LinkedList;
-import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -20,7 +20,26 @@ public interface RetrofitService {
     );
 
     @GET("/get_json")
-    Call<LinkedList<Data>> getData();
+    Call<JSonMessage> getJson();
+
+    /*
+    @GET("/recieve_file")
+    Call<ResponseBody> recieveFile(
+            @Query("fileName") String fileName
+    );
+    */
+
+    @GET("/recieve_file")
+    Call<ResponseBody> recieveFile(
+            @Query("fileName") String fileName
+            //@Body String fileName
+    );
+
+    @POST("/recieve_image")
+    Call<ResponseBody> recieveImage(
+            @Url String imageUrl
+    );
+
 
     /*
     //Start with / neans Absolute route

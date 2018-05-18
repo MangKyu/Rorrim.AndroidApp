@@ -1,10 +1,13 @@
 package com.rorrim.mang.smartmirror.Auth;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -13,16 +16,35 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rorrim.mang.smartmirror.Activity.MainActivity;
+import com.rorrim.mang.smartmirror.Interface.Connectable;
+import com.rorrim.mang.smartmirror.Model.User;
+import com.rorrim.mang.smartmirror.R;
 
-public class AuthManager {
+public class AuthManager extends Application implements Connectable{
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private static AuthManager instance;
-    private boolean flag;
+    private FirebaseAuth.AuthStateListener authListener;
+    private SharedPreferences sharedPreferences;
+    private User user;
 
     public AuthManager(){
         databaseReference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                //로그인 또는 로그아웃 이후에 실행된다.
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser != null){
+                    setUser();
+                    //User user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
+                    //setUser(user);
+                }
+                //saveUserData();
+            }
+        };
+        auth.addAuthStateListener(authListener);
     }
 
     public static AuthManager getInstance(){
@@ -31,41 +53,25 @@ public class AuthManager {
         }
         return instance;
     }
+    /*
 
-    public boolean signUp(Activity curActivity, String email, String pw){
-        final boolean sFlag = false;
+    public void emailSignUp(final Activity curActivity, String email, String pw){
         auth.createUserWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(curActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("Auth Manager", "signUpWithEmail:success");
-                            //User user = new User(email);
-                            //databaseReference.child("users").child(email).setValue(user);
-                           // sFlag = true;
+                            Intent intent = new Intent(curActivity, MainActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Log.d("Auth Manager", "CreateUserWithEmail:fail");
                         }
-                        //보통 이메일이 이미 존재하거나, 이메일 형식이아니거나, 비밀번호가 6자리 이상이 아닐 때 발생 
-
-
                     }
                 });
-            /*
-                .addOnCompleteListener(task->{
-            if(task.isSuccessful()){
-                FirebaseUser firebaseUser = task.getResult().getUser();
-                User user = new User(firebaseUser.getEmail());
-                databaseReference.child("users").child(firebaseUser.getUid()).setValue(user);
-            }
-        })
-        .addOnFailureListener(e ->{
-        });
-*/
-
-        return sFlag;
     }
 
-    public boolean emailSignIn(final Activity curActivity, String email, String pw) {
+    public void emailSignIn(final Activity curActivity, String email, String pw) {
 
         auth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(curActivity, new OnCompleteListener<AuthResult>() {
@@ -74,19 +80,15 @@ public class AuthManager {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Intent intent = new Intent(curActivity, MainActivity.class);
-                            curActivity.startActivity(intent);
+                            startActivity(intent);
                         }else{
                             Log.d("Auth Manager", "signInWithEmail:fail");
                         }
                     }
                 });
-
-        return flag;
     }
 
-    public boolean googleSignIn(){
-        return false;
-    }
+    */
 
     public FirebaseAuth getAuth(){
         return auth;
@@ -94,6 +96,30 @@ public class AuthManager {
 
     public void signOut(){
         auth.signOut();
+    }
+
+    private void saveUserData(){
+        sharedPreferences = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
+        FirebaseUser user = auth.getCurrentUser();
+        if(user != null){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("email", user.getEmail());
+            editor.putString("phone", user.getPhoneNumber());
+            editor.putString("uid", user.getUid());
+        }
+    }
+
+    public void setUser(){
+        User user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
+        this.user = user;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public User getUser(){
+        return user;
     }
 
 }

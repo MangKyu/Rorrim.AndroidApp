@@ -1,220 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MyPageActivity"/>
+        <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
+    </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <RelativeLayout
+
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Activity.MyPageActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
         tools:showIn="@layout/activity_mypage">
 
         <ImageButton
-            android:id="@+id/edit_info"
+            android:id="@+id/mypage_edit_ibtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="280dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="80dp"
             android:layout_marginBottom="450dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="280dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/rounded" />
 
         <TextView
+            android:id="@+id/mypage_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="287dp"
             android:layout_marginTop="84dp"
+            android:singleLine="true"
             android:text="편집하기"
-            android:textSize="21sp"/>
+            android:textSize="21sp" />
 
-        <ImageButton
-            android:id="@+id/face_id"
+        <ImageView
+            android:id="@+id/mypage_face_iv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="273dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="440dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_face" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="440dp"
-            android:text="FACE ID"
-            android:textColor="@color/myWhite"
-            android:textSize="25sp"/>
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="475dp"
-            android:background="@drawable/add"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="525dp"
-            android:text="등록하기"
-            android:textColor="@color/myWhite"
-            android:textSize="20sp"/>
-
-        <ImageButton
-            android:id="@+id/google_connect"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginTop="370dp"
-            android:layout_marginBottom="140dp"
-            android:background="@drawable/rounded_google" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="380dp"
-            android:background="@drawable/google_plus"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="380dp"
-            android:textColor="@color/myWhite"
-            android:text="sign in with google"
-            android:textSize="25sp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="284dp"
+            app:imageUrl="@{user.imageUrl}"
+            />
 
         <ImageButton
-            android:id="@+id/menu"
+            android:id="@+id/mypage_menu_ibtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/menu"
-            android:onClick="onClick" />
+            android:background="@drawable/menu"/>
 
         <ImageButton
-            android:id="@+id/user"
+            android:id="@+id/mypage_user"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="320dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/user"
-            android:onClick="onClick"/>
+            android:background="@drawable/user"/>
 
         <TextView
+            android:id="@+id/mypage_mypage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="130dp"
-            android:text="아이디"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="78dp"
+            android:singleLine="true"
             android:text="마이페이지"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
 
         <TextView
+            android:id="@+id/mypage_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="170dp"
-            android:text="패스워드"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mypage_face_iv"
+            android:layout_marginTop="131dp"
             android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="210dp"
             android:text="이메일"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/mypage_email_tv"
+            android:layout_width="235dp"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mypage_pw_tv"
+            android:layout_alignTop="@+id/mypage_email"
             android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="250dp"
-            android:text="전화번호"
-            android:textSize="20sp"/>
+            android:text="@{user.email}"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/mypage_pw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="290dp"
-            android:text="생일"
-            android:textSize="20sp"/>
-
+            android:layout_alignStart="@+id/mypage_face_iv"
+            android:layout_marginTop="178dp"
+            android:singleLine="true"
+            android:text="비밀번호"
+            android:textSize="20sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/mypage_pw_tv"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/mypage_pw"
+            android:layout_centerHorizontal="true"
             android:singleLine="true"
+            android:text="password"
+            android:textAlignment="viewStart"
+            android:inputType="textPassword"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/mypage_add_ibtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="330dp"
-            android:text="집"
-            android:textSize="20sp"/>
+            android:layout_marginStart="153dp"
+            android:layout_marginTop="225dp"
+            android:background="@drawable/add"
+            android:onClick="@{activity::addImage}" />
 
+        <!--
+        <TextView
+            android:id="@+id/mypage_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/mypage_face_iv"
+            android:layout_marginTop="224dp"
+            android:singleLine="true"
+            android:text="연락처"
+            android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/mypage_phone_tv"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/mypage_phone"
+            android:layout_centerHorizontal="true"
+            android:singleLine="true"
+            android:text="@{user.phoneNumber}"
+            android:textSize="20sp" />
+                    -->
 
     </RelativeLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+</layout>
