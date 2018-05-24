@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.databinding.ObservableArrayList" />
+        <import type="com.rorrim.mang.smartmirror.Model.Music"/>
+
+        <variable
+            name="musicList"
+            type="ObservableArrayList&lt;Music&gt;" />
+    </data>
 
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -15,14 +26,16 @@
         tools:context=".Activity.MusicActivity"
         tools:showIn="@layout/activity_music">
 
+        <!--
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="339dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
-            android:layout_marginTop="217dp"
+            android:layout_marginTop="228dp"
             android:background="@color/myBlue" />
+        -->
 
         <ImageButton
             android:id="@+id/menu"
@@ -204,7 +217,20 @@
             android:text="off"
             android:textSize="15sp"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/music_music_rv"
+            android:layout_width="354dp"
+            android:layout_height="289dp"
+            android:layout_alignEnd="@+id/user"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="5dp"
+            android:scrollbars="vertical"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            bind:item="@{musicList}" />
+
     </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>
+</layout>

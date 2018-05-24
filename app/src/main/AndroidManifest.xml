@@ -4,6 +4,10 @@
     <!-- Add Internet Permission for HTTP and Socket API -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Add Permission to access external storage -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <!-- Add Permission to check network state -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 

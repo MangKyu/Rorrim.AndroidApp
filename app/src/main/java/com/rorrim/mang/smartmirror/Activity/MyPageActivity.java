@@ -1,6 +1,7 @@
 package com.rorrim.mang.smartmirror.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -27,18 +28,10 @@ public class MyPageActivity extends Activity {
         binding.setUser(AuthManager.getInstance().getUser());
     }
 
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView imageView, String imageUrl){
-        Glide.with(imageView.getContext())
-                .load(imageUrl)
-                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .skipMemoryCache(false)
-                )
-                .into(imageView);
-    }
-
     public void addImage(View view){
-
+        Intent intent = new Intent(MyPageActivity.this, MusicActivity.class);
+        //Intent intent = new Intent(MyPageActivity.this, CalendarActivity.class);
+        startActivity(intent);
     }
     /*
     public void addImage(View view){

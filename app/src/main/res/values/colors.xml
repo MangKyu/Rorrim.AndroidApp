@@ -7,4 +7,6 @@
     <color name="myYellow">#EFDB19</color>
     <color name="myBlue">#2B2547</color>
     <color name="myWhite">#FFFFFF</color>
+    <color name="title">#222222</color>
+    <color name="artist">#999999</color>
 </resources>

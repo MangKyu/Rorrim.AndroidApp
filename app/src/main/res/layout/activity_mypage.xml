@@ -53,8 +53,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="284dp"
-            app:imageUrl="@{user.imageUrl}"
-            />
+            app:imageUrl="@{user.imageUrl}" />
 
         <ImageButton
             android:id="@+id/mypage_menu_ibtn"
