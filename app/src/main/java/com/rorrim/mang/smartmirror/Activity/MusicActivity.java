@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
@@ -39,6 +40,12 @@ public class MusicActivity extends Activity {
         binding.setMusicList(musicList);
         requestMusicList();
         //getMusicList();
+
+    }
+
+    public void sendMusic(String albumId){
+        Toast.makeText(MusicActivity.this, albumId,
+                Toast.LENGTH_SHORT).show();
 
     }
 

@@ -22,54 +22,32 @@
             android:layout_height="match_parent"
             android:background="@drawable/login_background" />
 
-        <TextView
-            android:id="@+id/login_email_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="151dp"
-            android:text="Email" />
-
-        <TextView
-            android:id="@+id/login_pw_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/login_email_tv"
-            android:layout_marginTop="205dp"
-            android:text="PW" />
-
-        <EditText
-            android:id="@+id/login_pw_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/login_pw_tv"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="58dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:text="admin1234" />
-
-        <EditText
-            android:id="@+id/login_email_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/login_pw_et"
-            android:layout_marginTop="132dp"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:text="admin@gmail.com" />
-
-        <Button
+        <ImageButton
             android:id="@+id/login_signIn_btn"
-            android:layout_width="325dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="430dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:scaleType="fitXY"
             android:onClick="@{activity::googleSignIn}"
-            />
+            android:src="@drawable/login" >
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="52dp"
+            android:layout_marginLeft="75dp"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:textSize="30sp"
+            android:textColor="@color/myWhite"
+            android:text="sign in with google" >
+        </TextView>
 
     </RelativeLayout>
 

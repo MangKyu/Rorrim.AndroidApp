@@ -1,5 +1,22 @@
 package com.rorrim.mang.smartmirror.Activity;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.ExponentialBackOff;
+
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.client.util.DateTime;
+
+import com.google.api.services.calendar.model.*;
+
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -14,26 +31,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
-import com.rorrim.mang.smartmirror.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -62,8 +69,6 @@ public class CalendarActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
-/*
         LinearLayout activityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -107,8 +112,6 @@ public class CalendarActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-
-*/
     }
 
 
@@ -311,10 +314,6 @@ public class CalendarActivity extends Activity
         dialog.show();
     }
 
-    public void onClick(View view) {
-        finish();
-    }
-
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -325,7 +324,7 @@ public class CalendarActivity extends Activity
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar API Android Quickstart")

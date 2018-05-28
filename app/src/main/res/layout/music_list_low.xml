@@ -5,13 +5,17 @@
         <variable
             name="music"
             type="com.rorrim.mang.smartmirror.Model.Music"/>
+        <variable
+            name="activity"
+            type="com.rorrim.mang.smartmirror.Activity.MusicActivity"/>
     </data>
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="@{() -> activity.sendMusic(music.albumId)}">
 
         <ImageView
             android:id="@+id/album"
@@ -42,7 +46,6 @@
                 android:textSize="12sp"
                 android:text="@{music.artist}"/>
         </LinearLayout>
-    </LinearLayout
->
+    </LinearLayout>
 
 </layout>

@@ -40,7 +40,6 @@ public interface RetrofitService {
             @Url String imageUrl
     );
 
-
     /*
     //Start with / neans Absolute route
     @GET("/repos/{owner}/{repo}/contributors")

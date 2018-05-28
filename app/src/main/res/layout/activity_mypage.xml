@@ -53,7 +53,8 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="284dp"
-            app:imageUrl="@{user.imageUrl}" />
+            app:imageUrl="@{user.imageUrl}"
+            />
 
         <ImageButton
             android:id="@+id/mypage_menu_ibtn"
@@ -131,16 +132,67 @@
             android:inputType="textPassword"
             android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/mypage_add_ibtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="153dp"
-            android:layout_marginTop="225dp"
-            android:background="@drawable/add"
-            android:onClick="@{activity::addImage}" />
+        <android.widget.LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/faceid_bg"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="FACE ID"
+                android:textColor="@color/myWhite"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <android.widget.RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                >
+
+                <ImageButton
+                    android:id="@+id/mypage_camera_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="80dp"
+                    android:background="@drawable/camera_bt"
+                    android:onClick="captureCamera" />
+
+                <ImageButton
+                    android:id="@+id/mypage_album_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="80dp"
+                    android:background="@drawable/album_bt"
+                    android:onClick="getAlbum" />
+            </android.widget.RelativeLayout>
+
+            <android.widget.LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/mypage_face_iv"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="left"
+                    android:layout_margin="20dp"
+                    android:src="@color/myBlue" />
+            </android.widget.LinearLayout>
+
+
+        </android.widget.LinearLayout>
 
         <!--
         <TextView
@@ -153,7 +205,6 @@
             android:singleLine="true"
             android:text="연락처"
             android:textSize="20sp" />
-
         <TextView
             android:id="@+id/mypage_phone_tv"
             android:layout_width="182dp"

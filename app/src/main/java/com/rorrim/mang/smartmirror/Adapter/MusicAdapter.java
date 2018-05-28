@@ -1,20 +1,25 @@
 package com.rorrim.mang.smartmirror.Adapter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rorrim.mang.smartmirror.Activity.MusicActivity;
 import com.rorrim.mang.smartmirror.BR;
 import com.rorrim.mang.smartmirror.Model.Music;
 import com.rorrim.mang.smartmirror.R;
@@ -26,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
-    private static final BitmapFactory.Options options = new BitmapFactory.Options();
     private List<Music> musicList;
     private LayoutInflater inflater;
     private Activity activity;
@@ -34,7 +38,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     public MusicAdapter(){
         this.musicList = new ArrayList<>();
     }
-
 
     public MusicAdapter(Activity activity, List<Music> musicList) {
         this.musicList = musicList;
@@ -50,9 +53,27 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MusicAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(MusicAdapter.MyViewHolder holder, final int position) {
         Music music = musicList.get(position);
         holder.bind(music);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Send Music File 해주면 됨
+                Toast.makeText(view.getContext(), musicList.get(position).toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+                    Uri musicURI = Uri.withAppendedPath(
+                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+musicList.get(position).getId());
+                    ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...", true);
+
+                }
+                catch (Exception e) {
+                    Log.e("SimplePlayer", e.getMessage());
+                }
+
+            }
+        });
     }
 
     public void setItem(List<Music> musicList) {
@@ -75,10 +96,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             super(binding.getRoot());
             this.binding = binding;
         }
-
         public void bind(Music music){
             binding.setVariable(BR.music, music);
         }
+
     }
+
 
 }
