@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="activity"
+            type="com.rorrim.mang.smartmirror.Activity.MenuView" />
+    </data>
+    <RelativeLayout
+        android:id="@+id/menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_width="62dp"
+            android:layout_height="55dp"
+            android:layout_above="@+id/menu_rorrim"
+            android:layout_alignStart="@+id/menu_rorrim"
+            android:layout_marginBottom="-78dp"
+            android:onClick="@{activity::showMenu}"
+            android:background="@drawable/menu" />
+
+        <ImageButton
+            android:id="@+id/menu_user"
+            android:layout_width="96dp"
+            android:layout_height="81dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/menu"
+            android:onClick="@{activity::showProfile}"
+            android:background="@drawable/user" />
+
+        <Switch
+            android:id="@+id/menu_switch"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/menu_text"
+            android:paddingTop="10dp"
+            android:text="활성/비활성" />
+
+        <TextView
+            android:id="@+id/menu_rorrim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="78dp"
+            android:singleLine="true"
+            android:text="나의 로림"
+            android:textSize="30sp" />
+
+
+        <LinearLayout
+            android:id="@+id/menu_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/menu_rorrim"
+            android:layout_marginTop="10dp">
+
+            <ImageButton
+                android:id="@+id/alarm"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="@{activity::gotoAlarm}"
+                android:background="@drawable/alarm" />
+
+
+            <ImageButton
+                android:id="@+id/calendar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="@{activity::gotoCalendar}"
+                android:background="@drawable/calendar" />
+
+            <ImageButton
+                android:id="@+id/map"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="@{activity::gotoPath}"
+                android:background="@drawable/map" />
+
+            <ImageButton
+                android:id="@+id/music"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="@{activity::gotoMusic}"
+                android:background="@drawable/music" />
+
+            <ImageButton
+                android:id="@+id/weather"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:onClick="@{activity::gotoWeather}"
+                android:background="@drawable/weather" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/menu_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/menu_image"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="알람"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="일정"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="경로"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="날씨"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="음악"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

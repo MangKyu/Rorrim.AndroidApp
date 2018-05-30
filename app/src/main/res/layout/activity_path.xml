@@ -36,7 +36,7 @@
             android:onClick="onClick" />
 
         <ImageButton
-            android:id="@+id/user"
+            android:id="@+id/menu_user"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
