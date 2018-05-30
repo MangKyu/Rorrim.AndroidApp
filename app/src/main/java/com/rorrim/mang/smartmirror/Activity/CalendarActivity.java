@@ -1,22 +1,5 @@
 package com.rorrim.mang.smartmirror.Activity;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
-import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.ExponentialBackOff;
-
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.client.util.DateTime;
-
-import com.google.api.services.calendar.model.*;
-
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -32,25 +15,58 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonParser;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
+import com.google.gson.Gson;
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
+import com.rorrim.mang.smartmirror.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import java.io.FileWriter;
 
 public class CalendarActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+    private ImageButton mCallApiButton;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -62,6 +78,14 @@ public class CalendarActivity extends Activity
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
+    private List<String> Contents = new ArrayList<>();
+    private List<String> Time = new ArrayList<>();
+    private List<String> Date = new ArrayList<>();
+
+    private ArrayList<HashMap<String,String>> Data1 = new ArrayList<HashMap<String, String>>();
+    private HashMap<String,String> InputData1;
+    private ListView listView1;
+
     /**
      * Create the main activity.
      * @param savedInstanceState previously saved instance data.
@@ -69,6 +93,8 @@ public class CalendarActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calendar);
+/*
         LinearLayout activityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -76,13 +102,16 @@ public class CalendarActivity extends Activity
         activityLayout.setLayoutParams(lp);
         activityLayout.setOrientation(LinearLayout.VERTICAL);
         activityLayout.setPadding(16, 16, 16, 16);
-
+*/
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        mCallApiButton = findViewById(R.id.onoff);
+/*
         mCallApiButton = new Button(this);
         mCallApiButton.setText(BUTTON_TEXT);
+*/
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +121,7 @@ public class CalendarActivity extends Activity
                 mCallApiButton.setEnabled(true);
             }
         });
-        activityLayout.addView(mCallApiButton);
+//        activityLayout.addView(mCallApiButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -101,13 +130,12 @@ public class CalendarActivity extends Activity
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
+//        activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
-        setContentView(activityLayout);
-
+//        setContentView(activityLayout);
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
@@ -123,6 +151,12 @@ public class CalendarActivity extends Activity
      * of the preconditions are not satisfied, the app will prompt the user as
      * appropriate.
      */
+    public void showList()  {
+        listView1 = findViewById(R.id.listview1);
+        SimpleAdapter simpleAdapter1 = new SimpleAdapter(this,Data1,R.layout.simpletxt,
+                new String[]{"Time", "Contents"},new int[]{R.id.text1,android.R.id.text2});
+        listView1.setAdapter(simpleAdapter1);
+    }
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -314,6 +348,10 @@ public class CalendarActivity extends Activity
         dialog.show();
     }
 
+    public void onClick(View view) {
+        finish();
+    }
+
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -324,7 +362,7 @@ public class CalendarActivity extends Activity
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
-            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar API Android Quickstart")
@@ -370,6 +408,15 @@ public class CalendarActivity extends Activity
                     // the start date.
                     start = event.getStart().getDate();
                 }
+                InputData1 = new HashMap<String, String>();
+                Date.add(start.toString().substring(0, 10));
+                Time.add(start.toString().substring(11, 16));
+                Contents.add(event.getSummary());
+                InputData1.put("Time", start.toString().substring(0,10) +
+                " " + start.toString().substring(11, 16));
+                InputData1.put("Contents", event.getSummary());
+                Data1.add(InputData1);
+
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
             }
@@ -387,11 +434,15 @@ public class CalendarActivity extends Activity
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+                output.add(0, "NULL NULL HA DA");
+//                str = "Task is null";
+                mOutputText.setText("Task is null");
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+//                str = TextUtils.join("\n", output);
                 mOutputText.setText(TextUtils.join("\n", output));
             }
+            showList();
+            AuthManager.getInstance().write(Date, Time, Contents);
         }
 
         @Override
