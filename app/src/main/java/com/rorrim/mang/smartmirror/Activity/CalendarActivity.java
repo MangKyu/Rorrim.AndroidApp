@@ -41,7 +41,6 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.gson.Gson;
-import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.R;
 
 import org.json.JSONArray;
@@ -107,11 +106,18 @@ public class CalendarActivity extends Activity
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mCallApiButton = findViewById(R.id.onoff);
+//        mCallApiButton = findViewById(R.id.onoff);
 /*
         mCallApiButton = new Button(this);
         mCallApiButton.setText(BUTTON_TEXT);
 */
+/*
+        mCallApiButton.setEnabled(false);
+        mOutputText.setText("");
+        getResultsFromApi();
+        mCallApiButton.setEnabled(true);
+        */
+/*
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +127,7 @@ public class CalendarActivity extends Activity
                 mCallApiButton.setEnabled(true);
             }
         });
+        */
 //        activityLayout.addView(mCallApiButton);
 
         mOutputText = new TextView(this);
@@ -140,6 +147,8 @@ public class CalendarActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+        mOutputText.setText("");
+        getResultsFromApi();
     }
 
 
