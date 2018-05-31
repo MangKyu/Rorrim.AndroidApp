@@ -39,7 +39,6 @@ public class MusicActivity extends Activity {
         binding.musicMusicRv.setAdapter(mAdapter);
         binding.setMusicList(musicList);
         requestMusicList();
-        //getMusicList();
     }
 
     public void sendMusic(String albumId){
