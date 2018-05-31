@@ -16,7 +16,7 @@
         tools:showIn="@layout/activity_weather">
 
         <com.rorrim.mang.smartmirror.Activity.MenuView
-            android:id="@+id/path_menu_layout"
+            android:id="@+id/weather_menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </com.rorrim.mang.smartmirror.Activity.MenuView>
