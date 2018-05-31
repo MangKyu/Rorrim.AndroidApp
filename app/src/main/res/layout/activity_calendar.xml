@@ -8,8 +8,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
-        tools:context=".Activity.MusicActivity"
-        tools:showIn="@layout/activity_music">
+        tools:context=".Activity.CalendarActivity"
+        tools:showIn="@layout/activity_calendar">
 
         <com.rorrim.mang.smartmirror.Activity.MenuView
             android:id="@+id/music_menu_layout"

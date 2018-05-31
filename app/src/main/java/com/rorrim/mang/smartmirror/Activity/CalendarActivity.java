@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -43,6 +44,7 @@ import com.google.api.services.calendar.model.Events;
 import com.google.gson.Gson;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.R;
+import com.rorrim.mang.smartmirror.databinding.ActivityCalendarBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +88,7 @@ public class CalendarActivity extends Activity
     private HashMap<String,String> InputData1;
     private ListView listView1;
 
+    private ActivityCalendarBinding binding;
     /**
      * Create the main activity.
      * @param savedInstanceState previously saved instance data.
@@ -93,7 +96,8 @@ public class CalendarActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_calendar);
+//        setContentView(R.layout.activity_calendar);
 /*
         LinearLayout activityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
