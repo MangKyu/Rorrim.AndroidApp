@@ -41,6 +41,7 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.gson.Gson;
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.R;
 
 import org.json.JSONArray;
@@ -432,7 +433,6 @@ public class CalendarActivity extends Activity
             return eventStrings;
         }
 
-
         @Override
         protected void onPreExecute() {
             mOutputText.setText("");
@@ -451,7 +451,7 @@ public class CalendarActivity extends Activity
                 mOutputText.setText(TextUtils.join("\n", output));
             }
             showList();
-            //AuthManager.getInstance().write(Date, Time, Contents);
+            AuthManager.getInstance().write(Date, Time, Contents);
         }
 
         @Override
