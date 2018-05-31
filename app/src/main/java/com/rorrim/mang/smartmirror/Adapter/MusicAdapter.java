@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -73,59 +74,23 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MusicAdapter.MyViewHolder holder, final int position) {
-        final Music music = musicList.get(position);
+    public void onBindViewHolder(MusicAdapter.MyViewHolder holder,final int position) {
+        Music music = musicList.get(position);
         holder.bind(music);
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Send Music File 해주면 됨
-                Toast.makeText(view.getContext(), musicList.get(position).toString(), Toast.LENGTH_SHORT).show();
 
                 try {
-                    //ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...", true);
                     FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position));
-                    /*File file = new File(filePath);
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("audio/*"), file);//RequestBody.create(MediaType.parse("multipart/form-data"), file)
-
-                    MultipartBody.Part body =
-                            MultipartBody.Part.createFormData("Audio", file.getName(), requestFile);
-                    RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
-                    RequestBody title = RequestBody.create(MediaType.parse("text/plain"), musicList.get(position).getTitle());
-                    RequestBody artist = RequestBody.create(MediaType.parse("text/plain"), musicList.get(position).getArtist());
-                    RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-
-                    Call<ResponseBody> call = retrofitService.sendFIle(body, uid, title, artist);
-                    //Call<ResponseBody> call = retrofitService.sendFile(body, AuthManager.getInstance().getUser().getUid(), musicList.get(position).getTitle(), musicList.get(position).getArtist());
-                    final ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...!!", true);
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            dialog.dismiss();
-                            // you  will get the reponse in the response parameter
-                            if(response.isSuccessful()) {
-                                //Toast.makeText(view.getContext(), musicList.get(position).toString(), Toast.LENGTH_SHORT).show();
-                                Log.e("Send File", "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-                                //mAdapter.updateAnswers(response.body().getItems());
-                            }else {
-                                int statusCode  = response.code();
-                                Log.e("Send File", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            dialog.dismiss();
-                            Log.e("Send File", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-                        }
-                    });
-
-*/
+                    //SendMusicTask sendMusicTask = new SendMusicTask();
+                    //sendMusicTask.execute(position);
                 }
                 catch (Exception e) {
                     Log.e("SimplePlayer", e.getMessage());
                 }
-
             }
         });
 
@@ -154,8 +119,34 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         public void bind(Music music){
             binding.setVariable(BR.music, music);
         }
-
     }
 
+    private class SendMusicTask extends AsyncTask<Integer, Void, Void> {
+
+        private ProgressDialog asyncDialog = new ProgressDialog(activity);
+        @Override
+        protected void onPreExecute() {
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            int position = params[0];
+            FileManager.getInstance().uploadMusic(activity, musicList.get(position));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            super.onPostExecute(result);
+            asyncDialog.dismiss();
+        }
+    }
 
 }

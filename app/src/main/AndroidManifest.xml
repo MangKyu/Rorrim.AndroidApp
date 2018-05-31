@@ -59,7 +59,7 @@
         <activity android:name=".Activity.WeatherActivity"/>
         <activity android:name=".Activity.MyPageActivity">
         </activity>
-
+        <activity android:name=".Activity.CalendarActivity"/>
         <activity android:name=".Activity.SignUpActivity"/>
 
 

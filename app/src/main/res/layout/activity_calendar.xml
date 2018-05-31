@@ -37,7 +37,7 @@
             android:layout_below="@+id/calendar_menu_layout"
             android:scrollbars="vertical"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            bind:item="@{calendarList}" />
+            bind:calendar="@{calendarList}" />
     </RelativeLayout>
 
 </layout>
