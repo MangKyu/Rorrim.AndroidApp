@@ -2,23 +2,13 @@ package com.rorrim.mang.smartmirror.Auth;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.rorrim.mang.smartmirror.Activity.MainActivity;
 import com.rorrim.mang.smartmirror.Interface.Connectable;
 import com.rorrim.mang.smartmirror.Model.User;
-import com.rorrim.mang.smartmirror.R;
 
 public class AuthManager extends Application implements Connectable{
     private FirebaseAuth auth;

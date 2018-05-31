@@ -35,6 +35,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.rorrim.mang.smartmirror.Adapter.CalendarAdapter;
 import com.rorrim.mang.smartmirror.Model.Calendar;
+import com.rorrim.mang.smartmirror.Network.NetworkManager;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityCalendarBinding;
 
@@ -62,7 +63,6 @@ public class CalendarActivity extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
@@ -83,10 +83,11 @@ public class CalendarActivity extends Activity
         binding.calCalRv.setAdapter(cAdapter);
         binding.setCalendarList(calendarList);
 
+        /*
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        */
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -102,7 +103,7 @@ public class CalendarActivity extends Activity
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (NetworkManager.getInstance().isOnline(this)) {
             Log.e("Calendar", "No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
@@ -213,16 +214,6 @@ public class CalendarActivity extends Activity
         // Do nothing.
     }
 
-    /**
-     * Checks whether the device currently has a network connection.
-     * @return true if the device has a network connection, false otherwise.
-     */
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
     /**
      * Check that Google Play services APK is installed and up to date.
@@ -268,9 +259,11 @@ public class CalendarActivity extends Activity
         dialog.show();
     }
 
+    /*
     public void onClick(View view) {
         finish();
     }
+    */
 
     /**
      * An asynchronous task that handles the Google Calendar API call.

@@ -3,12 +3,9 @@ package com.rorrim.mang.smartmirror.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,25 +20,14 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityMypageBinding;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import android.content.pm.ActivityInfo;
 
 
 public class MyPageActivity extends AppCompatActivity {
@@ -66,12 +52,13 @@ public class MyPageActivity extends AppCompatActivity {
         binding.setUser(AuthManager.getInstance().getUser());
         checkPermission();
     }
-    public void gotoAlarm(View view){
-       Intent intent = new Intent(view.getContext(), AlarmActivity.class);
-       view.getContext().startActivity(intent);
+
+    public void gotoAlarm(View view) {
+        Intent intent = new Intent(view.getContext(), AlarmActivity.class);
+        view.getContext().startActivity(intent);
     }
-    
-    public void captureCamera(View view){
+
+    public void captureCamera(View view) {
         String state = Environment.getExternalStorageState();
         // 외장 메모리 검사
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -121,7 +108,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
 
-    public void getAlbum(View view){
+    public void getAlbum(View view) {
         Log.i("getAlbum", "Call");
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -129,7 +116,7 @@ public class MyPageActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_TAKE_ALBUM);
     }
 
-    private void galleryAddPic(){
+    private void galleryAddPic() {
         Log.i("galleryAddPic", "Call");
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         // 해당 경로에 있는 파일을 객체화(새로 파일을 만든다는 것으로 이해하면 안 됨)
@@ -142,7 +129,7 @@ public class MyPageActivity extends AppCompatActivity {
 
 
     // 카메라 전용 크랍
-    public void cropImage(){
+    public void cropImage() {
         Log.i("cropImage", "Call");
         Log.i("cropImage", "photoURI : " + photoURI + " / albumURI : " + albumURI);
 
@@ -182,7 +169,7 @@ public class MyPageActivity extends AppCompatActivity {
             case REQUEST_TAKE_ALBUM:
                 if (resultCode == Activity.RESULT_OK) {
 
-                    if(data.getData() != null){
+                    if (data.getData() != null) {
                         try {
                             File albumFile = null;
                             albumFile = createImageFile();
@@ -191,7 +178,7 @@ public class MyPageActivity extends AppCompatActivity {
                             binding.mypageFaceIv.setImageURI(photoURI);
                             cropImage();
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Log.e("TAKE_ALBUM_SINGLE ERROR", e.toString());
                         }
                     }
@@ -208,7 +195,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
 
-    private void checkPermission(){
+    private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
             if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
@@ -256,108 +243,4 @@ public class MyPageActivity extends AppCompatActivity {
         }
     }
 
-    public void addImage(View view) {
-
-    }
-
-
-    /*
-    public void addImage(View view){
-        Glide.with(binding.getActivity())//AuthManager.getInstance().getUser().getImageUrl()
-                .load("http://203.252.166.206:5000/get_image.jpg?fileName=ULIV1PWvtnYMj44Qzam7XVkSPx22.jpg")
-                //.apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                //.skipMemoryCache(false)
-                //)
-                .into(binding.mypageFaceIv);
-    }
-
-    @BindingAdapter({"bind:imageUrl", "bind:error"})
-    public static void loadImage(ImageView imageView, String url, Drawable errorDrawable){
-        Glide.with(this)
-                .load(url)
-                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .skipMemoryCache(false)
-                )
-                .into(imageView);
-    }
-    */
-
-    /*
-    public void recieveImage(View view){
-
-        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-
-        Call<ResponseBody> call = retrofitService.recieveFile("test.jpg");
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // you  will get the reponse in the response parameter
-                if(response.isSuccessful()) {
-                    boolean writtenToDisk = writeResponseBodyToDisk(response.body());
-                }else {
-                    int statusCode  = response.code();
-                    // handle request errors depending on status code
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("MyPage Activity", "error loading from login");
-            }
-        });
-    }
-
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
-        try {
-            // todo change the file location/name according to your needs
-            //File futureStudioIconFile = new File(getExternalFilesDir(null) + File.separator + "Future Studio Icon.png");
-            File file = new File("drawable://"+"profile.jpg");
-
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-
-            try {
-                byte[] fileReader = new byte[4096];
-
-                long fileSize = body.contentLength();
-                long fileSizeDownloaded = 0;
-
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(file);
-
-                while (true) {
-                    int read = inputStream.read(fileReader);
-
-                    if (read == -1) {
-                        break;
-                    }
-
-                    outputStream.write(fileReader, 0, read);
-
-                    fileSizeDownloaded += read;
-
-                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                }
-
-                outputStream.flush();
-
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-*/
 }

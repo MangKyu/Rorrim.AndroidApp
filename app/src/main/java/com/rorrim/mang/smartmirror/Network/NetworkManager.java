@@ -3,21 +3,37 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.rorrim.mang.smartmirror.Activity.MainActivity;
-
 public class NetworkManager {
+    private static NetworkManager instance;
     private ConnectivityManager cm;
     private NetworkInfo ni;
 
-    public NetworkManager(MainActivity mainActivity){
-        this.cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.ni = cm.getActiveNetworkInfo();
+    public NetworkManager(){
+
+    }
+
+    public NetworkManager(Context context){
+        //this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //this.ni = cm.getActiveNetworkInfo();
+    }
+
+    public static NetworkManager getInstance() {
+        if(instance == null){
+            instance = new NetworkManager();
+        }
+        return instance;
     }
 
     public boolean isConnected(){
         // Check whether Network is connected
         boolean isConnected = ni != null && ni.isConnectedOrConnecting();
         return isConnected;
+    }
+
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     public String getNetworkTypeName(){

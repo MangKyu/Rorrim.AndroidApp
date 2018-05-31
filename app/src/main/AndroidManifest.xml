@@ -39,12 +39,6 @@
         </provider>
 
 
-        <activity android:name=".Activity.MainActivity">
-
-        </activity>
-
-        <activity android:name=".Activity.LoadingActivity"/>
-
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
