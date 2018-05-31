@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.rorrim.mang.smartmirror.Model.Calendar;
 import com.rorrim.mang.smartmirror.Model.Music;
 
 import java.io.FileNotFoundException;
@@ -24,6 +25,14 @@ public class AdapterBindings {
 
     private static final BitmapFactory.Options options = new BitmapFactory.Options();
     private static int MAX_IMAGE_SIZE = 170;
+
+    @BindingAdapter("bind:item")
+    public static void bindCals(RecyclerView recyclerView, ObservableArrayList<Calendar> calendarList) {
+        CalendarAdapter adapter = (CalendarAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            adapter.setItem(calendarList);
+        }
+    }
 
     @BindingAdapter("bind:item")
     public static void bindItem(RecyclerView recyclerView, ObservableArrayList<Music> musicList) {

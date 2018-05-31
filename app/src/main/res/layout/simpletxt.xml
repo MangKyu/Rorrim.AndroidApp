@@ -4,8 +4,93 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
+        android:layout_height="80dp"
+        android:background="@drawable/rounded_google"
+        >
+
+        #Left side
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/left_text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp"
+                />
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/left_text2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+        #middle
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/middle_text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp" />
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/middle_text2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp"
+                />
+
+        </LinearLayout>
+
+        #Right side
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/right_text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp"
+                />
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/right_text2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:minHeight="20dp"
+                android:textColor="@color/myWhite"
+                android:textSize="15sp"
+                />
+
+        </LinearLayout>
+<!--
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -30,7 +115,7 @@
             android:textColor="@color/myWhite"
             android:textSize="15sp"
             />
-        
+   -->
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

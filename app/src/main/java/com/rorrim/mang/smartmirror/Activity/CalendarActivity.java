@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableArrayList;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -41,7 +43,11 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.gson.Gson;
+import com.rorrim.mang.smartmirror.Adapter.CalendarAdapter;
+import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
+import com.rorrim.mang.smartmirror.Model.Music;
 import com.rorrim.mang.smartmirror.R;
+import com.rorrim.mang.smartmirror.databinding.ActivityMusicBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +60,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,6 +70,11 @@ import java.io.FileWriter;
 
 public class CalendarActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
+
+    private ActivityCalendarBinding binding;
+    private ObservableArrayList<Calendar> calendarList;
+    private CalendarAdapter cAdapter;
+
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private ImageButton mCallApiButton;
@@ -85,50 +97,25 @@ public class CalendarActivity extends Activity
     private HashMap<String,String> InputData1;
     private ListView listView1;
 
-    /**
-     * Create the main activity.
-     * @param savedInstanceState previously saved instance data.
-     */
+    public CalendarActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-/*
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
-*/
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_calendar);
+
+        calendarList = new ObservableArrayList<>();
+        cAdapter = new CalendarAdapter(this, calendarList);
+
+        binding.musicMusicRv.setAdapter(mAdapter);
+        binding.setMusicList(musicList);
+
         ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-
-//        mCallApiButton = findViewById(R.id.onoff);
-/*
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-*/
-/*
-        mCallApiButton.setEnabled(false);
-        mOutputText.setText("");
-        getResultsFromApi();
-        mCallApiButton.setEnabled(true);
-        */
-/*
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
-        */
-//        activityLayout.addView(mCallApiButton);
 
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
@@ -137,13 +124,10 @@ public class CalendarActivity extends Activity
         mOutputText.setMovementMethod(new ScrollingMovementMethod());
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-//        activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
-//        setContentView(activityLayout);
-        // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
@@ -151,21 +135,13 @@ public class CalendarActivity extends Activity
         getResultsFromApi();
     }
 
-
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
     public void showList()  {
         listView1 = findViewById(R.id.listview1);
         SimpleAdapter simpleAdapter1 = new SimpleAdapter(this,Data1,R.layout.simpletxt,
                 new String[]{"Time", "Contents"},new int[]{R.id.text1,android.R.id.text2});
         listView1.setAdapter(simpleAdapter1);
     }
+
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -178,16 +154,6 @@ public class CalendarActivity extends Activity
         }
     }
 
-    /**
-     * Attempts to set the account used with the API credentials. If an account
-     * name was previously saved it will use that one; otherwise an account
-     * picker dialog will be shown to the user. Note that the setting the
-     * account to use with the credentials object requires the app to have the
-     * GET_ACCOUNTS permission, which is requested here if it is not already
-     * present. The AfterPermissionGranted annotation indicates that this
-     * function will be rerun automatically whenever the GET_ACCOUNTS permission
-     * is granted.
-     */
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
@@ -213,16 +179,6 @@ public class CalendarActivity extends Activity
         }
     }
 
-    /**
-     * Called when an activity launched here (specifically, AccountPicker
-     * and authorization) exits, giving you the requestCode you started it with,
-     * the resultCode it returned, and any additional data from it.
-     * @param requestCode code indicating which activity result is incoming.
-     * @param resultCode code indicating the result of the incoming
-     *     activity result.
-     * @param data Intent (containing result data) returned by incoming
-     *     activity result.
-     */
     @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {

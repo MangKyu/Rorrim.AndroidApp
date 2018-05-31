@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <data>
+        <import type="android.databinding.ObservableArrayList" />
+        <import type="com.rorrim.mang.smartmirror.Model.Calendar"/>
+
+        <variable
+            name="calendarList"
+            type="ObservableArrayList&lt;Calendar&gt;" />
+    </data>
+
+
     <LinearLayout
         android:id="@+id/music_layout"
         android:layout_width="match_parent"
