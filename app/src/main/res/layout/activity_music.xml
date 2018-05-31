@@ -24,7 +24,6 @@
             android:id="@+id/music_menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
         <android.support.v7.widget.RecyclerView

@@ -2,11 +2,11 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
         <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MyPageActivity"/>
         <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
     </data>
-
 
     <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -17,90 +17,119 @@
         tools:context=".Activity.MyPageActivity"
         tools:showIn="@layout/activity_mypage">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/menu"
-                android:layout_width="33dp"
-                android:layout_height="55dp"
-                android:layout_marginBottom="-78dp"
-                android:layout_weight="0.1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
                 android:background="@drawable/menu"
                 android:onClick="@{activity::gotoAlarm}" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8" />
-
             <ImageButton
                 android:id="@+id/menu_user"
-                android:layout_width="39dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/menu"
-                android:layout_weight="0.1"
-                android:background="@drawable/user" />
-        </LinearLayout>
-
+                android:layout_weight="1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/user"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/mypage_menu"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="마이페이지"
-            android:textSize="25sp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="나의 Face ID"
+            android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="10dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/mypage_camera_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/camera"
+                android:layout_centerHorizontal="true"
+                android:onClick="@{activity::captureCamera}" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/camera_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mypage_camera_btn"
+                android:text="카메라"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/mypage_album_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/gallery"
+                android:layout_centerHorizontal="true"
+                android:onClick="@{activity::getAlbum}" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/album_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mypage_album_btn"
+                android:text="앨범"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"/>
 
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"/>
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
         <android.widget.LinearLayout
-            android:layout_alignParentBottom="true"
-            android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/faceid_bg"
+            android:background="@color/myBlue"
             android:orientation="vertical"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             >
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="FACE ID"
-                android:textColor="@color/myWhite"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"
-                />
-
-            <android.widget.RelativeLayout
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_centerHorizontal="true"
-                >
-
-                <ImageButton
-                    android:id="@+id/mypage_camera_btn"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="80dp"
-                    android:background="@drawable/camera_bt"
-                    android:onClick="@{activity::captureCamera}" />
-
-                <ImageButton
-                    android:id="@+id/mypage_album_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="80dp"
-                    android:background="@drawable/album_bt"
-                    android:onClick="@{activity::getAlbum}" />
-            </android.widget.RelativeLayout>
 
             <android.widget.LinearLayout
                 android:layout_height="wrap_content"
@@ -119,9 +148,6 @@
                     />
 
             </android.widget.LinearLayout>
-
-
-
 
         </android.widget.LinearLayout>
 
