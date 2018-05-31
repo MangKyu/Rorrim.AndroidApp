@@ -6,12 +6,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -114,10 +114,22 @@ public class MenuView extends RelativeLayout {
         }
 
     }
+    public String getTopActivity()    {
+        Context context = getContext();
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> info = manager.getRunningTasks(1);
+        ComponentName cn = info.get(0).topActivity;
+        String activityName = cn.getShortClassName().substring(1);
+        return activityName;
+    }
 
     public void showProfile(View view){
-        Intent intent = new Intent(view.getContext(), MyPageActivity.class);
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.MyPageActivity")) {
+            Intent intent = new Intent(view.getContext(), MyPageActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
 
     public void showMenu(View view){
@@ -125,26 +137,44 @@ public class MenuView extends RelativeLayout {
     }
 
     public void gotoAlarm(View view){
-        Intent intent = new Intent(view.getContext(), AlarmActivity.class);
-
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.AlarmActivity")) {
+            Intent intent = new Intent(view.getContext(), AlarmActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
     public void gotoCalendar(View view){
-        Intent intent = new Intent(view.getContext(), CalendarActivity.class);
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.CalendarActivity")) {
+            Intent intent = new Intent(view.getContext(), CalendarActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
     public void gotoPath(View view){
-        Intent intent = new Intent(view.getContext(), PathActivity.class);
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.PathActivity")) {
+            Intent intent = new Intent(view.getContext(), PathActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
     public void gotoMusic(View view){
-        Intent intent = new Intent(view.getContext(), MusicActivity.class);
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.MusicActivity")) {
+            Intent intent = new Intent(view.getContext(), MusicActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
     public void gotoWeather(View view){
-        Intent intent = new Intent(view.getContext(), WeatherActivity.class);
-        view.getContext().startActivity(intent);
+        String activityName;
+        activityName = getTopActivity();
+        if(!activityName.equals("Activity.WeatherActivity")) {
+            Intent intent = new Intent(view.getContext(), WeatherActivity.class);
+            view.getContext().startActivity(intent);
+        }
     }
-
 }
 
