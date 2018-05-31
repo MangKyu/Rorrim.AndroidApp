@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MyPageActivity"/>
+        <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
+    </data>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Activity.WeatherActivity"
         tools:showIn="@layout/activity_weather">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="217dp"
-        android:background="@color/myBlue" />
+        <com.rorrim.mang.smartmirror.Activity.MenuView
+            android:id="@+id/music_menu_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight='5'>
+        </com.rorrim.mang.smartmirror.Activity.MenuView>
 
-</RelativeLayout>
+        <android.widget.LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+        </android.widget.LinearLayout>
+
+    </LinearLayout>
+</layout>

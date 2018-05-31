@@ -1,209 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MyPageActivity"/>
+        <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
+    </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Activity.PathActivity"
         tools:showIn="@layout/activity_path">
 
-        <ImageView
+        <com.rorrim.mang.smartmirror.Activity.MenuView
+            android:id="@+id/music_menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="217dp"
-            android:background="@color/myBlue" />
+            android:layout_height="0dp"
+            android:layout_weight='5'>
+        </com.rorrim.mang.smartmirror.Activity.MenuView>
 
-        <ImageButton
-            android:id="@+id/menu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/menu"
-            android:onClick="onClick" />
-
-        <ImageButton
-            android:id="@+id/menu_user"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="320dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/user"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="78dp"
-            android:text="나의 로림"
-            android:textSize="30sp"/>
-
-        <ImageButton
-            android:id="@+id/alarm"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/alarm"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="187dp"
-            android:text="알람"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/calendar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="85dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/calendar"
-            android:onClick="onClick" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="187dp"
-            android:text="일정"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="150dp"
-            android:layout_marginTop="122dp"
-            android:background="@drawable/rounded" />
-
-        <ImageButton
-            android:id="@+id/map"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/map"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="167dp"
-            android:layout_marginTop="187dp"
-            android:text="경로"
-            android:textSize="20sp"/>
-
-        <ImageButton
-            android:id="@+id/music"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="240dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/music"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="247dp"
-            android:layout_marginTop="187dp"
-            android:text="음악"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/weather"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="320dp"
-            android:layout_marginTop="132dp"
-            android:background="@drawable/weather"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="327dp"
-            android:layout_marginTop="187dp"
-            android:text="날씨"
-            android:textSize="20sp"/>
-
-        <ImageButton
-            android:id="@+id/onoff"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="320dp"
-            android:layout_marginTop="227dp"
-            android:background="@drawable/switch_2"
-            android:onClick="onClick"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="218dp"
-            android:layout_marginTop="228dp"
-            android:text="기능 활성화"
-            android:textColor="@color/myYellow"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="350dp"
-            android:layout_marginTop="232dp"
-            android:text="off"
-            android:textSize="15sp"/>
-
-    </RelativeLayout>
+        <android.widget.LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+        </android.widget.LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</layout>

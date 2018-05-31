@@ -20,10 +20,7 @@ import com.rorrim.mang.smartmirror.Interface.Connectable;
 import com.rorrim.mang.smartmirror.Model.User;
 import com.rorrim.mang.smartmirror.R;
 
-import java.util.List;
-
 public class AuthManager extends Application implements Connectable{
-    private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private static AuthManager instance;
     private FirebaseAuth.AuthStateListener authListener;
@@ -31,7 +28,6 @@ public class AuthManager extends Application implements Connectable{
     private User user;
 
     public AuthManager(){
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -55,17 +51,8 @@ public class AuthManager extends Application implements Connectable{
         }
         return instance;
     }
-
-    public void write(List<String> Date, List<String> Time, List<String> Contents) {
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        String user;
-        user = AuthManager.getInstance().getUser().getUid();
-        for(int i = 0; i < Time.size(); i++) {
-            databaseReference.child("calendar").child(user).child(Date.get(i)).child(Time.get(i))
-                    .setValue(Contents.get(i));
-        }
-    }
     /*
+
     public void emailSignUp(final Activity curActivity, String email, String pw){
         auth.createUserWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(curActivity, new OnCompleteListener<AuthResult>() {

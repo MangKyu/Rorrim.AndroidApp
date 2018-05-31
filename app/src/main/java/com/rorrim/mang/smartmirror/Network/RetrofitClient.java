@@ -7,6 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient implements Connectable {
+
     private static RetrofitClient instance;
     private Retrofit retrofit;
     private OkHttpClient client;

@@ -103,7 +103,11 @@ public class AdapterBindings {
                 imageView.setImageDrawable(null);
                 //imageView.setImageDrawable(Drawable.createFromPath("android.resource://"+imageView.getContext().getPackageName()+"/drawable/album.png"));
 
-            } finally {
+            } catch(IllegalStateException e){
+                imageView.setImageDrawable(null);
+            }
+
+            finally {
                 try {
                     if (fd != null)
                         fd.close();
