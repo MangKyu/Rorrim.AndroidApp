@@ -5,40 +5,45 @@
             name="activity"
             type="com.rorrim.mang.smartmirror.Activity.MenuView" />
     </data>
+
     <RelativeLayout
         android:id="@+id/menu_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:weightSum="4">
 
-
-        <ImageButton
-            android:id="@+id/menu"
-            android:layout_width="62dp"
-            android:layout_height="55dp"
-            android:layout_above="@+id/menu_rorrim"
-            android:layout_alignStart="@+id/menu_rorrim"
-            android:layout_marginBottom="-78dp"
-            android:onClick="@{activity::showMenu}"
-            android:background="@drawable/menu" />
-
-        <ImageButton
-            android:id="@+id/menu_user"
-            android:layout_width="96dp"
-            android:layout_height="81dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/menu"
-            android:onClick="@{activity::showProfile}"
-            android:background="@drawable/user" />
-
-        <Switch
-            android:id="@+id/menu_switch"
-            android:layout_width="150dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/menu_text"
-            android:paddingTop="10dp"
-            android:text="활성/비활성" />
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <ImageButton
+                android:id="@+id/menu"
+                android:layout_width="33dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="-78dp"
+                android:layout_weight="0.1"
+                android:background="@drawable/menu"
+                android:onClick="@{activity::showMenu}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8" />
+
+            <ImageButton
+                android:id="@+id/menu_user"
+                android:layout_width="39dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/menu"
+                android:layout_weight="0.1"
+                android:background="@drawable/user"
+                android:onClick="@{activity::showProfile}" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/menu_rorrim"
@@ -59,13 +64,23 @@
             android:layout_below="@+id/menu_rorrim"
             android:layout_marginTop="10dp">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
             <ImageButton
                 android:id="@+id/alarm"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:onClick="@{activity::gotoAlarm}"
-                android:background="@drawable/alarm" />
+                android:background="@drawable/alarm"
+                android:onClick="@{activity::gotoAlarm}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
 
             <ImageButton
@@ -73,32 +88,52 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:onClick="@{activity::gotoCalendar}"
-                android:background="@drawable/calendar" />
+                android:background="@drawable/calendar"
+                android:onClick="@{activity::gotoCalendar}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/map"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:onClick="@{activity::gotoPath}"
-                android:background="@drawable/map" />
+                android:background="@drawable/map"
+                android:onClick="@{activity::gotoPath}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/music"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:onClick="@{activity::gotoMusic}"
-                android:background="@drawable/music" />
+                android:background="@drawable/music"
+                android:onClick="@{activity::gotoMusic}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/weather"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:onClick="@{activity::gotoWeather}"
-                android:background="@drawable/weather" />
+                android:background="@drawable/weather"
+                android:onClick="@{activity::gotoWeather}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -137,17 +172,27 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="날씨"
+                android:text="음악"
                 android:textSize="20sp" />
-
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="음악"
+                android:text="날씨"
                 android:textSize="20sp" />
+
         </LinearLayout>
+
+        <Switch
+            android:id="@+id/menu_switch"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/menu_text"
+            android:paddingTop="10dp"
+            android:text="활성/비활성" />
+
     </RelativeLayout>
 </layout>

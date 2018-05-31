@@ -23,21 +23,19 @@ import com.rorrim.mang.smartmirror.databinding.ActivityMusicBinding;
 public class MusicActivity extends Activity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 2;
-    //private ActivityMusicBinding binding;
+    private ActivityMusicBinding binding;
     private ObservableArrayList<Music> musicList;
     private MusicAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
         musicList = new ObservableArrayList<>();
         mAdapter = new MusicAdapter(this, musicList);
-        RecyclerView rv = findViewById(R.id.music_music_rv);
-        rv.setAdapter(mAdapter);
 
-        //binding.musicMusicRv.setAdapter(mAdapter);
-        //binding.setMusicList(musicList);
+        binding.musicMusicRv.setAdapter(mAdapter);
+        binding.setMusicList(musicList);
         requestMusicList();
         //getMusicList();
 
@@ -100,6 +98,7 @@ public class MusicActivity extends Activity {
             music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
             musicList.add(music);
         }
+        musicList.add(new Music("a", "b", "c", "d"));
         cursor.close();
     }
 

@@ -2,6 +2,7 @@ package com.rorrim.mang.smartmirror.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,28 +18,31 @@ public class MenuView extends RelativeLayout {
 
     public MenuView(Context context) {
         super(context);
-        initView();
+        initView(context);
     }
 
     public MenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
+        initView(context);
     }
 
     public MenuView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs);
-        initView();
+        initView(context);
     }
 
-    private void initView() {
+    private void initView(Context context) {
         //String infService = Context.LAYOUT_INFLATER_SERVICE;
         //LayoutInflater li = (LayoutInflater) getContext().getSystemService(infService);
         // View v = li.inflate(R.layout.menu_layout, this, false);
         //addView(v);
-        inflate(getContext(), R.layout.menu_layout, this);
-        LayoutInflater inflater = (LayoutInflater)
-                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        binding = MenuLayoutBinding.inflate(inflater);
+        //inflate(getContext(), R.layout.menu_layout, this);
+        //LayoutInflater inflater = (LayoutInflater)
+//                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+  //      binding = MenuLayoutBinding.inflate(inflater);
+    //    binding.setActivity(this);
+        //LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.menu_layout, this, true);
         binding.setActivity(this);
         //menuLayout = (RelativeLayout) findViewById(R.id.menu_layout);
     }

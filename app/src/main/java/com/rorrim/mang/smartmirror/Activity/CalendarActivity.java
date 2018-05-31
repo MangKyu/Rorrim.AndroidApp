@@ -442,7 +442,7 @@ public class CalendarActivity extends Activity
                 mOutputText.setText(TextUtils.join("\n", output));
             }
             showList();
-            AuthManager.getInstance().write(Date, Time, Contents);
+            //AuthManager.getInstance().write(Date, Time, Contents);
         }
 
         @Override
