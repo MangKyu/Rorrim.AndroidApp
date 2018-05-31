@@ -26,15 +26,15 @@ public class AdapterBindings {
     private static final BitmapFactory.Options options = new BitmapFactory.Options();
     private static int MAX_IMAGE_SIZE = 170;
 
-    @BindingAdapter("bind:item")
-    public static void bindItem(RecyclerView recyclerView, ObservableArrayList<Music> musicList) {
+    @BindingAdapter("bind:music")
+    public static void bindMusic(RecyclerView recyclerView, ObservableArrayList<Music> musicList) {
         MusicAdapter adapter = (MusicAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setItem(musicList);
         }
     }
 
-    @BindingAdapter("bind:item")
+    @BindingAdapter("bind:calendar")
     public static void bindCal(RecyclerView recyclerView, ObservableArrayList<Calendar> calendarList) {
         CalendarAdapter adapter = (CalendarAdapter) recyclerView.getAdapter();
         if (adapter != null) {

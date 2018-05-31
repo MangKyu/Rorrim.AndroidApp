@@ -1,15 +1,18 @@
 package com.rorrim.mang.smartmirror.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -73,58 +76,38 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MusicAdapter.MyViewHolder holder, final int position) {
-        final Music music = musicList.get(position);
+    public void onBindViewHolder(MusicAdapter.MyViewHolder holder,final int position) {
+        Music music = musicList.get(position);
         holder.bind(music);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Send Music File 해주면 됨
-                Toast.makeText(view.getContext(), musicList.get(position).toString(), Toast.LENGTH_SHORT).show();
-
-                try {
-                    //ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...", true);
-                    FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position));
-                    /*File file = new File(filePath);
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("audio/*"), file);//RequestBody.create(MediaType.parse("multipart/form-data"), file)
-
-                    MultipartBody.Part body =
-                            MultipartBody.Part.createFormData("Audio", file.getName(), requestFile);
-                    RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
-                    RequestBody title = RequestBody.create(MediaType.parse("text/plain"), musicList.get(position).getTitle());
-                    RequestBody artist = RequestBody.create(MediaType.parse("text/plain"), musicList.get(position).getArtist());
-                    RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-
-                    Call<ResponseBody> call = retrofitService.sendFIle(body, uid, title, artist);
-                    //Call<ResponseBody> call = retrofitService.sendFile(body, AuthManager.getInstance().getUser().getUid(), musicList.get(position).getTitle(), musicList.get(position).getArtist());
-                    final ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...!!", true);
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            dialog.dismiss();
-                            // you  will get the reponse in the response parameter
-                            if(response.isSuccessful()) {
-                                //Toast.makeText(view.getContext(), musicList.get(position).toString(), Toast.LENGTH_SHORT).show();
-                                Log.e("Send File", "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
-                                //mAdapter.updateAnswers(response.body().getItems());
-                            }else {
-                                int statusCode  = response.code();
-                                Log.e("Send File", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+                final Context context = view.getContext();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_NEGATIVE: {
+                                //Yes 버튼을 클릭했을때 처리
+                                try {
+                                    FileManager.getInstance().uploadMusic(context, musicList.get(position));
+                                }
+                                catch (Exception e) {
+                                    Log.e("SimplePlayer", e.getMessage());
+                                }
+                                break;
                             }
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //No 버튼을 클릭했을때 처리
+                                break;
                         }
+                    }
+                };
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            dialog.dismiss();
-                            Log.e("Send File", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-                        }
-                    });
-
-*/
-                }
-                catch (Exception e) {
-                    Log.e("SimplePlayer", e.getMessage());
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("정말?").setPositiveButton("아니?", dialogClickListener)
+                        .setNegativeButton("그래!", dialogClickListener).show();
 
             }
         });
@@ -154,8 +137,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         public void bind(Music music){
             binding.setVariable(BR.music, music);
         }
-
     }
-
 
 }

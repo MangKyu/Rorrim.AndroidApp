@@ -10,20 +10,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -39,17 +34,14 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.rorrim.mang.smartmirror.Adapter.CalendarAdapter;
-import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Model.Calendar;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityCalendarBinding;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -63,7 +55,6 @@ public class CalendarActivity extends Activity
     private CalendarAdapter cAdapter;
 
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -96,13 +87,6 @@ public class CalendarActivity extends Activity
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -110,25 +94,16 @@ public class CalendarActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        mOutputText.setText("");
         getResultsFromApi();
     }
 
-/*
-    public void showList()  {
-        listView1 = findViewById(R.id.listview1);
-        SimpleAdapter simpleAdapter1 = new SimpleAdapter(this,Data1,R.layout.calendar_list_low,
-                new String[]{"Time", "Contents"},new int[]{R.id.text1,android.R.id.text2});
-        listView1.setAdapter(simpleAdapter1);
-    }
-    */
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
+            Log.e("Calendar", "No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -166,9 +141,9 @@ public class CalendarActivity extends Activity
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
+                    Log.e("Calendar Activity ","This app requires Google Play Services. Please install " +
+                            "Google Play Services on your device and relaunch this app.");
+
                 } else {
                     getResultsFromApi();
                 }
@@ -372,17 +347,7 @@ public class CalendarActivity extends Activity
                 }else{
                     cal.setLocation(location);
                 }
-
-
                 calendarList.add(cal);
-
-//                Date.add(start.toString().substring(0, 10));
-//                Time.add(start.toString().substring(11, 16));
-//                Contents.add(event.getSummary());
-//                InputData1.put("Time", start.toString().substring(0,10) +
-//                " " + start.toString().substring(11, 16));
-//                InputData1.put("Contents", event.getSummary());
-//                Data1.add(InputData1);
 
                 eventStrings.add(
                         String.format("%s (%s)", event.getSummary(), start));
@@ -394,7 +359,6 @@ public class CalendarActivity extends Activity
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -403,11 +367,10 @@ public class CalendarActivity extends Activity
             mProgress.hide();
             if (output == null || output.size() == 0) {
                 output.add(0, "NULL NULL HA DA");
-//                str = "Task is null";
-                mOutputText.setText("Task is null");
+                Log.e("Calendar Activity ","Task is null");
             } else {
 //                str = TextUtils.join("\n", output);
-                mOutputText.setText(TextUtils.join("\n", output));
+                Log.e("Calendar Activity ",TextUtils.join("\n", output));
             }
 //            showList();
 //            AuthManager.getInstance().write(Date, Time, Contents);
@@ -426,11 +389,11 @@ public class CalendarActivity extends Activity
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             CalendarActivity.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
+                    Log.e("Calendar Activity ","The following error occurred:\n"
                             + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+                Log.e("Calendar Activity ","Request cancelled.");
             }
         }
     }
