@@ -23,6 +23,7 @@ public class WeatherActivity extends Activity {
         }
         else    {
             binding.offWeather.setVisibility(View.VISIBLE);
+
         }
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

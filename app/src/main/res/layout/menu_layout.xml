@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable
-            name="activity"
-            type="com.rorrim.mang.smartmirror.Activity.MenuView" />
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MenuView" />
     </data>
 
     <LinearLayout
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="10dp"
-            android:singleLine="true"
+            android:fontFamily="@font/nanum_square_l"
             android:text="나의 로림"
             android:textSize="30sp" />
 
