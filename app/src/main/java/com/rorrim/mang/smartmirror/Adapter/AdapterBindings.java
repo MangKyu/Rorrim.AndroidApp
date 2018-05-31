@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.rorrim.mang.smartmirror.Model.Calendar;
 import com.rorrim.mang.smartmirror.Model.Music;
 
 import java.io.FileNotFoundException;
@@ -30,6 +31,14 @@ public class AdapterBindings {
         MusicAdapter adapter = (MusicAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setItem(musicList);
+        }
+    }
+
+    @BindingAdapter("bind:item")
+    public static void bindCal(RecyclerView recyclerView, ObservableArrayList<Calendar> calendarList) {
+        CalendarAdapter adapter = (CalendarAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            adapter.setItem(calendarList);
         }
     }
 

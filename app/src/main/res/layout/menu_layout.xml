@@ -9,11 +9,12 @@
     <RelativeLayout
         android:id="@+id/menu_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:weightSum="4">
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -191,6 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/menu_text"
+            android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
             android:text="활성/비활성"
             android:onClick="@{activity::switchcase}"/>
