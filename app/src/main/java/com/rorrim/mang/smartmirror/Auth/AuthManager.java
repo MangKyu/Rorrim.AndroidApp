@@ -21,7 +21,6 @@ import com.rorrim.mang.smartmirror.Model.User;
 import com.rorrim.mang.smartmirror.R;
 
 public class AuthManager extends Application implements Connectable{
-    private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private static AuthManager instance;
     private FirebaseAuth.AuthStateListener authListener;
@@ -29,7 +28,6 @@ public class AuthManager extends Application implements Connectable{
     private User user;
 
     public AuthManager(){
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override

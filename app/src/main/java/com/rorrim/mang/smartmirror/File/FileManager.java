@@ -15,6 +15,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
+import com.rorrim.mang.smartmirror.Data.DataManager;
+import com.rorrim.mang.smartmirror.Model.Music;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,12 +44,15 @@ public class FileManager {
         return musicRef;
     }
 
-    public void uploadMusic(final Context context, String id){
+    public void uploadMusic(final Context context,final Music music){
+
+        String id = music.getId();
         Uri musicURI = Uri.withAppendedPath(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+id);
-        String filePath = getRealPathFromURI(context, musicURI);
+        //String filePath = getRealPathFromURI(context, musicURI);
+        String fileName = music.getArtist()+ "- "+music.getTitle();
         //File file = new File(filePath);
-        String fileName = filePath.substring(filePath.lastIndexOf('/'));
+        //String fileName = filePath.substring(filePath.lastIndexOf('/'));
 
 
 
@@ -60,16 +65,17 @@ public class FileManager {
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(context, "File Manager Failed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "File Manager Failed", Toast.LENGTH_SHORT).show();
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(context, "File Manager Success", Toast.LENGTH_SHORT).show();
+                    DataManager.getInstance().uploadAudio(music.getArtist(), music.getTitle());
+                    //Toast.makeText(context, "File Manager Success", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch(Exception e){
-            Toast.makeText(context, "File Manager" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "File Manager" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }

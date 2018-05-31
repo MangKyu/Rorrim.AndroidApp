@@ -84,7 +84,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
                 try {
                     //ProgressDialog dialog = ProgressDialog.show(view.getContext(), "", "Uploading file...", true);
-                    FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position).getId());
+                    FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position));
                     /*File file = new File(filePath);
                     RequestBody requestFile = RequestBody.create(MediaType.parse("audio/*"), file);//RequestBody.create(MediaType.parse("multipart/form-data"), file)
 
