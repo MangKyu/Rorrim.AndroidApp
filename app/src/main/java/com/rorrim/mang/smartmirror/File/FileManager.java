@@ -29,7 +29,6 @@ public class FileManager {
 
     public FileManager(){
         storage = FirebaseStorage.getInstance("gs://smartmirror-75b89.appspot.com");
-        //musicRef = storage.getReference().child("Audio/");//.child("Audio"); //
     }
 
     public static FileManager getInstance() {
@@ -55,25 +54,17 @@ public class FileManager {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Sending File...");
 
-
-        출처: http://mainia.tistory.com/2031 [녹두장군 - 상상을 현실로]
-        
         try {
-            //d
             UploadTask uploadTask = getReference(AuthManager.getInstance().getUser().getUid(), fileName).putFile(musicURI);
             uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                     dialog.show();
-                    //double progress = 100.0 * (taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                    //System.out.println("Upload is " + progress + "% done");
-                    //int currentprogress = (int) progress;
-                    //progressBar.setProgress(currentprogress);
                 }
             }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                    System.out.println("Upload is paused");
+                    //System.out.println("Upload is paused");
                 }
             });
 

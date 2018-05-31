@@ -85,8 +85,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
                 try {
                     FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position));
-                    //SendMusicTask sendMusicTask = new SendMusicTask();
-                    //sendMusicTask.execute(position);
                 }
                 catch (Exception e) {
                     Log.e("SimplePlayer", e.getMessage());
@@ -118,34 +116,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
         public void bind(Music music){
             binding.setVariable(BR.music, music);
-        }
-    }
-
-    private class SendMusicTask extends AsyncTask<Integer, Void, Void> {
-
-        private ProgressDialog asyncDialog = new ProgressDialog(activity);
-        @Override
-        protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("로딩중입니다..");
-
-            // show dialog
-            asyncDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            int position = params[0];
-            FileManager.getInstance().uploadMusic(activity, musicList.get(position));
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-
-            super.onPostExecute(result);
-            asyncDialog.dismiss();
         }
     }
 
