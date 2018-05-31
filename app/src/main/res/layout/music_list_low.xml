@@ -12,10 +12,17 @@
     </data>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/myBlue">
 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="15dp"
         android:onClick="@{() -> activity.sendMusic(music.albumId)}">
 
         <ImageView
@@ -25,10 +32,10 @@
             android:scaleType="fitXY"
             app:albumImage="@{music.albumId}" />
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
@@ -36,17 +43,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textColor="#000"
+                android:textSize="20sp"
+                android:textColor="@color/myWhite"
                 android:text="@{music.title}"/>
 
             <TextView
                 android:id="@+id/artist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/myYellow"
+                android:textSize="15sp"
                 android:padding="5dp"
-                android:textSize="12sp"
+                android:layout_below="@id/title"
                 android:text="@{music.artist}"/>
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/heart"/>
+
+             </RelativeLayout>
+         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/myWhite"
+            android:textSize="15sp"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:text="────────────────────────────────"/>
+
     </LinearLayout>
+
 
 </layout>

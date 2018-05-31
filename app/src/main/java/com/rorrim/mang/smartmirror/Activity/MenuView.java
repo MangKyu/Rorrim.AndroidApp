@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -125,6 +126,7 @@ public class MenuView extends RelativeLayout {
 
     public void gotoAlarm(View view){
         Intent intent = new Intent(view.getContext(), AlarmActivity.class);
+
         view.getContext().startActivity(intent);
     }
     public void gotoCalendar(View view){
