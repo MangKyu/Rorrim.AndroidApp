@@ -15,14 +15,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rorrim.mang.smartmirror.Activity.MainActivity;
 import com.rorrim.mang.smartmirror.Interface.Connectable;
 import com.rorrim.mang.smartmirror.Model.User;
 import com.rorrim.mang.smartmirror.R;
 
 import java.util.List;
 
-public class AuthManager extends Application implements Connectable{
+public class AuthManager extends Application implements Connectable {
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
     private static AuthManager instance;
@@ -49,13 +48,6 @@ public class AuthManager extends Application implements Connectable{
         auth.addAuthStateListener(authListener);
     }
 
-    public static AuthManager getInstance(){
-        if(instance == null){
-            instance = new AuthManager();
-        }
-        return instance;
-    }
-
     public void write(List<String> Date, List<String> Time, List<String> Contents) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         String user;
@@ -64,6 +56,13 @@ public class AuthManager extends Application implements Connectable{
             databaseReference.child("calendar").child(user).child(Date.get(i)).child(Time.get(i))
                     .setValue(Contents.get(i));
         }
+    }
+
+    public static AuthManager getInstance(){
+        if(instance == null){
+            instance = new AuthManager();
+        }
+        return instance;
     }
     /*
     public void emailSignUp(final Activity curActivity, String email, String pw){

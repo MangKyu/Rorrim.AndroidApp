@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
@@ -33,12 +35,10 @@ public class MusicActivity extends Activity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
         musicList = new ObservableArrayList<>();
         mAdapter = new MusicAdapter(this, musicList);
-
         binding.musicMusicRv.setAdapter(mAdapter);
         binding.setMusicList(musicList);
         requestMusicList();
         //getMusicList();
-
     }
 
     public void sendMusic(String albumId){
