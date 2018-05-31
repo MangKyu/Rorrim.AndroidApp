@@ -27,18 +27,18 @@ public class AdapterBindings {
     private static int MAX_IMAGE_SIZE = 170;
 
     @BindingAdapter("bind:item")
-    public static void bindCals(RecyclerView recyclerView, ObservableArrayList<Calendar> calendarList) {
-        CalendarAdapter adapter = (CalendarAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setItem(calendarList);
-        }
-    }
-
-    @BindingAdapter("bind:item")
     public static void bindItem(RecyclerView recyclerView, ObservableArrayList<Music> musicList) {
         MusicAdapter adapter = (MusicAdapter) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setItem(musicList);
+        }
+    }
+
+    @BindingAdapter("bind:item")
+    public static void bindCal(RecyclerView recyclerView, ObservableArrayList<Calendar> calendarList) {
+        CalendarAdapter adapter = (CalendarAdapter) recyclerView.getAdapter();
+        if (adapter != null) {
+            adapter.setItem(calendarList);
         }
     }
 
