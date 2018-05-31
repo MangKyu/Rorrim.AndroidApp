@@ -22,12 +22,19 @@
         tools:context=".Activity.CalendarActivity"
         tools:showIn="@layout/activity_calendar">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/path_menu_layout"
+            android:background="@color/myBlue" />
+
         <com.rorrim.mang.smartmirror.Activity.MenuView
             android:id="@+id/calendar_menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
         </com.rorrim.mang.smartmirror.Activity.MenuView>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/cal_cal_rv"

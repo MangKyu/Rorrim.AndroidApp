@@ -24,6 +24,12 @@
             android:layout_weight='5'>
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/path_menu_layout"
+            android:background="@color/myBlue" />
+
         <android.widget.LinearLayout
             android:layout_alignParentBottom="true"
             android:layout_height="0dp"

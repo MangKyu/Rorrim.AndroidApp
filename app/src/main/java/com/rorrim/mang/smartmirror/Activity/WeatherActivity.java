@@ -29,11 +29,17 @@ public class WeatherActivity extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)   {
                     binding.onWeather.setVisibility(View.VISIBLE);
+                    binding.onWeatherTxt.setVisibility(View.VISIBLE);
                     binding.offWeather.setVisibility(View.INVISIBLE);
+                    binding.offWeatherTxt.setVisibility(View.INVISIBLE);
+
                 }
                 else    {
                     binding.offWeather.setVisibility(View.VISIBLE);
+                    binding.offWeatherTxt.setVisibility(View.VISIBLE);
                     binding.onWeather.setVisibility(View.INVISIBLE);
+                    binding.onWeatherTxt.setVisibility(View.INVISIBLE);
+
                 }
             }
         });
