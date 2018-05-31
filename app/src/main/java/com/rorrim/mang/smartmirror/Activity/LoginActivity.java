@@ -102,7 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 }else{
                                     //AuthManager.getInstance().setUser();
-                                    Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MusicActivity.class);
+                                    //Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
                                     startActivity(intent);
                                 }
                             }

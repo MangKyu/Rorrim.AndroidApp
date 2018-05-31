@@ -98,7 +98,6 @@ public class MusicActivity extends Activity {
             music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
             musicList.add(music);
         }
-        musicList.add(new Music("a", "b", "c", "d"));
         cursor.close();
     }
 

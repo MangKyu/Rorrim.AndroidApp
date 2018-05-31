@@ -9,6 +9,7 @@ public class Music implements Serializable {
     private String artist;
 
     public Music() {
+
     }
 
     public Music(String id, String albumId, String title, String artist) {

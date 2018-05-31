@@ -4,11 +4,16 @@ import com.rorrim.mang.smartmirror.Model.JSonMessage;
 import com.rorrim.mang.smartmirror.Model.User;
 
 
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
@@ -21,6 +26,33 @@ public interface RetrofitService {
 
     @GET("/get_json")
     Call<JSonMessage> getJson();
+
+    /*
+    @Multipart
+    @POST("/sendFile")
+    Call<ResponseBody> sendFIle(
+            @Part MultipartBody.Part file,
+            @Part("uid") String uid,
+            @Part("title") String title,
+            @Part("artist") String artist
+    );
+    */
+
+    @Multipart
+    @POST("/sendFile")
+    Call<ResponseBody> sendFIle(
+            @Part MultipartBody.Part file,
+            @Part("uid") RequestBody uid,
+            @Part("title") RequestBody title,
+            @Part("artist") RequestBody artist
+    );
+
+    @Multipart
+    @POST("/sendImage")
+    Call<ResponseBody> sendImage(
+            @Part MultipartBody.Part file,
+            @Part("name") RequestBody name
+    );
 
     /*
     @GET("/recieve_file")
