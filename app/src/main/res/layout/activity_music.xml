@@ -13,19 +13,17 @@
             type="ObservableArrayList&lt;Music&gt;" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/music_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".Activity.MusicActivity"
         tools:showIn="@layout/activity_music">
 
         <com.rorrim.mang.smartmirror.Activity.MenuView
             android:id="@+id/music_menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6">
+            android:layout_height="wrap_content">
 
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
@@ -33,10 +31,10 @@
             android:id="@+id/music_music_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
             android:scrollbars="vertical"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            android:layout_below="@id/music_menu_layout"
             bind:item="@{musicList}" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>
