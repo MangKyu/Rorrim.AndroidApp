@@ -171,16 +171,25 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <Switch
-            android:id="@+id/menu_switch"
-            android:layout_width="150dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_below="@+id/menu_text"
-            android:layout_marginTop="10dp"
-            android:paddingTop="10dp"
-            android:text="활성/비활성"
-            android:layout_marginBottom="20dp"
-            android:onClick="@{activity::switchcase}"/>
+            android:layout_marginTop="20dp"
+            android:background="@color/myBlue">
+
+            <Switch
+                android:id="@+id/menu_switch"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:track="@drawable/switch_track_selector"
+                android:thumb="@drawable/switch_thumb_selector"
+                android:layout_centerVertical="true"
+                android:text="활성 / 비활성  "
+                android:textColor="@color/artist"
+                android:layout_margin="10dp"
+                android:onClick="@{activity::switchcase}"/>
+        </RelativeLayout>
+
     </LinearLayout>
 </layout>
