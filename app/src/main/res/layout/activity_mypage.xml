@@ -43,18 +43,7 @@
             android:text="편집하기"
             android:textSize="21sp" />
 
-        <ImageView
-            android:id="@+id/mypage_face_iv"
-            android:layout_width="match_parent"
-            android:layout_height="273dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="284dp"
-            app:imageUrl="@{user.imageUrl}"
-            />
+
 
         <ImageButton
             android:id="@+id/mypage_menu_ibtn"
@@ -93,7 +82,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/mypage_face_iv"
             android:layout_marginTop="131dp"
             android:singleLine="true"
             android:text="이메일"
@@ -103,7 +91,7 @@
             android:id="@+id/mypage_email_tv"
             android:layout_width="235dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/mypage_pw_tv"
+
             android:layout_alignTop="@+id/mypage_email"
             android:singleLine="true"
             android:text="@{user.email}"
@@ -114,7 +102,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/mypage_face_iv"
             android:layout_marginTop="178dp"
             android:singleLine="true"
             android:text="비밀번호"
@@ -163,7 +150,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="80dp"
                     android:background="@drawable/camera_bt"
-                    android:onClick="captureCamera" />
+                    android:onClick="@{activity::captureCamera}" />
 
                 <ImageButton
                     android:id="@+id/mypage_album_btn"
@@ -172,7 +159,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="80dp"
                     android:background="@drawable/album_bt"
-                    android:onClick="getAlbum" />
+                    android:onClick="@{activity::getAlbum}" />
             </android.widget.RelativeLayout>
 
             <android.widget.LinearLayout
@@ -188,8 +175,12 @@
                     android:layout_height="150dp"
                     android:layout_gravity="left"
                     android:layout_margin="20dp"
-                    android:src="@color/myBlue" />
+                    app:imageUrl="@{user.imageUrl}"
+                    />
+
             </android.widget.LinearLayout>
+
+
 
 
         </android.widget.LinearLayout>
