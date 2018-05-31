@@ -5,13 +5,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/rounded_google"
+            />
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/text1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
+            android:layout_marginLeft="8dp"
+            android:minHeight="20dp"
             android:textColor="@color/myWhite"
             android:textSize="15sp"
             />
@@ -20,10 +25,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/text1"
-            android:minHeight="40dp"
+            android:layout_marginLeft="8dp"
+            android:minHeight="60dp"
             android:textColor="@color/myWhite"
             android:textSize="15sp"
             />
+        
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
