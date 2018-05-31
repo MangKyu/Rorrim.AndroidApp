@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -61,10 +62,13 @@ public class MyPageActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage);
+        Switch s = findViewById(R.id.menu_switch);
+        s.setVisibility(View.INVISIBLE);
         binding.setActivity(this);
         binding.setUser(AuthManager.getInstance().getUser());
         checkPermission();
     }
+    
     public void captureCamera(View view){
         String state = Environment.getExternalStorageState();
         // 외장 메모리 검사
@@ -101,7 +105,7 @@ public class MyPageActivity extends AppCompatActivity {
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "id.jpg";
         File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "faceID");
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "id");
 
         if (!storageDir.exists()) {
             Log.i("mCurrentPhotoPath1", storageDir.toString());
