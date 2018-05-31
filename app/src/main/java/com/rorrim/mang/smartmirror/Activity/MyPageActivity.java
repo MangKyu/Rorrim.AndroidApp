@@ -101,7 +101,7 @@ public class MyPageActivity extends AppCompatActivity {
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "id.jpg";
         File imageFile = null;
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "faceID");
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "id");
 
         if (!storageDir.exists()) {
             Log.i("mCurrentPhotoPath1", storageDir.toString());
