@@ -4,14 +4,24 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetworkManager {
-    private NetworkManager instance;
-
+    private static NetworkManager instance;
     private ConnectivityManager cm;
     private NetworkInfo ni;
 
+    public NetworkManager(){
+
+    }
+
     public NetworkManager(Context context){
-        this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        this.ni = cm.getActiveNetworkInfo();
+        //this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //this.ni = cm.getActiveNetworkInfo();
+    }
+
+    public static NetworkManager getInstance() {
+        if(instance == null){
+            instance = new NetworkManager();
+        }
+        return instance;
     }
 
     public boolean isConnected(){
@@ -20,7 +30,8 @@ public class NetworkManager {
         return isConnected;
     }
 
-    private boolean isDeviceOnline() {
+    public boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }

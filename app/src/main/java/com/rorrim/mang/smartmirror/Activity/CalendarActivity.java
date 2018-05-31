@@ -35,6 +35,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.rorrim.mang.smartmirror.Adapter.CalendarAdapter;
 import com.rorrim.mang.smartmirror.Model.Calendar;
+import com.rorrim.mang.smartmirror.Network.NetworkManager;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityCalendarBinding;
 
@@ -102,7 +103,7 @@ public class CalendarActivity extends Activity
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (NetworkManager.getInstance().isOnline(this)) {
             Log.e("Calendar", "No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
