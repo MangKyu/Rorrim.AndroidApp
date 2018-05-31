@@ -62,11 +62,13 @@ public class MyPageActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage);
-        Switch s = findViewById(R.id.menu_switch);
-        s.setVisibility(View.INVISIBLE);
         binding.setActivity(this);
         binding.setUser(AuthManager.getInstance().getUser());
         checkPermission();
+    }
+    public void gotoAlarm(View view){
+       Intent intent = new Intent(view.getContext(), AlarmActivity.class);
+       view.getContext().startActivity(intent);
     }
     
     public void captureCamera(View view){

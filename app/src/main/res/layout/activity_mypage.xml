@@ -17,12 +17,38 @@
         tools:context=".Activity.MyPageActivity"
         tools:showIn="@layout/activity_mypage">
 
-        <com.rorrim.mang.smartmirror.Activity.MenuView
-            android:id="@+id/music_menu_layout"
+        <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight='5'>
-        </com.rorrim.mang.smartmirror.Activity.MenuView>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageButton
+                android:id="@+id/menu"
+                android:layout_width="33dp"
+                android:layout_height="55dp"
+                android:layout_marginBottom="-78dp"
+                android:layout_weight="0.1"
+                android:background="@drawable/menu"
+                android:onClick="@{activity::gotoAlarm}" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8" />
+
+            <ImageButton
+                android:id="@+id/menu_user"
+                android:layout_width="39dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/menu"
+                android:layout_weight="0.1"
+                android:background="@drawable/user" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"

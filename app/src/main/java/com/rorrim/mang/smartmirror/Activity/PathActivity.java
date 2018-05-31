@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -16,6 +18,25 @@ public class PathActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_path);
-
+        Switch sw = findViewById(R.id.menu_switch);
+        if(sw.isChecked())  {
+            binding.onPath.setVisibility(View.VISIBLE);
+        }
+        else    {
+            binding.offPath.setVisibility(View.VISIBLE);
+        }
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)   {
+                    binding.onPath.setVisibility(View.VISIBLE);
+                    binding.offPath.setVisibility(View.INVISIBLE);
+                }
+                else    {
+                    binding.offPath.setVisibility(View.VISIBLE);
+                    binding.onPath.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 }
