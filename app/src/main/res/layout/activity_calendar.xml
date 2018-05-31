@@ -25,7 +25,6 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/path_menu_layout"
             android:background="@color/myBlue" />
 
         <com.rorrim.mang.smartmirror.Activity.MenuView

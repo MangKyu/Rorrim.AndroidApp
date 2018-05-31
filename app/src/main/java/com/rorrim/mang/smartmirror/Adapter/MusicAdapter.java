@@ -1,11 +1,13 @@
 package com.rorrim.mang.smartmirror.Adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -78,17 +80,35 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         Music music = musicList.get(position);
         holder.bind(music);
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Context context = view.getContext();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_NEGATIVE: {
+                                //Yes 버튼을 클릭했을때 처리
+                                try {
+                                    FileManager.getInstance().uploadMusic(context, musicList.get(position));
+                                }
+                                catch (Exception e) {
+                                    Log.e("SimplePlayer", e.getMessage());
+                                }
+                                break;
+                            }
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //No 버튼을 클릭했을때 처리
+                                break;
+                        }
+                    }
+                };
 
-                try {
-                    FileManager.getInstance().uploadMusic(view.getContext(), musicList.get(position));
-                }
-                catch (Exception e) {
-                    Log.e("SimplePlayer", e.getMessage());
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("정말?").setPositiveButton("아니?", dialogClickListener)
+                        .setNegativeButton("그래!", dialogClickListener).show();
+
             }
         });
 
