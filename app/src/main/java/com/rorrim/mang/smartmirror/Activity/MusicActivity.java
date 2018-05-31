@@ -44,7 +44,6 @@ public class MusicActivity extends Activity {
     public void sendMusic(String albumId){
         Toast.makeText(MusicActivity.this, albumId,
                 Toast.LENGTH_SHORT).show();
-
     }
 
 
