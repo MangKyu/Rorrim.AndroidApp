@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -74,13 +75,6 @@ public class CalendarActivity extends Activity
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
-    private List<String> Contents = new ArrayList<>();
-    private List<String> Time = new ArrayList<>();
-    private List<String> Date = new ArrayList<>();
-
-    private ArrayList<HashMap<String,String>> Data1 = new ArrayList<HashMap<String, String>>();
-    private HashMap<String,String> InputData1;
-    private ListView listView1;
 
     /**
      * Create the main activity.
