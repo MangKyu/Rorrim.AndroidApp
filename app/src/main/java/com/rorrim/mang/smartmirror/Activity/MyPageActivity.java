@@ -166,10 +166,10 @@ public class MyPageActivity extends AppCompatActivity {
 
                         binding.mypageFaceIv.setImageURI(imageUri);
                     } catch (Exception e) {
-                        Log.e("REQUEST_TAKEA_PHOTO", e.toString());
+                        Log.e("REQUEST_TAKE_PHOTO", e.toString());
                     }
                 } else {
-                    Toast.makeText(MyPageActivity.this, "사진찍기를 취소하였습A니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPageActivity.this, "사진찍기를 취소하였습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -253,6 +253,8 @@ public class MyPageActivity extends AppCompatActivity {
     public void addImage(View view) {
 
     }
+
+
     /*
     public void addImage(View view){
         Glide.with(binding.getActivity())//AuthManager.getInstance().getUser().getImageUrl()
