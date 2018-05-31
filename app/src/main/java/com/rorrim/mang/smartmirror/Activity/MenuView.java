@@ -48,7 +48,8 @@ public class MenuView extends RelativeLayout {
     }
 
     public void showProfile(View view){
-        Toast.makeText(view.getContext(), "Show Profile", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(view.getContext(), MyPageActivity.class);
+        view.getContext().startActivity(intent);
     }
 
     public void showMenu(View view){

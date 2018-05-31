@@ -8,120 +8,34 @@
     </data>
 
 
-    <RelativeLayout
-
+    <LinearLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Activity.MyPageActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
         tools:showIn="@layout/activity_mypage">
 
-        <ImageButton
-            android:id="@+id/mypage_edit_ibtn"
+        <com.rorrim.mang.smartmirror.Activity.MenuView
+            android:id="@+id/music_menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="450dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="280dp"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/rounded" />
+            android:layout_height="0dp"
+            android:layout_weight='5'>
+        </com.rorrim.mang.smartmirror.Activity.MenuView>
 
         <TextView
-            android:id="@+id/mypage_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="287dp"
-            android:layout_marginTop="84dp"
-            android:singleLine="true"
-            android:text="편집하기"
-            android:textSize="21sp" />
-
-
-
-        <ImageButton
-            android:id="@+id/mypage_menu_ibtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/menu"/>
-
-        <ImageButton
-            android:id="@+id/mypage_user"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="320dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/user"/>
-
-        <TextView
-            android:id="@+id/mypage_mypage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="78dp"
-            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
             android:text="마이페이지"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/mypage_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="131dp"
-            android:singleLine="true"
-            android:text="이메일"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/mypage_email_tv"
-            android:layout_width="235dp"
-            android:layout_height="wrap_content"
-
-            android:layout_alignTop="@+id/mypage_email"
-            android:singleLine="true"
-            android:text="@{user.email}"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/mypage_pw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="178dp"
-            android:singleLine="true"
-            android:text="비밀번호"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/mypage_pw_tv"
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/mypage_pw"
-            android:layout_centerHorizontal="true"
-            android:singleLine="true"
-            android:text="password"
-            android:textAlignment="viewStart"
-            android:inputType="textPassword"
-            android:textSize="20sp" />
+            android:textSize="25sp"
+            android:layout_weight="1"/>
 
         <android.widget.LinearLayout
             android:layout_alignParentBottom="true"
-            android:layout_height="300dp"
+            android:layout_height="0dp"
+            android:layout_weight="6"
             android:layout_width="match_parent"
             android:layout_margin="10dp"
             android:background="@drawable/faceid_bg"
@@ -207,5 +121,5 @@
             android:textSize="20sp" />
                     -->
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>
