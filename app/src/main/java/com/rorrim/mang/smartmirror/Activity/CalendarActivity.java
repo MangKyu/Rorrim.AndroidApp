@@ -103,7 +103,7 @@ public class CalendarActivity extends Activity
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
-        } else if (NetworkManager.getInstance().isOnline(this)) {
+        } else if (!NetworkManager.getInstance().isOnline(this)) {
             Log.e("Calendar", "No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
