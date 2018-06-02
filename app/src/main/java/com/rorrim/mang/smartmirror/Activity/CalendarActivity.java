@@ -10,15 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -28,12 +24,14 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlaySe
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Data;
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.rorrim.mang.smartmirror.Adapter.CalendarAdapter;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Model.Calendar;
 import com.rorrim.mang.smartmirror.Network.NetworkManager;
 import com.rorrim.mang.smartmirror.R;
@@ -43,6 +41,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -73,8 +72,6 @@ public class CalendarActivity extends Activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_calendar);
         calendarList = new ObservableArrayList<>();
@@ -362,11 +359,15 @@ public class CalendarActivity extends Activity
                 output.add(0, "NULL NULL HA DA");
                 Log.e("Calendar Activity ","Task is null");
             } else {
-//                str = TextUtils.join("\n", output);
                 Log.e("Calendar Activity ",TextUtils.join("\n", output));
             }
-//            showList();
-//            AuthManager.getInstance().write(Date, Time, Contents);
+            Iterator iter = calendarList.iterator();
+            while(iter.hasNext()){
+                Calendar cal = (Calendar) iter.next();
+                DataManager.getInstance().uploadCalander(cal.getDate(), cal.getTime(), cal.getContents());
+            }
+
+//            AuthManager.getInstance().write();
         }
 
         @Override

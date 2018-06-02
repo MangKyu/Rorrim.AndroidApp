@@ -9,12 +9,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Model.Calendar;
 import com.rorrim.mang.smartmirror.Model.Music;
 

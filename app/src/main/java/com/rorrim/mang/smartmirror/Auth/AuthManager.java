@@ -3,12 +3,21 @@ package com.rorrim.mang.smartmirror.Auth;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Interface.Connectable;
 import com.rorrim.mang.smartmirror.Model.User;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AuthManager extends Application implements Connectable{
     private FirebaseAuth auth;
@@ -26,14 +35,13 @@ public class AuthManager extends Application implements Connectable{
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null){
                     setUser();
-                    //User user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
-                    //setUser(user);
                 }
-                //saveUserData();
             }
         };
         auth.addAuthStateListener(authListener);
     }
+
+
 
     public static AuthManager getInstance(){
         if(instance == null){
@@ -98,16 +106,39 @@ public class AuthManager extends Application implements Connectable{
     }
 
     public void setUser(){
-        User user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
-        this.user = user;
+        this.user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
+        setProfileUrl();
+    }
+
+    private void setProfileUrl() {
+        //여기해야함
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        Call<String> call = retrofitService.getProfileUrl(user.getUid());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+                    user.setProfileUrl(response.body());
+                    //mAdapter.updateAnswers(response.body().getItems());
+                } else {
+                    int statusCode = response.code();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Login Activity", "error loading from login");
+            }
+        });
+
     }
 
     public void setUser(User user){
         this.user = user;
     }
-
     public User getUser(){
         return user;
     }
-
 }

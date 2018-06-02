@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
@@ -49,7 +50,7 @@ public class FileManager {
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+id);
         String filePath = getRealPathFromURI(context, musicURI);
         String fileExt = filePath.substring(filePath.lastIndexOf("."));
-        String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
+        final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Sending File...");
@@ -78,7 +79,7 @@ public class FileManager {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     dialog.dismiss();
-                    DataManager.getInstance().uploadAudio(music.getArtist(), music.getTitle());
+                    DataManager.getInstance().uploadAudio(music.getArtist(), music.getTitle(), fileName);
                     Toast.makeText(context, "File Manager Success", Toast.LENGTH_SHORT).show();
                 }
             });

@@ -19,27 +19,31 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
+import com.rorrim.mang.smartmirror.Data.DataManager;
+import com.rorrim.mang.smartmirror.Interface.AuthInterface;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityMypageBinding;
 
 import java.io.File;
 import java.io.IOException;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class MyPageActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSION_CAMERA = 1111;
-    private static final int REQUEST_TAKE_PHOTO = 2222;
-    private static final int REQUEST_TAKE_ALBUM = 3333;
-    private static final int REQUEST_IMAGE_CROP = 4444;
+public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     private String mCurrentPhotoPath;
-
-    private Uri imageUri;
     private Uri photoURI, albumURI;
 
     private ActivityMypageBinding binding;
@@ -53,12 +57,12 @@ public class MyPageActivity extends AppCompatActivity {
         checkPermission();
     }
 
-    public void gotoAlarm(View view) {
-        Intent intent = new Intent(view.getContext(), AlarmActivity.class);
-        view.getContext().startActivity(intent);
+    public void gotoAlarm() {
+        Intent intent = new Intent(MyPageActivity.this, AlarmActivity.class);
+        startActivity(intent);
     }
 
-    public void captureCamera(View view) {
+    public void captureCamera() {
         String state = Environment.getExternalStorageState();
         // 외장 메모리 검사
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -68,17 +72,18 @@ public class MyPageActivity extends AppCompatActivity {
                 File photoFile = null;
                 try {
                     photoFile = createImageFile();
+                    albumURI = Uri.fromFile(photoFile);
                 } catch (IOException ex) {
                     Log.e("captureCamera Error", ex.toString());
                 }
                 if (photoFile != null) {
                     // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
 
-                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                    imageUri = providerURI;
+                    photoURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+
 
                     // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);//providerURI);
 
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }
@@ -108,7 +113,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
 
-    public void getAlbum(View view) {
+    public void getAlbum() {
         Log.i("getAlbum", "Call");
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -156,8 +161,7 @@ public class MyPageActivity extends AppCompatActivity {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
                         galleryAddPic();
-
-                        binding.mypageFaceIv.setImageURI(imageUri);
+                        cropImage();
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
                     }
@@ -171,11 +175,9 @@ public class MyPageActivity extends AppCompatActivity {
 
                     if (data.getData() != null) {
                         try {
-                            File albumFile = null;
-                            albumFile = createImageFile();
+                            File albumFile = createImageFile();
                             photoURI = data.getData();
                             albumURI = Uri.fromFile(albumFile);
-                            binding.mypageFaceIv.setImageURI(photoURI);
                             cropImage();
 
                         } catch (Exception e) {
@@ -189,6 +191,7 @@ public class MyPageActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
                     binding.mypageFaceIv.setImageURI(albumURI);
+                    sendImage(albumURI);
                 }
                 break;
         }
@@ -196,7 +199,7 @@ public class MyPageActivity extends AppCompatActivity {
 
 
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
             if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
                     (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
@@ -223,6 +226,8 @@ public class MyPageActivity extends AppCompatActivity {
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
             }
+        }else{
+            Log.e("MyPage Activity", "Manifest Permission of Write External Storage Denied");
         }
     }
 
@@ -238,9 +243,39 @@ public class MyPageActivity extends AppCompatActivity {
                     }
                 }
                 // 허용했다면 이 부분에서..
-
                 break;
         }
     }
 
+    public void sendImage(Uri albumURI){
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        File file = new File(albumURI.getPath());
+
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
+        //String uid = AuthManager.getInstance().getUser().getUid();
+        RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
+
+
+        Call<ResponseBody> call = retrofitService.sendImage(image, uid);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // you  will get the reponse in the response parameter
+                if(response.isSuccessful()) {
+                    Toast.makeText(MyPageActivity.this, "Send Image Success", Toast.LENGTH_SHORT).show();
+                }else {
+                    int statusCode  = response.code();
+                    Toast.makeText(MyPageActivity.this, "Send Image Failed", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("MyPage Activity", "send Image Failure");
+            }
+        });
+    }
 }

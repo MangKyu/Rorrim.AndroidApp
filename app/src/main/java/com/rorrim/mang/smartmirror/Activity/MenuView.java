@@ -56,10 +56,9 @@ public class MenuView extends RelativeLayout {
         //menuLayout = (RelativeLayout) findViewById(R.id.menu_layout);
     }
 
-    public void switchcase(View view)   {
-        boolean check;
+    public void switchCase()   {
+        boolean check = binding.menuSwitch.isChecked();
         Context context = getContext();
-        check = binding.menuSwitch.isChecked();
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> info = manager.getRunningTasks(1);
         ComponentName cn = info.get(0).topActivity;

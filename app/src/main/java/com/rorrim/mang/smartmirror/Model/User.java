@@ -15,14 +15,19 @@ public class User implements Connectable{
     @SerializedName("email")
     private String email;
 
-    @SerializedName("imageUrl")
-    private String imageUrl;
+    @SerializedName("profileUrl")
+    private String profileUrl;
+
+    public User(String uid, String email, String profileUrl){
+        this.uid = uid;
+        this.email = email;
+        this.profileUrl = profileUrl;
+        //this.imageUrl = baseURL + "/test.jpg";
+    }
 
     public User(String uid, String email){
         this.uid = uid;
         this.email = email;
-        this.imageUrl = baseURL + imageURL+ uid+".jpg" ;
-        //this.imageUrl = baseURL + imageURL + "1.jpg";
         //this.imageUrl = baseURL + "/test.jpg";
     }
 
@@ -34,8 +39,12 @@ public class User implements Connectable{
         return email;
     }
 
-    public String getImageUrl(){
-        return imageUrl;
+    public String getProfileUrl(){
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl){
+        this.profileUrl = profileUrl;
     }
 
     @Override

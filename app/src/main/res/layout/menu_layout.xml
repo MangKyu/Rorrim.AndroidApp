@@ -197,7 +197,7 @@
                 android:thumb="@drawable/switch_thumb_selector"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
-                android:onClick="@{activity::switchcase}"/>
+                android:onClick="@{()->activity.switchCase()}"/>
         </RelativeLayout>
 
     </LinearLayout>
