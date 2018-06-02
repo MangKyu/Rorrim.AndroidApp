@@ -24,6 +24,9 @@ public class AlarmActivity extends Activity {
         Switch sw = findViewById(R.id.menu_switch);
         sw.setChecked(getState());
     }
+    public Context getContext() {
+        return getApplication().getApplicationContext();
+    }
     public Boolean getState()   {
         boolean temp;
         SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);

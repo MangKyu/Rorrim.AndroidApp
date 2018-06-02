@@ -27,6 +27,11 @@ public interface RetrofitService {
     @GET("/get_json")
     Call<JSonMessage> getJson();
 
+    @POST("/profileImage.jpg")
+    Call<String> getProfileUrl(
+            @Query("uid") String uid
+    );
+
     /*
     @Multipart
     @POST("/sendFile")
@@ -36,7 +41,7 @@ public interface RetrofitService {
             @Part("title") String title,
             @Part("artist") String artist
     );
-    */
+
 
     @Multipart
     @POST("/sendFile")
@@ -47,6 +52,7 @@ public interface RetrofitService {
             @Part("artist") RequestBody artist
     );
 
+
     @Multipart
     @POST("/sendImage")
     Call<ResponseBody> sendImage(
@@ -54,17 +60,15 @@ public interface RetrofitService {
             @Part("name") RequestBody name
     );
 
-    /*
     @GET("/recieve_file")
     Call<ResponseBody> recieveFile(
             @Query("fileName") String fileName
     );
-    */
 
     @GET("/recieve_file")
     Call<ResponseBody> recieveFile(
             @Query("fileName") String fileName
-            //@Body String fileName
+            @Body String fileName
     );
 
     @POST("/recieve_image")
@@ -72,7 +76,6 @@ public interface RetrofitService {
             @Url String imageUrl
     );
 
-    /*
     //Start with / neans Absolute route
     @GET("/repos/{owner}/{repo}/contributors")
     Call<List<User>> repoContributors(
@@ -86,4 +89,13 @@ public interface RetrofitService {
     @GET("/answers?order=desc&sort=activity&site=stackoverflow")
     Call<User> getAnswers(@Query("tagged") String tags);
     */
+
+    @POST("/sendImage")
+    @Multipart
+    Call<ResponseBody> sendImage(
+            @Part MultipartBody.Part image,
+            @Part("uid") RequestBody uid
+            //@Part("uid") String uid
+    );
+
 }

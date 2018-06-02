@@ -32,7 +32,7 @@
             android:layout_marginRight="20dp"
             android:background="@null"
             android:scaleType="fitXY"
-            android:onClick="@{activity::googleSignIn}"
+            android:onClick="@{()->activity.googleSignIn()}"
             android:src="@drawable/login" >
         </ImageButton>
 

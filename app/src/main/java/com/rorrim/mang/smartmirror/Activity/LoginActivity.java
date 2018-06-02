@@ -101,9 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                 }else{
-                                    //AuthManager.getInstance().setUser();
-                                    Intent intent = new Intent(LoginActivity.this, MusicActivity.class);
-                                    //Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
+
+                                    //Intent intent = new Intent(LoginActivity.this, MusicActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
                                     startActivity(intent);
                                 }
                             }
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
     }
 
-    public void googleSignIn(View view){
+    public void googleSignIn(){
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
