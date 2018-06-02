@@ -107,7 +107,7 @@ public class AuthManager extends Application implements Connectable{
 
     public void setUser(){
         this.user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
-        setProfileUrl();
+        //setProfileUrl();
     }
 
     private void setProfileUrl() {
@@ -120,7 +120,7 @@ public class AuthManager extends Application implements Connectable{
             public void onResponse(Call<String> call, Response<String> response) {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
-                    user.setProfileUrl(response.body());
+                    //user.setProfileUrl(response.body());
                     //mAdapter.updateAnswers(response.body().getItems());
                 } else {
                     int statusCode = response.code();

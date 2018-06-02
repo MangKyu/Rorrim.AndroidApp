@@ -15,12 +15,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-<<<<<<< HEAD
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-=======
->>>>>>> origin/android
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;

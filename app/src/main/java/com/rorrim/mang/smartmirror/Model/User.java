@@ -22,13 +22,13 @@ public class User implements Connectable{
         this.uid = uid;
         this.email = email;
         this.profileUrl = profileUrl;
-        //this.imageUrl = baseURL + "/test.jpg";
+        this.profileUrl = baseURL + "/profileImage.jpg?fileName="+uid;
     }
 
     public User(String uid, String email){
         this.uid = uid;
         this.email = email;
-        //this.imageUrl = baseURL + "/test.jpg";
+        this.profileUrl = baseURL + "/profileImage.jpg?fileName="+uid;
     }
 
     public String getUid(){

@@ -190,7 +190,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             case REQUEST_IMAGE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
-                    binding.mypageFaceIv.setImageURI(albumURI);
+                    //binding.mypageFaceIv.setImageURI(albumURI);
                     sendImage(albumURI);
                 }
                 break;
