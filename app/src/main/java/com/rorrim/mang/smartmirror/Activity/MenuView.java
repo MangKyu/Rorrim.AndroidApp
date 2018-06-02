@@ -15,13 +15,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.MenuLayoutBinding;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class MenuView extends RelativeLayout {
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MenuView extends RelativeLayout implements CompoundButton.OnCheckedChangeListener{
     //private RelativeLayout menuLayout;
     private MenuLayoutBinding binding;
 
@@ -41,28 +48,14 @@ public class MenuView extends RelativeLayout {
     }
 
     private void initView(Context context) {
-        //String infService = Context.LAYOUT_INFLATER_SERVICE;
-        //LayoutInflater li = (LayoutInflater) getContext().getSystemService(infService);
-        // View v = li.inflate(R.layout.menu_layout, this, false);
-        //addView(v);
-        //inflate(getContext(), R.layout.menu_layout, this);
-        //LayoutInflater inflater = (LayoutInflater)
-//                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-  //      binding = MenuLayoutBinding.inflate(inflater);
-    //    binding.setActivity(this);
-        //LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.menu_layout, this, true);
         binding.setActivity(this);
-        //menuLayout = (RelativeLayout) findViewById(R.id.menu_layout);
+        binding.menuSwitch.setOnCheckedChangeListener(this);
     }
 
     public void switchCase()   {
         boolean check = binding.menuSwitch.isChecked();
-        Context context = getContext();
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> info = manager.getRunningTasks(1);
-        ComponentName cn = info.get(0).topActivity;
-        String activityName = cn.getShortClassName().substring(1);
+        String activityName = getActivityName();
 
         switch(activityName)    {
             case "Activity.AlarmActivity":  {
@@ -113,67 +106,110 @@ public class MenuView extends RelativeLayout {
         }
 
     }
-    public String getTopActivity()    {
-        Context context = getContext();
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+    public String getActivityName()    {
+        ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> info = manager.getRunningTasks(1);
         ComponentName cn = info.get(0).topActivity;
-        String activityName = cn.getShortClassName().substring(1);
-        return activityName;
+        return cn.getShortClassName().substring(1);
     }
 
-    public void showProfile(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoMyPage(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.MyPageActivity")) {
-            Intent intent = new Intent(view.getContext(), MyPageActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), MyPageActivity.class);
+            getContext().startActivity(intent);
         }
     }
 
-    public void showMenu(View view){
-        Toast.makeText(view.getContext(), "Show Menu", Toast.LENGTH_SHORT).show();
-    }
-
-    public void gotoAlarm(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoAlarm(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.AlarmActivity")) {
-            Intent intent = new Intent(view.getContext(), AlarmActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), AlarmActivity.class);
+            getContext().startActivity(intent);
         }
     }
-    public void gotoCalendar(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoCalendar(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.CalendarActivity")) {
-            Intent intent = new Intent(view.getContext(), CalendarActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), CalendarActivity.class);
+            getContext().startActivity(intent);
         }
     }
-    public void gotoPath(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoPath(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.PathActivity")) {
-            Intent intent = new Intent(view.getContext(), PathActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), PathActivity.class);
+            getContext().startActivity(intent);
         }
     }
-    public void gotoMusic(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoMusic(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.MusicActivity")) {
-            Intent intent = new Intent(view.getContext(), MusicActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), MusicActivity.class);
+            getContext().startActivity(intent);
         }
     }
-    public void gotoWeather(View view){
-        String activityName;
-        activityName = getTopActivity();
+    public void gotoWeather(){
+        String activityName = getActivityName();
         if(!activityName.equals("Activity.WeatherActivity")) {
-            Intent intent = new Intent(view.getContext(), WeatherActivity.class);
-            view.getContext().startActivity(intent);
+            Intent intent = new Intent(getContext(), WeatherActivity.class);
+            getContext().startActivity(intent);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        String activityName = getActivityName();
+        /*
+        if (isChecked) {
+            switch(activityName)    {
+                case "Activity.AlarmActivity":
+                    break;
+                case "Activity.CalendarActivity":
+                    break;
+                case "Activity.PathActivity":
+                    break;
+                case "Activity.MusicActivity":
+                    break;
+                case "Activity.WeatherActivity":
+                    break;
+                default:
+                    break;
+
+            }
+
+            // do something when check is selected
+        } else {
+            //do something when unchecked
+        }*/
+
+        sendSwitchStatus(activityName, isChecked);
+    }
+
+    private void sendSwitchStatus(String activityName, boolean isChecked) {
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+
+        //
+        Call<ResponseBody> call = retrofitService.sendSwitchStatus(activityName, isChecked);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // you  will get the reponse in the response parameter
+                if(response.isSuccessful()) {
+                    //재욱이형 여기다가 Switch Shared References 사용하면 될거 가틈
+                    //MenuView 201 Line
+                }else {
+                    int statusCode  = response.code();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("MenuView", "Send Switch Status Failed");
+            }
+        });
     }
 }
 

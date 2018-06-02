@@ -98,4 +98,9 @@ public interface RetrofitService {
             //@Part("uid") String uid
     );
 
+    @GET
+    Call<ResponseBody> sendSwitchStatus(
+            @Query("activityName") String activityName,
+            @Query("isChecked")boolean isChecked
+    );
 }
