@@ -1,71 +1,30 @@
 package com.rorrim.mang.smartmirror.Adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.rorrim.mang.smartmirror.Activity.MusicActivity;
-import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.BR;
-import com.rorrim.mang.smartmirror.File.FileManager;
+import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
-import com.rorrim.mang.smartmirror.Network.RetrofitClient;
-import com.rorrim.mang.smartmirror.Network.RetrofitService;
-import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.MusicListLowBinding;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.transform.Result;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
+public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>  {
+    private final RecyclerViewClickListener listener;
     private List<Music> musicList;
     private LayoutInflater inflater;
     private Activity activity;
 
-    public MusicAdapter(){
-        this.musicList = new ArrayList<>();
-    }
-
-    public MusicAdapter(Activity activity, List<Music> musicList) {
-        this.musicList = musicList;
+    public MusicAdapter(Activity activity, List<Music> musicList, RecyclerViewClickListener listener) {
         this.activity = activity;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.musicList = musicList;
+        this.listener = listener;
+        this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -77,9 +36,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MusicAdapter.MyViewHolder holder,final int position) {
-        Music music = musicList.get(position);
-        holder.bind(music);
+        //Music music = musicList.get(position);
+        holder.bind(musicList.get(position), listener);
 
+        /*
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +71,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
             }
         });
-
+        */
     }
 
     public void setItem(List<Music> musicList) {
@@ -134,8 +94,14 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             super(binding.getRoot());
             this.binding = binding;
         }
-        public void bind(Music music){
+        public void bind(final Music music, final RecyclerViewClickListener listener){
             binding.setVariable(BR.music, music);
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(music);
+                }
+            });
         }
     }
 

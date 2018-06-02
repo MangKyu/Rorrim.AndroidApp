@@ -2,6 +2,9 @@ package com.rorrim.mang.smartmirror.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,13 +15,13 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.CompoundButton;
+import android.util.Log;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
+import com.rorrim.mang.smartmirror.File.FileManager;
+import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityMusicBinding;
@@ -38,10 +41,44 @@ public class MusicActivity extends Activity {
         Switch sw = findViewById(R.id.menu_switch);
         sw.setChecked(getState());
         musicList = new ObservableArrayList<>();
-        mAdapter = new MusicAdapter(this, musicList);
+
+        mAdapter = new MusicAdapter(this, musicList, new RecyclerViewClickListener() {
+            @Override
+            public void onItemClick(Music music) {
+                sendMusicFile(music);
+            }
+        });
         binding.musicMusicRv.setAdapter(mAdapter);
         binding.setMusicList(musicList);
         requestMusicList();
+    }
+
+    public void sendMusicFile(final Music music){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_NEGATIVE: {
+                        //Yes 버튼을 클릭했을때 처리
+                        try {
+                            FileManager.getInstance().uploadMusic(getContext(), music);
+                        }
+                        catch (Exception e) {
+                            Log.e("SimplePlayer", e.getMessage());
+                        }
+                        break;
+                    }
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //No 버튼을 클릭했을때 처리
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("정말?").setPositiveButton("아니?", dialogClickListener)
+                .setNegativeButton("그래!", dialogClickListener).show();
+
     }
 
     public void sendMusic(String albumId){
@@ -121,6 +158,10 @@ public class MusicActivity extends Activity {
         Switch sw = findViewById(R.id.menu_switch);
         editor.putBoolean("myState", sw.isChecked());
         editor.commit();
+    }
+
+    public Context getContext(){
+        return this;
     }
 
 }
