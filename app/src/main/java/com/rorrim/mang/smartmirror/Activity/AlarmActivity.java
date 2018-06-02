@@ -29,7 +29,7 @@ public class AlarmActivity extends Activity {
     }
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("AlarmState", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
@@ -40,7 +40,7 @@ public class AlarmActivity extends Activity {
     }
 
     public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("AlarmState", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Switch sw = findViewById(R.id.menu_switch);
         editor.putBoolean("myState", sw.isChecked());

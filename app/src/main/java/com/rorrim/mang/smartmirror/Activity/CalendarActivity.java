@@ -15,12 +15,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-<<<<<<< HEAD
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
-=======
->>>>>>> origin/android
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -82,7 +79,6 @@ public class CalendarActivity extends Activity
         binding = DataBindingUtil.setContentView(this, R.layout.activity_calendar);
         calendarList = new ObservableArrayList<>();
         cAdapter = new CalendarAdapter(this, calendarList);
-
         binding.calCalRv.setAdapter(cAdapter);
         binding.setCalendarList(calendarList);
         Switch sw = findViewById(R.id.menu_switch);
@@ -401,7 +397,7 @@ public class CalendarActivity extends Activity
     }
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("CalendarState", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
@@ -412,7 +408,7 @@ public class CalendarActivity extends Activity
     }
 
     public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("CalendarState", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Switch sw = findViewById(R.id.menu_switch);
         editor.putBoolean("myState", sw.isChecked());
