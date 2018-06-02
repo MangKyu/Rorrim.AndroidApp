@@ -2,6 +2,7 @@ package com.rorrim.mang.smartmirror.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -20,8 +21,26 @@ public class AlarmActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
+        Switch sw = findViewById(R.id.menu_switch);
+        sw.setChecked(getState());
     }
-    public Context getContext() {
-        return getApplication().getApplicationContext();
+    public Boolean getState()   {
+        boolean temp;
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        temp = prefs.getBoolean("myState", false);
+        return temp;
+    }
+
+    public void onStop()  {
+        super.onStop();
+        saveState();
+    }
+
+    public void saveState() {
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Switch sw = findViewById(R.id.menu_switch);
+        editor.putBoolean("myState", sw.isChecked());
+        editor.commit();
     }
 }

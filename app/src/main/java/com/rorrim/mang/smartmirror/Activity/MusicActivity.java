@@ -2,6 +2,7 @@ package com.rorrim.mang.smartmirror.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
@@ -34,6 +35,8 @@ public class MusicActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
+        Switch sw = findViewById(R.id.menu_switch);
+        sw.setChecked(getState());
         musicList = new ObservableArrayList<>();
         mAdapter = new MusicAdapter(this, musicList);
         binding.musicMusicRv.setAdapter(mAdapter);
@@ -98,6 +101,26 @@ public class MusicActivity extends Activity {
             musicList.add(music);
         }
         cursor.close();
+    }
+
+    public Boolean getState()   {
+        boolean temp;
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        temp = prefs.getBoolean("myState", false);
+        return temp;
+    }
+
+    public void onStop()  {
+        super.onStop();
+        saveState();
+    }
+
+    public void saveState() {
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Switch sw = findViewById(R.id.menu_switch);
+        editor.putBoolean("myState", sw.isChecked());
+        editor.commit();
     }
 
 }

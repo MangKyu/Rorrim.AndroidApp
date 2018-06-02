@@ -1,9 +1,11 @@
 package com.rorrim.mang.smartmirror.Activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -18,6 +20,7 @@ public class WeatherActivity extends Activity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
         Switch sw = findViewById(R.id.menu_switch);
+        sw.setChecked(getState());
         if(sw.isChecked())  {
             binding.onWeather.setVisibility(View.VISIBLE);
         }
@@ -44,5 +47,25 @@ public class WeatherActivity extends Activity {
                 }
             }
         });
+    }
+
+    public Boolean getState()   {
+        boolean temp;
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        temp = prefs.getBoolean("myState", false);
+        return temp;
+    }
+
+    public void onStop()  {
+        super.onStop();
+        saveState();
+    }
+
+    public void saveState() {
+        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Switch sw = findViewById(R.id.menu_switch);
+        editor.putBoolean("myState", sw.isChecked());
+        editor.commit();
     }
 }
