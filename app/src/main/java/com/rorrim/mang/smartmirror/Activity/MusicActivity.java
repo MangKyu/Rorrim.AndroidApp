@@ -105,7 +105,7 @@ public class MusicActivity extends Activity {
 
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("MusicState", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
@@ -116,7 +116,7 @@ public class MusicActivity extends Activity {
     }
 
     public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("State", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("MusicState", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         Switch sw = findViewById(R.id.menu_switch);
         editor.putBoolean("myState", sw.isChecked());
