@@ -179,6 +179,15 @@
             android:layout_marginTop="20dp"
             android:background="@color/myBlue">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/menu_switch"
+                android:layout_centerVertical="true"
+                android:textColor="@color/artist"
+                android:textSize="10sp"
+                android:text="활성/비활성"/>
+
             <Switch
                 android:id="@+id/menu_switch"
                 android:layout_alignParentRight="true"
@@ -187,8 +196,6 @@
                 android:track="@drawable/switch_track_selector"
                 android:thumb="@drawable/switch_thumb_selector"
                 android:layout_centerVertical="true"
-                android:text="활성 / 비활성  "
-                android:textColor="@color/artist"
                 android:layout_margin="10dp"
                 android:onClick="@{activity::switchcase}"/>
         </RelativeLayout>

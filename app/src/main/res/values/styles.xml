@@ -2,7 +2,6 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textViewStyle">@style/NanumTextViewStyle</item>
-
     </style>
 
     <style name="NanumTextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
