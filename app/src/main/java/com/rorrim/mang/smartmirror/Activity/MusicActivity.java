@@ -147,19 +147,6 @@ public class MusicActivity extends Activity {
         return temp;
     }
 
-    public void onStop()  {
-        super.onStop();
-        saveState();
-    }
-
-    public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("MusicState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Switch sw = findViewById(R.id.menu_switch);
-        editor.putBoolean("myState", sw.isChecked());
-        editor.commit();
-    }
-
     public Context getContext(){
         return this;
     }

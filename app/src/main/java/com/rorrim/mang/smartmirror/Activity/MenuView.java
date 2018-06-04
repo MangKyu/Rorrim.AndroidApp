@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,11 +14,13 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Network.RetrofitClient;
 import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
+import com.rorrim.mang.smartmirror.databinding.ActivityWeatherBinding;
 import com.rorrim.mang.smartmirror.databinding.MenuLayoutBinding;
 
 import java.util.Iterator;
@@ -27,6 +30,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MenuView extends RelativeLayout implements CompoundButton.OnCheckedChangeListener{
     //private RelativeLayout menuLayout;
@@ -53,59 +58,6 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
         binding.menuSwitch.setOnCheckedChangeListener(this);
     }
 
-    public void switchCase()   {
-        boolean check = binding.menuSwitch.isChecked();
-        String activityName = getActivityName();
-
-        switch(activityName)    {
-            case "Activity.AlarmActivity":  {
-                if (check)  {
-
-                }
-                else    {
-
-                }
-                break;
-            }
-            case "Activity.CalendarActivity":  {
-                if (check)  {
-
-                }
-                else    {
-
-                }
-                break;
-            }
-            case "Activity.PathActivity":  {
-                if (check)  {
-
-                }
-                else    {
-
-                }
-                 break;
-            }
-            case "Activity.MusicActivity":  {
-                if (check)  {
-
-                }
-                else    {
-
-                }
-                 break;
-             }
-            case "Activity.WeatherActivity":  {
-                if (check)  {
-
-                }
-                else    {
-
-                }
-                break;
-            }
-        }
-
-    }
     public String getActivityName()    {
         ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> info = manager.getRunningTasks(1);
@@ -160,33 +112,42 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         String activityName = getActivityName();
-        /*
-        if (isChecked) {
-            switch(activityName)    {
-                case "Activity.AlarmActivity":
-                    break;
-                case "Activity.CalendarActivity":
-                    break;
-                case "Activity.PathActivity":
-                    break;
-                case "Activity.MusicActivity":
-                    break;
-                case "Activity.WeatherActivity":
-                    break;
-                default:
-                    break;
-
-            }
-
-            // do something when check is selected
-        } else {
-            //do something when unchecked
-        }*/
-
         sendSwitchStatus(activityName, isChecked);
+
     }
 
-    private void sendSwitchStatus(String activityName, boolean isChecked) {
+    public void saveWeatherState()  {
+        SharedPreferences prefs = getContext().getSharedPreferences("WeatherState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("myState", binding.menuSwitch.isChecked());
+        editor.commit();
+    }
+    public void savePathState() {
+        SharedPreferences prefs = getContext().getSharedPreferences("PathState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("myState", binding.menuSwitch.isChecked());
+        editor.commit();
+    }
+    public void saveCalendarState() {
+        SharedPreferences prefs = getContext().getSharedPreferences("CalendarState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("myState", binding.menuSwitch.isChecked());
+        editor.commit();
+    }
+    public void saveAlarmState()    {
+        SharedPreferences prefs = getContext().getSharedPreferences("AlarmState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("myState", binding.menuSwitch.isChecked());
+        editor.commit();
+    }
+    public void saveMusicState()    {
+        SharedPreferences prefs = getContext().getSharedPreferences("MusicState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("myState", binding.menuSwitch.isChecked());
+        editor.commit();
+    }
+
+    private void sendSwitchStatus(final String activityName, boolean isChecked) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
 
         //
@@ -197,8 +158,25 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // you  will get the reponse in the response parameter
                 if(response.isSuccessful()) {
-                    //재욱이형 여기다가 Switch Shared References 사용하면 될거 가틈
-                    //MenuView 201 Line
+                    switch(activityName)    {
+                        case "Activity.AlarmActivity":
+                            saveAlarmState();
+                            break;
+                        case "Activity.CalendarActivity":
+                            saveCalendarState();
+                            break;
+                        case "Activity.PathActivity":
+                            savePathState();
+                            break;
+                        case "Activity.MusicActivity":
+                            saveMusicState();
+                            break;
+                        case "Activity.WeatherActivity":
+                            saveWeatherState();
+                            break;
+                        default:
+                            break;
+                    }
                 }else {
                     int statusCode  = response.code();
 

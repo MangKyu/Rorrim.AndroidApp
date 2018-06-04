@@ -5,6 +5,9 @@
 
     <data>
         <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MenuView" />
+        <variable
+            name="weather"
+            type="com.rorrim.mang.smartmirror.Activity.WeatherActivity"/>
     </data>
 
     <LinearLayout
@@ -196,8 +199,7 @@
                 android:track="@drawable/switch_track_selector"
                 android:thumb="@drawable/switch_thumb_selector"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:onClick="@{()->activity.switchCase()}"/>
+                android:layout_margin="10dp"/>
         </RelativeLayout>
 
     </LinearLayout>
