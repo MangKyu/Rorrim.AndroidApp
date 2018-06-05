@@ -10,6 +10,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -83,6 +84,12 @@ public interface RetrofitService {
     @GET("/sendAlarmStatus")
     Call<ResponseBody> sendSwitchStatus(
             @Query("activityName") String activityName,
-            @Query("isChecked")boolean isChecked
+            @Query("isChecked") boolean isChecked
+    );
+
+    @GET("/sendCategory")
+    Call<ResponseBody> sendCategory(
+            @Query("uid") String uid,
+            @Query("category") String category
     );
 }

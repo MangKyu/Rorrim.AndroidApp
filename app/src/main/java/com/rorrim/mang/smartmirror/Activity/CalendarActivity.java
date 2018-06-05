@@ -401,17 +401,4 @@ public class CalendarActivity extends Activity
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
-
-    public void onStop()  {
-        super.onStop();
-        saveState();
-    }
-
-    public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("CalendarState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Switch sw = findViewById(R.id.menu_switch);
-        editor.putBoolean("myState", sw.isChecked());
-        editor.commit();
-    }
 }

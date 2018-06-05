@@ -2,15 +2,19 @@ package com.rorrim.mang.smartmirror.Adapter;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +26,8 @@ import com.rorrim.mang.smartmirror.Model.Music;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class AdapterBindings {
 
@@ -43,7 +49,18 @@ public class AdapterBindings {
             adapter.setItem(calendarList);
         }
     }
-
+/*
+    @BindingAdapter({"bind:imageOn", "bind:imageOff"})
+    public static void setImage(ImageView imageView, int On, int Off)    {
+        boolean temp;
+        SharedPreferences prefs = imageView.getContext().getSharedPreferences("WeatherState", MODE_PRIVATE);
+        temp = prefs.getBoolean("myState", false);
+        if(temp)
+            imageView.setImageResource(On);
+        else
+            imageView.setImageResource(Off);
+    }
+*/
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView imageView, String imageUrl){
         Glide.with(imageView.getContext())

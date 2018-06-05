@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.WeatherActivity"/>
+        <variable name="weather" type="com.rorrim.mang.smartmirror.Activity.WeatherActivity"/>
         <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
+
     </data>
 
     <RelativeLayout
@@ -27,9 +29,11 @@
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
         <RelativeLayout
+            android:id="@+id/wOn"
             android:layout_below="@id/weather_menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/on_weather"
@@ -38,8 +42,7 @@
                 android:layout_margin="20dp"
                 android:layout_below="@id/path_menu_layout"
                 android:layout_centerInParent="true"
-                android:background="@drawable/on_weather"
-                android:visibility="invisible"/>
+                android:background="@drawable/on_weather"/>
 
             <TextView
                 android:id="@+id/on_weather_txt"
@@ -49,9 +52,14 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/myWhite"
                 android:textSize="20dp"
-                android:text="날씨 정보를 출력중입니다!"
-                android:visibility="invisible"
-                />
+                android:text="날씨 정보를 출력중입니다!" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/wOff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/weather_menu_layout"
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/off_weather"
@@ -60,23 +68,27 @@
                 android:layout_margin="20dp"
                 android:layout_below="@id/path_menu_layout"
                 android:layout_centerInParent="true"
-                android:background="@drawable/off_weather"
-                android:visibility="invisible"/>
+                android:background="@drawable/off_weather"/>
 
             <TextView
                 android:id="@+id/off_weather_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/on_weather"
+                android:layout_below="@id/off_weather"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/myWhite"
                 android:textSize="20dp"
-                android:text="지금은 쉬고 있어요!"
-                android:visibility="invisible"
-                />
+                android:text="지금은 쉬고 있어요!"/>
 
         </RelativeLayout>
-
+<!--
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/weather_menu_layout"
+            app:imageOn="@{weather.On}"
+            app:imageOff="@{weather.Off}" />
+-->
     </RelativeLayout>
 
 </layout>

@@ -13,7 +13,7 @@ import android.widget.Switch;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityPathBinding;
 
-public class PathActivity extends Activity {
+public class PathActivity extends Activity implements View.OnClickListener  {
     private ActivityPathBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,43 +21,26 @@ public class PathActivity extends Activity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_path);
         Switch sw = findViewById(R.id.menu_switch);
         sw.setChecked(getState());
-        if(sw.isChecked())  {
-            binding.onPath.setVisibility(View.VISIBLE);
-        }
-        else    {
-            binding.offPath.setVisibility(View.VISIBLE);
-        }
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)   {
-                    binding.onPath.setVisibility(View.VISIBLE);
-                    binding.offPath.setVisibility(View.INVISIBLE);
-                }
-                else    {
-                    binding.offPath.setVisibility(View.VISIBLE);
-                    binding.onPath.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+        sw.setOnClickListener(this);
     }
-    public Boolean getState()   {
+
+    @Override
+    public void onClick(View v)   {
+        setImage();
+    }
+
+    public Boolean getState() {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("PathState", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("WeatherState", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
 
-    public void onStop()  {
-        super.onStop();
-        saveState();
-    }
-
-    public void saveState() {
-        SharedPreferences prefs = getSharedPreferences("PathState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+    public void setImage()  {
         Switch sw = findViewById(R.id.menu_switch);
-        editor.putBoolean("myState", sw.isChecked());
-        editor.commit();
+        if(sw.isChecked())  {
+        }
+        else    {
+        }
     }
 }
