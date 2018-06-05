@@ -67,7 +67,7 @@ public class AlarmActivity extends Activity implements View.OnClickListener {
 
     public Boolean getState() {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("AlarmState", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Activity.AlarmActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
