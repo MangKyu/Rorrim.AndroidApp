@@ -3,11 +3,16 @@ package com.rorrim.mang.smartmirror.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -48,6 +53,60 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     private ActivityMypageBinding binding;
 
+    // GPSTracker class
+    private GpsInfo gps;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+    private boolean isPermission = false;
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+
+    public void getLocation(){
+        if (!isPermission) {
+            callPermission();
+            return;
+        }
+
+        gps = new GpsInfo(this);
+        // GPS 사용유무 가져오기
+        if (gps.isGetLocation()) {
+
+             String latitude = String.valueOf(gps.getLatitude());
+             String longitude = String.valueOf(gps.getLongitude());
+
+             sendLocation(latitude, longitude);
+            Toast.makeText(getApplicationContext(), latitude + "," +longitude, Toast.LENGTH_LONG).show();
+
+        } else {
+            // GPS 를 사용할수 없으므로
+            gps.showSettingsAlert();
+        }
+    }
+
+    // 전화번호 권한 요청
+    private void callPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_ACCESS_FINE_LOCATION);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_ACCESS_COARSE_LOCATION);
+        } else {
+            isPermission = true;
+        }
+    }
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +114,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         binding.setActivity(this);
         binding.setUser(AuthManager.getInstance().getUser());
         checkPermission();
+
+
     }
 
     public void gotoAlarm() {
@@ -243,7 +304,47 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
                 }
                 // 허용했다면 이 부분에서..
                 break;
+            case PERMISSIONS_ACCESS_FINE_LOCATION:
+                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    isAccessFineLocation = true;
+                }
+                break;
+            case PERMISSIONS_ACCESS_COARSE_LOCATION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    isAccessCoarseLocation = true;
+                }
+                break;
         }
+        if(isAccessFineLocation && isAccessCoarseLocation){
+            isPermission = true;
+        }
+    }
+
+
+    public void sendLocation(String latitude, String longitude){
+
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String uid = AuthManager.getInstance().getUser().getUid();
+
+        final String location = latitude + "," + longitude;
+        Call<ResponseBody> call = retrofitService.sendLocation(location, uid);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+                    Log.d("Location", location);
+                } else {
+                    int statusCode = response.code();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("Location", "Send Location Failed");
+            }
+        });
     }
 
     public void sendImage(Uri albumURI){
