@@ -116,37 +116,6 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
 
     }
 
-    public void saveWeatherState()  {
-        SharedPreferences prefs = getContext().getSharedPreferences("WeatherState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("myState", binding.menuSwitch.isChecked());
-        editor.commit();
-    }
-    public void savePathState() {
-        SharedPreferences prefs = getContext().getSharedPreferences("PathState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("myState", binding.menuSwitch.isChecked());
-        editor.commit();
-    }
-    public void saveCalendarState() {
-        SharedPreferences prefs = getContext().getSharedPreferences("CalendarState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("myState", binding.menuSwitch.isChecked());
-        editor.commit();
-    }
-    public void saveAlarmState()    {
-        SharedPreferences prefs = getContext().getSharedPreferences("AlarmState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("myState", binding.menuSwitch.isChecked());
-        editor.commit();
-    }
-    public void saveMusicState()    {
-        SharedPreferences prefs = getContext().getSharedPreferences("MusicState", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("myState", binding.menuSwitch.isChecked());
-        editor.commit();
-    }
-
     private void sendSwitchStatus(final String activityName, boolean isChecked) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
 
@@ -158,25 +127,10 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // you  will get the reponse in the response parameter
                 if(response.isSuccessful()) {
-                    switch(activityName)    {
-                        case "Activity.AlarmActivity":
-                            saveAlarmState();
-                            break;
-                        case "Activity.CalendarActivity":
-                            saveCalendarState();
-                            break;
-                        case "Activity.PathActivity":
-                            savePathState();
-                            break;
-                        case "Activity.MusicActivity":
-                            saveMusicState();
-                            break;
-                        case "Activity.WeatherActivity":
-                            saveWeatherState();
-                            break;
-                        default:
-                            break;
-                    }
+                    SharedPreferences prefs = getContext().getSharedPreferences(activityName, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("myState", binding.menuSwitch.isChecked());
+                    editor.commit();
                 }else {
                     int statusCode  = response.code();
 

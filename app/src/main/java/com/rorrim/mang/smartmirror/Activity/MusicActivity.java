@@ -142,7 +142,7 @@ public class MusicActivity extends Activity {
 
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("MusicState", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Activity.MusicActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }

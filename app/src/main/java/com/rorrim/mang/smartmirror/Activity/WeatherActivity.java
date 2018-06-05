@@ -43,7 +43,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
 
     public Boolean getState() {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("WeatherState", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Activity.WeatherActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
