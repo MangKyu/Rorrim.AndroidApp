@@ -19,19 +19,6 @@ import retrofit2.http.Url;
 
 public interface RetrofitService {
 
-    @GET("/login")
-    Call<User> getUser(
-            @Query("id") String id
-    );
-
-    @GET("/get_json")
-    Call<JSonMessage> getJson();
-
-    @POST("/profileImage.jpg")
-    Call<String> getProfileUrl(
-            @Query("uid") String uid
-    );
-
     /*
     @Multipart
     @POST("/sendFile")
@@ -58,11 +45,6 @@ public interface RetrofitService {
     Call<ResponseBody> sendImage(
             @Part MultipartBody.Part file,
             @Part("name") RequestBody name
-    );
-
-    @GET("/recieve_file")
-    Call<ResponseBody> recieveFile(
-            @Query("fileName") String fileName
     );
 
     @GET("/recieve_file")
@@ -98,7 +80,7 @@ public interface RetrofitService {
             //@Part("uid") String uid
     );
 
-    @GET
+    @GET("/sendAlarmStatus")
     Call<ResponseBody> sendSwitchStatus(
             @Query("activityName") String activityName,
             @Query("isChecked")boolean isChecked
