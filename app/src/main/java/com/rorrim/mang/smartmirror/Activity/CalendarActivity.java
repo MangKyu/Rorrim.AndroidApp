@@ -397,7 +397,7 @@ public class CalendarActivity extends Activity
     }
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("CalendarState", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Activity.CalendarActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
