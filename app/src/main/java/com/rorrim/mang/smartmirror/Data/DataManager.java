@@ -1,8 +1,13 @@
 package com.rorrim.mang.smartmirror.Data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class DataManager {
     private static DataManager instance;
@@ -33,4 +38,18 @@ public class DataManager {
         databaseReference.child("audio").child(uid).child(artist).child(title).setValue(fileName);
     }
 
+    public void saveStatus(Context context, String activityName, boolean status){
+        SharedPreferences prefs = context.getSharedPreferences(activityName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(activityName, status);
+        //editor.apply();
+        editor.apply();
+    }
+
+    public Boolean getState(Context context, String activityName) {
+        boolean temp;
+        SharedPreferences prefs = context.getSharedPreferences(activityName, MODE_PRIVATE);
+        temp = prefs.getBoolean(activityName, false);
+        return temp;
+    }
 }

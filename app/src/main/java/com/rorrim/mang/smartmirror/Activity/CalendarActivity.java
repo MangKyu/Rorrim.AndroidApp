@@ -81,14 +81,7 @@ public class CalendarActivity extends Activity
         cAdapter = new CalendarAdapter(this, calendarList);
         binding.calCalRv.setAdapter(cAdapter);
         binding.setCalendarList(calendarList);
-        Switch sw = findViewById(R.id.menu_switch);
-        sw.setChecked(getState());
-
-        /*
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        */
+        binding.calendarMenuLayout.setSwitch();
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -394,11 +387,5 @@ public class CalendarActivity extends Activity
                 Log.e("Calendar Activity ","Request cancelled.");
             }
         }
-    }
-    public Boolean getState()   {
-        boolean temp;
-        SharedPreferences prefs = getSharedPreferences("Activity.CalendarActivity", MODE_PRIVATE);
-        temp = prefs.getBoolean("myState", false);
-        return temp;
     }
 }

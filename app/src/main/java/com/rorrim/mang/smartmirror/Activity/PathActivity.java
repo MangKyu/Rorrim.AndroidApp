@@ -10,37 +10,18 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityPathBinding;
 
-public class PathActivity extends Activity implements View.OnClickListener  {
+public class PathActivity extends Activity {
     private ActivityPathBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_path);
-        Switch sw = findViewById(R.id.menu_switch);
-        sw.setChecked(getState());
-        sw.setOnClickListener(this);
+        binding.pathMenuLayout.setSwitch();
     }
 
-    @Override
-    public void onClick(View v)   {
-        setImage();
-    }
 
-    public Boolean getState() {
-        boolean temp;
-        SharedPreferences prefs = getSharedPreferences("Activity.PathActivity", MODE_PRIVATE);
-        temp = prefs.getBoolean("myState", false);
-        return temp;
-    }
-
-    public void setImage()  {
-        Switch sw = findViewById(R.id.menu_switch);
-        if(sw.isChecked())  {
-        }
-        else    {
-        }
-    }
 }

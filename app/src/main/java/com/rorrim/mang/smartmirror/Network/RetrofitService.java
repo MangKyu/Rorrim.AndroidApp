@@ -83,6 +83,7 @@ public interface RetrofitService {
 
     @GET("/sendAlarmStatus")
     Call<ResponseBody> sendSwitchStatus(
+            @Query("uid") String uid,
             @Query("activityName") String activityName,
             @Query("isChecked") boolean isChecked
     );

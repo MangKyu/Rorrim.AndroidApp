@@ -20,6 +20,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.File.FileManager;
 import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
@@ -38,8 +39,8 @@ public class MusicActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
-        Switch sw = findViewById(R.id.menu_switch);
-        sw.setChecked(getState());
+        binding.musicMenuLayout.setSwitch();
+
         musicList = new ObservableArrayList<>();
 
         mAdapter = new MusicAdapter(this, musicList, new RecyclerViewClickListener() {

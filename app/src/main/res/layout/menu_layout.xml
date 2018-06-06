@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MenuView" />
@@ -199,6 +198,7 @@
                 android:track="@drawable/switch_track_selector"
                 android:thumb="@drawable/switch_thumb_selector"
                 android:layout_centerVertical="true"
+                android:onCheckedChanged="@{()->activity.checkChanged()}"
                 android:layout_margin="10dp"/>
         </RelativeLayout>
 
