@@ -77,7 +77,7 @@ public interface RetrofitService {
             //@Part("uid") String uid
     );
 
-    @GET("/sendAlarmStatus")
+    @GET("/sendNewsStatus")
     Call<ResponseBody> sendSwitchStatus(
             @Query("uid") String uid,
             @Query("activityName") String activityName,

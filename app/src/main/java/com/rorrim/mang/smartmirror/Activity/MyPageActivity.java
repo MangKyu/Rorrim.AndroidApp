@@ -118,8 +118,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     }
 
-    public void gotoAlarm() {
-        Intent intent = new Intent(MyPageActivity.this, AlarmActivity.class);
+    public void gotoNews() {
+        Intent intent = new Intent(MyPageActivity.this, NewsActivity.class);
         startActivity(intent);
     }
 

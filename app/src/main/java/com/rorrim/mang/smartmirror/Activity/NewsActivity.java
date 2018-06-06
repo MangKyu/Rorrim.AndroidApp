@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -19,20 +20,20 @@ import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Network.RetrofitClient;
 import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
-import com.rorrim.mang.smartmirror.databinding.ActivityAlarmBinding;
+import com.rorrim.mang.smartmirror.databinding.ActivityNewsBinding;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AlarmActivity extends Activity {
-    private ActivityAlarmBinding binding;
+public class NewsActivity extends Activity {
+    private ActivityNewsBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_alarm);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_news);
         binding.setActivity(this);
 
     }
@@ -40,45 +41,32 @@ public class AlarmActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        binding.alarmMenuLayout.setSwitch();
+        binding.newsMenuLayout.setSwitch();
 
     }
 
     public void sendCategoryName()   {
-
         if(binding.upRadioGroup.getCheckedRadioButtonId() == -1 && binding.downRadioGroup.getCheckedRadioButtonId() == -1){
             Toast.makeText(this, "관심분야를 하나 선택해주세요!", Toast.LENGTH_SHORT).show();
         }else if(binding.upRadioGroup.getCheckedRadioButtonId() != -1){
-            sendCategory(AuthManager.getInstance().getUser().getUid(), String.valueOf(binding.upRadioGroup.getCheckedRadioButtonId()));
+            RadioButton temp = (RadioButton) findViewById(binding.upRadioGroup.getCheckedRadioButtonId());
+            sendCategory(AuthManager.getInstance().getUser().getUid(),temp.getText().toString());
+            Toast.makeText(this,temp.getText().toString() + "를 선택하였습니다", Toast.LENGTH_SHORT).show();
         }else if(binding.downRadioGroup.getCheckedRadioButtonId() != -1){
-            sendCategory(AuthManager.getInstance().getUser().getUid(), String.valueOf(binding.downRadioGroup.getCheckedRadioButtonId()));
+            RadioButton temp = (RadioButton) findViewById(binding.downRadioGroup.getCheckedRadioButtonId());
+            sendCategory(AuthManager.getInstance().getUser().getUid(), temp.getText().toString());
+            Toast.makeText(this,temp.getText().toString() + "를 선택하였습니다", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void downClear(){
-        binding.upRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(group.getId() == R.id.up_radio_group){
-                    if(binding.downRadioGroup.getCheckedRadioButtonId() != -1) binding.downRadioGroup.clearCheck();
-                }
-            }
-        }
-        );
+        if(binding.downRadioGroup.getCheckedRadioButtonId() != -1)
+            binding.downRadioGroup.clearCheck();
     }
 
     public void upClear(){
-        binding.downRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(group.getId() == R.id.down_radio_group){
-                    if(binding.upRadioGroup.getCheckedRadioButtonId() != -1) binding.upRadioGroup.clearCheck();
-                }
-            }
-        });
-
-
+        if(binding.upRadioGroup.getCheckedRadioButtonId() != -1)
+            binding.upRadioGroup.clearCheck();
     }
 
     private void sendCategory(String uid, String category) {
