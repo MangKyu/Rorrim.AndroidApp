@@ -23,7 +23,6 @@ public class AuthManager extends Application implements Connectable{
     private FirebaseAuth auth;
     private static AuthManager instance;
     private FirebaseAuth.AuthStateListener authListener;
-    private SharedPreferences sharedPreferences;
     private User user;
 
     public AuthManager(){
@@ -94,45 +93,8 @@ public class AuthManager extends Application implements Connectable{
         auth.signOut();
     }
 
-    private void saveUserData(){
-        sharedPreferences = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
-        FirebaseUser user = auth.getCurrentUser();
-        if(user != null){
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("email", user.getEmail());
-            editor.putString("phone", user.getPhoneNumber());
-            editor.putString("uid", user.getUid());
-        }
-    }
-
     public void setUser(){
         this.user = new User(auth.getCurrentUser().getUid(), auth.getCurrentUser().getEmail());
-        //setProfileUrl();
-    }
-
-    private void setProfileUrl() {
-        //여기해야함
-        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-        Call<String> call = retrofitService.getProfileUrl(user.getUid());
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                // you  will get the reponse in the response parameter
-                if (response.isSuccessful()) {
-                    //user.setProfileUrl(response.body());
-                    //mAdapter.updateAnswers(response.body().getItems());
-                } else {
-                    int statusCode = response.code();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.d("Login Activity", "error loading from login");
-            }
-        });
-
     }
 
     public void setUser(User user){

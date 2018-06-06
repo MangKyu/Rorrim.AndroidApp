@@ -39,12 +39,8 @@ public class PathActivity extends Activity implements View.OnClickListener  {
     public void setImage()  {
         Switch sw = findViewById(R.id.menu_switch);
         if(sw.isChecked())  {
-            binding.pOn.setVisibility(View.VISIBLE);
-            binding.pOff.setVisibility(View.INVISIBLE);
         }
-        else{
-            binding.pOn.setVisibility(View.INVISIBLE);
-            binding.pOff.setVisibility(View.VISIBLE);
+        else    {
         }
     }
 }

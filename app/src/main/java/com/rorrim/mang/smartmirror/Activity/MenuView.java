@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Network.RetrofitClient;
 import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
@@ -33,7 +35,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class MenuView extends RelativeLayout implements CompoundButton.OnCheckedChangeListener{
+public class MenuView extends RelativeLayout {
     //private RelativeLayout menuLayout;
     private MenuLayoutBinding binding;
 
@@ -52,10 +54,14 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
         initView(context);
     }
 
+    public void setSwitch(){
+        boolean status = DataManager.getInstance().getState(getContext(), getActivityName());
+        binding.menuSwitch.setChecked(status);
+    }
+
     private void initView(Context context) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.menu_layout, this, true);
         binding.setActivity(this);
-        binding.menuSwitch.setOnCheckedChangeListener(this);
     }
 
     public String getActivityName()    {
@@ -109,31 +115,25 @@ public class MenuView extends RelativeLayout implements CompoundButton.OnChecked
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    public void checkChanged(){
         String activityName = getActivityName();
-        sendSwitchStatus(activityName, isChecked);
-
+        sendSwitchStatus(activityName, binding.menuSwitch.isChecked());
+        Log.e("STATUS", "CHANGED" + activityName);
     }
 
-    private void sendSwitchStatus(final String activityName, boolean isChecked) {
+    private void sendSwitchStatus(final String activityName, final boolean isChecked) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-
-        //
-        Call<ResponseBody> call = retrofitService.sendSwitchStatus(activityName, isChecked);
+        String uid = AuthManager.getInstance().getUser().getUid();
+        Call<ResponseBody> call = retrofitService.sendSwitchStatus(uid, activityName, isChecked);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // you  will get the reponse in the response parameter
                 if(response.isSuccessful()) {
-                    SharedPreferences prefs = getContext().getSharedPreferences(activityName, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("myState", binding.menuSwitch.isChecked());
-                    editor.commit();
+                    DataManager.getInstance().saveStatus(getContext(), activityName, isChecked);
                 }else {
-                    int statusCode  = response.code();
-
+                    //int statusCode  = response.code();
                 }
             }
 
