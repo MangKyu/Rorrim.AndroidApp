@@ -52,4 +52,5 @@ public class DataManager {
         temp = prefs.getBoolean(activityName, false);
         return temp;
     }
+
 }

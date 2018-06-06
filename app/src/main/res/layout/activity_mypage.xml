@@ -65,6 +65,29 @@
             android:layout_weight="1">
 
             <ImageButton
+                android:id="@+id/mypage_map_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/home"
+                android:layout_centerHorizontal="true"
+                android:onClick="@{()->activity.getLocation()}"/>
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/map_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mypage_map_btn"
+                android:text="나의 위치"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
                 android:id="@+id/mypage_camera_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -134,18 +157,19 @@
             <android.widget.LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center"
                 >
 
                 <ImageView
                     android:id="@+id/mypage_face_iv"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
                     android:layout_gravity="left"
                     android:layout_margin="20dp"
                     app:imageUrl="@{user.profileUrl}"
                     />
+
 
             </android.widget.LinearLayout>
 
