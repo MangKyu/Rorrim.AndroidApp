@@ -56,6 +56,7 @@ public class MenuView extends RelativeLayout {
 
     public void setSwitch(){
         boolean status = DataManager.getInstance().getState(getContext(), getActivityName());
+        Log.d("aaaaaaaaaaaaaaaa", getActivityName());
         binding.menuSwitch.setChecked(status);
     }
 
