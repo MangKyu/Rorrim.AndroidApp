@@ -43,7 +43,7 @@ public class DataManager {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(activityName, status);
         //editor.apply();
-        editor.apply();
+        editor.commit();
     }
 
     public Boolean getState(Context context, String activityName) {
