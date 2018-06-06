@@ -79,7 +79,7 @@ public class FileManager {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     dialog.dismiss();
-                    DataManager.getInstance().uploadAudio(music.getArtist(), music.getTitle(), fileName);
+                    DataManager.getInstance().uploadAudio(context, music.getArtist(), music.getTitle(), fileName);
                     Toast.makeText(context, "File Manager Success", Toast.LENGTH_SHORT).show();
                 }
             });

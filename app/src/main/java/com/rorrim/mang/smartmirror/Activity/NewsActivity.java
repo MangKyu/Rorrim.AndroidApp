@@ -86,7 +86,7 @@ public class NewsActivity extends Activity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("MenuView", "Send Switch Status Failed");
+                Log.d("NewsActivity", "Send Category Failed");
             }
         });
     }

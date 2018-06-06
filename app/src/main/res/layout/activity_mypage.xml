@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/menu"
-                android:onClick="@{()->activity.gotoNews()}"/>
+                android:onClick="@{()->activity.gotoContents()}"/>
 
             <ImageButton
                 android:id="@+id/menu_user"
@@ -139,7 +139,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/mypage_mirror"
                 android:layout_centerHorizontal="true"
-                android:onClick="@{()->activity.getAlbum()}"/>
+                android:onClick="@{()->activity.getMirrorUid()}"/>
 
             <TextView
                 android:layout_centerHorizontal="true"

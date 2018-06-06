@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +57,6 @@ public class MenuView extends RelativeLayout {
 
     public void setSwitch(){
         boolean status = DataManager.getInstance().getState(getContext(), getActivityName());
-        Log.d("aaaaaaaaaaaaaaaa", getActivityName());
         binding.menuSwitch.setChecked(status);
     }
 
@@ -83,8 +83,8 @@ public class MenuView extends RelativeLayout {
     public void gotoNews(){
         String activityName = getActivityName();
         if(!activityName.equals("Activity.NewsActivity")) {
-            Intent intent = new Intent(getContext(), NewsActivity.class);
-            getContext().startActivity(intent);
+                Intent intent = new Intent(getContext(), NewsActivity.class);
+                getContext().startActivity(intent);
         }
     }
     public void gotoCalendar(){
