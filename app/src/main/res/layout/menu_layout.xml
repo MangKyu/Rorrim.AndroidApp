@@ -29,7 +29,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/menu"
-                android:onClick="@{()->activity.gotoAlarm()}" />
+                android:onClick="@{()->activity.gotoNews()}" />
 
             <ImageButton
                 android:id="@+id/menu_user"
@@ -67,19 +67,19 @@
                 android:layout_weight="1">
 
                 <ImageButton
-                    android:id="@+id/alarm"
+                    android:id="@+id/news"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@drawable/news"
                     android:layout_centerHorizontal="true"
-                    android:onClick="@{()->activity.gotoAlarm()}"  />
+                    android:onClick="@{()->activity.gotoNews()}"  />
 
                 <TextView
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/alarm_text"
+                    android:id="@+id/news_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/alarm"
+                    android:layout_below="@id/news"
                     android:text="뉴스"
                     android:textSize="20sp" />
             </RelativeLayout>

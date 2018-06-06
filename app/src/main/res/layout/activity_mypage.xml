@@ -78,16 +78,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/mypage_map_btn"
-                android:text="나의 위치"
+                android:text="현재위치"
                 android:textSize="20sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="20dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"/>
-
-        <RelativeLayout
+          <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -109,11 +104,6 @@
                 android:text="카메라"
                 android:textSize="20sp" />
         </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="20dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -139,14 +129,33 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/mypage_uid_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/mypage_mirror"
+                android:layout_centerHorizontal="true"
+                android:onClick="@{()->activity.getAlbum()}"/>
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/mypage_uid_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mypage_uid_btn"
+                android:text="거울등록"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"/>
 
-        <RelativeLayout
-            android:layout_width="20dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"/>
 
     </LinearLayout>
 
