@@ -6,49 +6,85 @@
             type="com.rorrim.mang.smartmirror.Activity.LoginActivity"/>
     </data>
 
-    <RelativeLayout
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/myWhite" />
+
+    <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".Activity.LoginActivity"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="66dp"
+        android:orientation="vertical"
+        android:gravity="center"
         tools:showIn="@layout/activity_login">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/login_background" />
 
-        <ImageButton
-            android:id="@+id/login_signIn_btn"
-            android:layout_width="430dp"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@null"
-            android:scaleType="fitXY"
-            android:onClick="@{()->activity.googleSignIn()}"
-            android:src="@drawable/login" >
-        </ImageButton>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="52dp"
-            android:layout_marginLeft="75dp"
-            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:text="반갑습니다"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginVertical="5dp"
+            android:textSize="25dp"
+            android:text="스마트미러"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="35dp"
+                android:textColor="@color/myYellow"
+                android:text="로림"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="35dp"
+                android:text="입니다"/>
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@drawable/logo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="false"
             android:textSize="30sp"
-            android:textColor="@color/myWhite"
-            android:text="sign in with google" >
+            android:textColor="@color/myBlue"
+            android:onClick="@{()->activity.googleSignIn()}"
+            android:text="클릭하여 시작하기" >
         </TextView>
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Rorrim"/>
 
+    </LinearLayout>
+</RelativeLayout>
 </layout>

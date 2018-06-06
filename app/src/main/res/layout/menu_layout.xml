@@ -70,7 +70,7 @@
                     android:id="@+id/alarm"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/alarm"
+                    android:background="@drawable/news"
                     android:layout_centerHorizontal="true"
                     android:onClick="@{()->activity.gotoAlarm()}"  />
 
@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/alarm"
-                    android:text="알람"
+                    android:text="뉴스"
                     android:textSize="20sp" />
             </RelativeLayout>
 

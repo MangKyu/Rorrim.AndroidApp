@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -45,15 +46,17 @@ public class AlarmActivity extends Activity {
     }
 
     public void sendCategoryName()   {
-
         if(binding.upRadioGroup.getCheckedRadioButtonId() == -1 && binding.downRadioGroup.getCheckedRadioButtonId() == -1){
             Toast.makeText(this, "관심분야를 하나 선택해주세요!", Toast.LENGTH_SHORT).show();
         }else if(binding.upRadioGroup.getCheckedRadioButtonId() != -1){
-            sendCategory(AuthManager.getInstance().getUser().getUid(), String.valueOf(binding.upRadioGroup.getCheckedRadioButtonId()));
+            RadioButton temp = (RadioButton) findViewById(binding.upRadioGroup.getCheckedRadioButtonId());
+            sendCategory(AuthManager.getInstance().getUser().getUid(),temp.getText().toString());
+            Toast.makeText(this,temp.getText().toString() + "를 선택하였습니다", Toast.LENGTH_SHORT).show();
         }else if(binding.downRadioGroup.getCheckedRadioButtonId() != -1){
-            sendCategory(AuthManager.getInstance().getUser().getUid(), String.valueOf(binding.downRadioGroup.getCheckedRadioButtonId()));
+            RadioButton temp = (RadioButton) findViewById(binding.downRadioGroup.getCheckedRadioButtonId());
+            sendCategory(AuthManager.getInstance().getUser().getUid(), temp.getText().toString());
+            Toast.makeText(this,temp.getText().toString() + "를 선택하였습니다", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void downClear(){
