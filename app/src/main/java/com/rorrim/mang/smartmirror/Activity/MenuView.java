@@ -56,6 +56,7 @@ public class MenuView extends RelativeLayout {
 
     public void setSwitch(){
         boolean status = DataManager.getInstance().getState(getContext(), getActivityName());
+        Log.d("aaaaaaaaaaaaaaaa", getActivityName());
         binding.menuSwitch.setChecked(status);
     }
 
@@ -79,10 +80,10 @@ public class MenuView extends RelativeLayout {
         }
     }
 
-    public void gotoAlarm(){
+    public void gotoNews(){
         String activityName = getActivityName();
-        if(!activityName.equals("Activity.AlarmActivity")) {
-            Intent intent = new Intent(getContext(), AlarmActivity.class);
+        if(!activityName.equals("Activity.NewsActivity")) {
+            Intent intent = new Intent(getContext(), NewsActivity.class);
             getContext().startActivity(intent);
         }
     }

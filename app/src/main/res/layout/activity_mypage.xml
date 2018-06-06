@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/menu"
-                android:onClick="@{()->activity.gotoAlarm()}"/>
+                android:onClick="@{()->activity.gotoNews()}"/>
 
             <ImageButton
                 android:id="@+id/menu_user"

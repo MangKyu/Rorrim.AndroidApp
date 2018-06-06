@@ -2,17 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.AlarmActivity"/>
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.NewsActivity"/>
     </data>
 
 
     <RelativeLayout
-        android:id="@+id/alarm_main_layout"
+        android:id="@+id/news_main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@color/myBlue"
-        tools:context=".Activity.AlarmActivity"
-        tools:showIn="@layout/activity_alarm">
+        tools:context=".Activity.NewsActivity"
+        tools:showIn="@layout/activity_news">
 
         <ImageView
             android:layout_width="match_parent"
@@ -21,15 +21,15 @@
             android:background="@color/myBlue" />
 
         <com.rorrim.mang.smartmirror.Activity.MenuView
-            android:id="@+id/alarm_menu_layout"
+            android:id="@+id/news_menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
         <RelativeLayout
             android:layout_centerInParent="true"
-            android:id="@+id/alarm_layout"
-            android:layout_below="@+id/alarm_menu_layout"
+            android:id="@+id/news_layout"
+            android:layout_below="@+id/news_menu_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -118,7 +118,7 @@
 
 <!--
             <Spinner
-                android:id="@+id/alarm_ctg_spinner"
+                android:id="@+id/news_ctg_spinner"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/alarm_send_btn"
+            android:id="@+id/news_send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -139,7 +139,7 @@
             android:textSize="20dp"
             android:text="클릭하여 관심분야 뉴스 받아보기"
             android:onClick="@{()->activity.sendCategoryName()}"
-            android:layout_below="@+id/alarm_layout"/>
+            android:layout_below="@+id/news_layout"/>
     </RelativeLayout>
 
 </layout>
