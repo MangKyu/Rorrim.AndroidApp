@@ -6,8 +6,7 @@
         <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MyPageActivity"/>
         <variable name="user" type="com.rorrim.mang.smartmirror.Model.User"/>
     </data>
-
-
+    
     <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
