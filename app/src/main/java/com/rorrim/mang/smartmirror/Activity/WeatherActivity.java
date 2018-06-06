@@ -31,6 +31,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
         binding.weatherMenuLayout.setSwitch();
+        Switch sw = findViewById(R.id.menu_switch);
+        sw.setOnClickListener(this);
         setImage();
     }
 

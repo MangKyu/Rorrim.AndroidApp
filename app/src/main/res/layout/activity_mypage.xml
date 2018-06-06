@@ -83,6 +83,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"/>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -104,6 +109,11 @@
                 android:text="카메라"
                 android:textSize="20sp" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -134,12 +144,7 @@
             android:layout_weight="1"/>
 
         <RelativeLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"/>
-
-        <RelativeLayout
-            android:layout_width="50dp"
+            android:layout_width="20dp"
             android:layout_height="50dp"
             android:layout_weight="1"/>
 

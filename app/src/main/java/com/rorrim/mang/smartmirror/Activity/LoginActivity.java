@@ -1,6 +1,7 @@
 package com.rorrim.mang.smartmirror.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
     private ActivityLoginBinding binding;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
+        mProgress = new ProgressDialog(this);
+        mProgress.setMessage("로그인 중입니다.");
         setGoogleLogin();
     }
 
@@ -137,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void googleSignIn(){
+        mProgress.show();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
