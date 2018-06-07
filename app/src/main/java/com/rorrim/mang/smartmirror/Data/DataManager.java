@@ -27,15 +27,17 @@ public class DataManager {
         return instance;
     }
 
-    public void uploadCalander(String date, String time, String contents) {
+    public void uploadCalendar(Context context, String date, String time, String contents) {
+        String mirrorUid = DataManager.getInstance().getMirrorUid(context);
         String uid = AuthManager.getInstance().getUser().getUid();
-        databaseReference.child("calendar").child(uid).child(date).child(time)
+        databaseReference.child(mirrorUid).child(uid).child("calendar").child(date).child(time)
                 .setValue(contents);
     }
 
-    public void uploadAudio(String artist, String title, String fileName) {
+    public void uploadAudio(Context context, String artist, String title, String fileName) {
+        String mirrorUid = DataManager.getInstance().getMirrorUid(context);
         String uid = AuthManager.getInstance().getUser().getUid();
-        databaseReference.child("audio").child(uid).child(artist).child(title).setValue(fileName);
+        databaseReference.child(mirrorUid).child(uid).child("audio").child(artist).child(title).setValue(fileName);
     }
 
     public void saveStatus(Context context, String activityName, boolean status){
@@ -43,13 +45,25 @@ public class DataManager {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(activityName, status);
         //editor.apply();
-        editor.apply();
+        editor.commit();
+    }
+    public void saveMirrorUid(Context context, String mirrorUid)    {
+        SharedPreferences prefs = context.getSharedPreferences("mirrorUid", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("mirror", mirrorUid);
+        editor.commit();
     }
 
     public Boolean getState(Context context, String activityName) {
         boolean temp;
         SharedPreferences prefs = context.getSharedPreferences(activityName, MODE_PRIVATE);
         temp = prefs.getBoolean(activityName, false);
+        return temp;
+    }
+    public String getMirrorUid(Context context) {
+        String temp;
+        SharedPreferences prefs = context.getSharedPreferences("mirrorUid", MODE_PRIVATE);
+        temp = prefs.getString("mirror", "null");
         return temp;
     }
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.NewsActivity"/>
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/news_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@color/myBlue"
+        tools:context=".Activity.NewsActivity"
+        tools:showIn="@layout/activity_news">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/path_menu_layout"
+            android:background="@color/myBlue" />
+
+        <com.rorrim.mang.smartmirror.Activity.MenuView
+            android:id="@+id/news_menu_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.rorrim.mang.smartmirror.Activity.MenuView>
+
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:id="@+id/news_layout"
+            android:layout_below="@+id/news_menu_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/up_radio_group"
+                    android:shadowColor="@color/myYellow"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/myYellow"
+                        android:textColor="@color/myWhite"
+                        android:onClick="@{()->activity.downClear()}"
+                        android:text="통합"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/politics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/myYellow"
+                        android:textColor="@color/myWhite"
+                        android:onClick="@{()->activity.downClear()}"
+                        android:text="정치"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/economy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/myYellow"
+                        android:textColor="@color/myWhite"
+                        android:onClick="@{()->activity.downClear()}"
+                        android:text="경제"/>
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/social"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/myYellow"
+                        android:textColor="@color/myWhite"
+                        android:onClick="@{()->activity.downClear()}"
+                        android:text="사회"/>
+                </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/down_radio_group"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/up_radio_group">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/life"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/myWhite"
+                    android:buttonTint="@color/myYellow"
+                    android:onClick="@{()->activity.upClear()}"
+                    android:text="생활/문화"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/world"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/myWhite"
+                    android:buttonTint="@color/myYellow"
+                    android:onClick="@{()->activity.upClear()}"
+                    android:text="세계"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/it"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/myWhite"
+                    android:buttonTint="@color/myYellow"
+                    android:onClick="@{()->activity.upClear()}"
+                    android:text="IT/과학"/>
+
+            </RadioGroup>
+
+
+<!--
+            <Spinner
+                android:id="@+id/news_ctg_spinner"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:entries="@array/category">
+            </Spinner>
+            -->
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/news_send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00FF0000"
+            android:textColor="@color/myWhite"
+            android:textSize="20dp"
+            android:text="클릭하여 관심분야 뉴스 받아보기"
+            android:onClick="@{()->activity.sendCategoryName()}"
+            android:layout_below="@+id/news_layout"/>
+    </RelativeLayout>
+
+</layout>

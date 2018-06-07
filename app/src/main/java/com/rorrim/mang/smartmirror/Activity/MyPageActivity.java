@@ -24,6 +24,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
@@ -50,6 +51,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     private String mCurrentPhotoPath;
     private Uri photoURI, albumURI;
+    private String mirrorUid;
 
     private ActivityMypageBinding binding;
 
@@ -70,12 +72,9 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         gps = new GpsInfo(this);
         // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
-
-             String latitude = String.valueOf(gps.getLatitude());
-             String longitude = String.valueOf(gps.getLongitude());
-
-             sendLocation(latitude, longitude);
-            Toast.makeText(getApplicationContext(), latitude + "," +longitude, Toast.LENGTH_LONG).show();
+            String latitude = String.valueOf(gps.getLatitude());
+            String longitude = String.valueOf(gps.getLongitude());
+            sendLocation(latitude, longitude);
 
         } else {
             // GPS 를 사용할수 없으므로
@@ -118,9 +117,15 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     }
 
-    public void gotoAlarm() {
-        Intent intent = new Intent(MyPageActivity.this, AlarmActivity.class);
-        startActivity(intent);
+    public void gotoContents(){
+        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        if(!mirrorUid.equals("null")) {
+            Intent intent = new Intent(this, NewsActivity.class);
+            this.startActivity(intent);
+        }
+        else    {
+            Toast.makeText(this, "Mirror를 등록하세요.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void captureCamera() {
@@ -319,6 +324,28 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             isPermission = true;
         }
     }
+    public void getMirrorUid()  {
+        final Context context = getApplicationContext();
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("My Rorrim");
+        alert.setMessage("로림 고유번호를 적어주세요.");
+        final EditText name = new EditText(this);
+        alert.setView(name);
+
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                mirrorUid = name.getText().toString();
+                DataManager.getInstance().saveMirrorUid(context, mirrorUid);
+            }
+        });
+
+        alert.setNegativeButton("no",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        alert.show();
+    }
 
 
     public void sendLocation(String latitude, String longitude){
@@ -334,7 +361,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
-                    Log.d("Location", location);
+                    Toast.makeText(MyPageActivity.this, "Send Location Success",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     int statusCode = response.code();
                 }
