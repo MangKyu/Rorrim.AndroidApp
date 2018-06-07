@@ -8,6 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +51,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     private String mCurrentPhotoPath;
     private Uri photoURI, albumURI;
+    private String mirrorUid;
 
     private ActivityMypageBinding binding;
 
@@ -100,13 +104,25 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED){
 
             requestPermissions(
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     PERMISSIONS_ACCESS_COARSE_LOCATION);
         } else {
             isPermission = true;
+        }
+    }
+
+
+    public void gotoContents(){
+        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        if(!mirrorUid.equals("null")) {
+            Intent intent = new Intent(this, NewsActivity.class);
+            this.startActivity(intent);
+        }
+        else    {
+            Toast.makeText(this, "Mirror를 등록하세요.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -142,20 +158,9 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         }
     }
 
-
-    public void gotoContents() {
-        String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
-        if (!mirrorUid.equals("null")) {
-            Intent intent = new Intent(this, NewsActivity.class);
-            this.startActivity(intent);
-        } else {
-            Toast.makeText(this, "Mirror를 등록하세요.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public File createImageFile() throws IOException {
         // Create an image file name
-        //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "id.jpg";
         File imageFile = null;
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "id");
@@ -304,41 +309,21 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
                 }
                 // 허용했다면 이 부분에서..
                 break;
+            case PERMISSIONS_ACCESS_FINE_LOCATION:
+                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    isAccessFineLocation = true;
+                }
+                break;
+            case PERMISSIONS_ACCESS_COARSE_LOCATION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    isAccessCoarseLocation = true;
+                }
+                break;
+        }
+        if(isAccessFineLocation && isAccessCoarseLocation){
+            isPermission = true;
         }
     }
-
-    public void sendImage(Uri albumURI) {
-        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-        File file = new File(albumURI.getPath());
-
-        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
-        //String uid = AuthManager.getInstance().getUser().getUid();
-        RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
-        RequestBody mirrorUid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getMirrorUid());
-
-        Call<ResponseBody> call = retrofitService.sendImage(image, uid, mirrorUid);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // you  will get the reponse in the response parameter
-                if (response.isSuccessful()) {
-                    Toast.makeText(MyPageActivity.this, "Send Image Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    int statusCode = response.code();
-                    Toast.makeText(MyPageActivity.this, "Send Image Failed", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("MyPage Activity", "send Image Failure");
-            }
-        });
-    }
-
     public void getMirrorUid()  {
         final Context context = getApplicationContext();
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -349,11 +334,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String mirrorUid = name.getText().toString();
-                //여기서 서버로 갔다가 파이에서 응답 ok 받으면 여기 아래 실행되어야 함
-                //Pi가 OK를 보내면 Web Server에서는 해당 미러에 사용자를 추가해야함
+                mirrorUid = name.getText().toString();
                 DataManager.getInstance().saveMirrorUid(context, mirrorUid);
-                AuthManager.getInstance().getUser().setMirrorUid(mirrorUid);
             }
         });
 
@@ -371,7 +353,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
 
-        String location = latitude + "," + longitude;
+        final String location = latitude + "," + longitude;
         Call<ResponseBody> call = retrofitService.sendLocation(location, uid);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -393,4 +375,35 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         });
     }
 
+    public void sendImage(Uri albumURI){
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        File file = new File(albumURI.getPath());
+        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
+        //String uid = AuthManager.getInstance().getUser().getUid();
+        RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
+
+
+        Call<ResponseBody> call = retrofitService.sendImage(mirrorUid, image, uid);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // you  will get the reponse in the response parameter
+                if(response.isSuccessful()) {
+                    Toast.makeText(MyPageActivity.this, "Send Image Success", Toast.LENGTH_SHORT).show();
+                }else {
+                    int statusCode  = response.code();
+                    Toast.makeText(MyPageActivity.this, "Send Image Failed", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("MyPage Activity", "send Image Failure");
+            }
+        });
+    }
 }

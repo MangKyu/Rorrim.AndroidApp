@@ -1,5 +1,9 @@
 package com.rorrim.mang.smartmirror.Network;
 
+import com.rorrim.mang.smartmirror.Model.JSonMessage;
+import com.rorrim.mang.smartmirror.Model.User;
+
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
