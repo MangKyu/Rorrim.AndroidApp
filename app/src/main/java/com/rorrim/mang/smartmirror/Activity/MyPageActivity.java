@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Data.DataManager;
+import com.rorrim.mang.smartmirror.File.FileManager;
 import com.rorrim.mang.smartmirror.Interface.AuthInterface;
 import com.rorrim.mang.smartmirror.Network.RetrofitClient;
 import com.rorrim.mang.smartmirror.Network.RetrofitService;
@@ -378,14 +379,14 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     public void sendImage(Uri albumURI){
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         File file = new File(albumURI.getPath());
-
+        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
         //String uid = AuthManager.getInstance().getUser().getUid();
         RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
 
 
-        Call<ResponseBody> call = retrofitService.sendImage(image, uid);
+        Call<ResponseBody> call = retrofitService.sendImage(mirrorUid, image, uid);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

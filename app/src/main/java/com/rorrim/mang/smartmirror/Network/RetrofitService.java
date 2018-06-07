@@ -72,6 +72,7 @@ public interface RetrofitService {
     @POST("/sendImage")
     @Multipart
     Call<ResponseBody> sendImage(
+            @Query("mirrorUid") String mirrorUid,
             @Part MultipartBody.Part image,
             @Part("uid") RequestBody uid
             //@Part("uid") String uid
@@ -93,7 +94,7 @@ public interface RetrofitService {
     @POST("/sendLocation")
     Call<ResponseBody> sendLocation(
             @Query("location") String location,
-               @Query("uid") String uid
+            @Query("uid") String uid
     );
 
 }
