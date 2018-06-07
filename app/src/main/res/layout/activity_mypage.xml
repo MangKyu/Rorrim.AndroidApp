@@ -189,27 +189,5 @@
 
         </android.widget.LinearLayout>
 
-        <!--
-        <TextView
-            android:id="@+id/mypage_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/mypage_face_iv"
-            android:layout_marginTop="224dp"
-            android:singleLine="true"
-            android:text="연락처"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/mypage_phone_tv"
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/mypage_phone"
-            android:layout_centerHorizontal="true"
-            android:singleLine="true"
-            android:text="@{user.phoneNumber}"
-            android:textSize="20sp" />
-                    -->
-
     </LinearLayout>
 </layout>

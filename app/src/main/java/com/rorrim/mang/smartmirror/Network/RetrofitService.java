@@ -1,9 +1,5 @@
 package com.rorrim.mang.smartmirror.Network;
 
-import com.rorrim.mang.smartmirror.Model.JSonMessage;
-import com.rorrim.mang.smartmirror.Model.User;
-
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -15,6 +11,32 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
+    @POST("/sendImage")
+    @Multipart
+    Call<ResponseBody> sendImage(
+            @Part MultipartBody.Part image,
+            @Part("uid") RequestBody uid,
+            @Part("mirrorUid") RequestBody mirrorUid
+    );
+
+    @GET("/sendSwitchStatus")
+    Call<ResponseBody> sendSwitchStatus(
+            @Query("uid") String uid,
+            @Query("activityName") String activityName,
+            @Query("isChecked") boolean isChecked
+    );
+
+    @GET("/sendCategory")
+    Call<ResponseBody> sendCategory(
+            @Query("uid") String uid,
+            @Query("category") String category
+    );
+
+    @POST("/sendLocation")
+    Call<ResponseBody> sendLocation(
+            @Query("location") String location,
+            @Query("uid") String uid
+    );
 
     /*
     @Multipart
@@ -68,32 +90,5 @@ public interface RetrofitService {
     @GET("/answers?order=desc&sort=activity&site=stackoverflow")
     Call<User> getAnswers(@Query("tagged") String tags);
     */
-
-    @POST("/sendImage")
-    @Multipart
-    Call<ResponseBody> sendImage(
-            @Part MultipartBody.Part image,
-            @Part("uid") RequestBody uid
-            //@Part("uid") String uid
-    );
-
-    @GET("/sendSwitchStatus")
-    Call<ResponseBody> sendSwitchStatus(
-            @Query("uid") String uid,
-            @Query("activityName") String activityName,
-            @Query("isChecked") boolean isChecked
-    );
-
-    @GET("/sendCategory")
-    Call<ResponseBody> sendCategory(
-            @Query("uid") String uid,
-            @Query("category") String category
-    );
-
-    @POST("/sendLocation")
-    Call<ResponseBody> sendLocation(
-            @Query("location") String location,
-               @Query("uid") String uid
-    );
 
 }

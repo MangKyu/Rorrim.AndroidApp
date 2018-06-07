@@ -361,7 +361,7 @@ public class CalendarActivity extends Activity
             Iterator iter = calendarList.iterator();
             while(iter.hasNext()){
                 Calendar cal = (Calendar) iter.next();
-                DataManager.getInstance().uploadCalendar(getApplicationContext(), cal.getDate(),
+                DataManager.getInstance().uploadCalendar(cal.getDate(),
                         cal.getTime(), cal.getContents());
             }
 
