@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
-import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityWeatherBinding;
 
@@ -30,13 +29,23 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_weather);
-        binding.weatherMenuLayout.setSwitch();
+        Switch sw = findViewById(R.id.menu_switch);
+        sw.setChecked(getState());
+        sw.setOnClickListener(this);
+
         setImage();
     }
 
     @Override
     public void onClick(View v)   {
         setImage();
+    }
+
+    public Boolean getState() {
+        boolean temp;
+        SharedPreferences prefs = getSharedPreferences("Activity.WeatherActivity", MODE_PRIVATE);
+        temp = prefs.getBoolean("myState", false);
+        return temp;
     }
 
     public void setImage()  {
