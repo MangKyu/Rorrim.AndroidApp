@@ -24,6 +24,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,6 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.MediaRecorder.VideoSource.CAMERA;
+
 
 public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
@@ -67,9 +71,25 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage);
+        binding.mypageCameraBtn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if(ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)   {
+                    ActivityCompat.requestPermissions(MyPageActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
+                }
+                else {
+                    if(DataManager.getInstance().getMirrorUid(MyPageActivity.this).equals("null"))
+                        Toast.makeText(MyPageActivity.this,
+                                "Mirror 등록전까지 사진을 등록할수 없습니다.", Toast.LENGTH_SHORT).show();
+                    else
+                        captureCamera();
+                }
+            }
+        });
         binding.setActivity(this);
         binding.setUser(AuthManager.getInstance().getUser());
-        checkPermission();
+//        checkPermission();
     }
 
     public void getLocation() {
@@ -162,7 +182,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         // Create an image file name
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "id.jpg";
-        File imageFile = null;
+        File imageFile;
+
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "id");
 
         if (!storageDir.exists()) {
@@ -260,42 +281,42 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         }
     }
 
-
+    /*
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
-                if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                        (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
-                    new AlertDialog.Builder(this)
-                            .setTitle("알림")
-                            .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                            .setNeutralButton("설정", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    intent.setData(Uri.parse("package:" + getPackageName()));
-                                    startActivity(intent);
-                                }
-                            })
-                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    finish();
-                                }
-                            })
-                            .setCancelable(false)
-                            .create()
-                            .show();
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
-                }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
+            if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
+                    (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
+                new AlertDialog.Builder(this)
+                        .setTitle("알림")
+                        .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + getPackageName()));
+                                startActivity(intent);
+                            }
+                        })
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
             } else {
-                Log.e("MyPage Activity", "Manifest Permission of Write External Storage Denied");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
             }
+        } else {
+            Log.e("MyPage Activity", "Manifest Permission of Write External Storage Denied");
         }
+//    }
     }
-
+*/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -378,14 +399,14 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     public void sendImage(Uri albumURI){
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         File file = new File(albumURI.getPath());
-        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        RequestBody mirrorUid = RequestBody.create(MediaType.parse("text/plain"),AuthManager.getInstance().getUser().getMirrorUid());
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
         //String uid = AuthManager.getInstance().getUser().getUid();
         RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
 
 
-        Call<ResponseBody> call = retrofitService.sendImage(mirrorUid, image, uid);
+        Call<ResponseBody> call = retrofitService.sendImage(image, uid, mirrorUid);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

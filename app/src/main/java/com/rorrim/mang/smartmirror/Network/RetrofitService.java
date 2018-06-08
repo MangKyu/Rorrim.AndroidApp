@@ -27,7 +27,8 @@ public interface RetrofitService {
     Call<ResponseBody> sendSwitchStatus(
             @Query("uid") String uid,
             @Query("activityName") String activityName,
-            @Query("isChecked") boolean isChecked
+            @Query("isChecked") boolean isChecked,
+            @Query("mirrorUid") String mirrorUID
     );
 
     @GET("/sendCategory")

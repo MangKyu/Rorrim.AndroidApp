@@ -124,8 +124,9 @@ public class MenuView extends RelativeLayout {
 
     private void sendSwitchStatus(final String activityName, final boolean isChecked) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String mirrorUID = DataManager.getInstance().getMirrorUid(getContext());
         String uid = AuthManager.getInstance().getUser().getUid();
-        Call<ResponseBody> call = retrofitService.sendSwitchStatus(uid, activityName, isChecked);
+        Call<ResponseBody> call = retrofitService.sendSwitchStatus(uid, activityName, isChecked, mirrorUID);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
