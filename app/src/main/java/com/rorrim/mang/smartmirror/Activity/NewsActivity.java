@@ -71,7 +71,9 @@ public class NewsActivity extends Activity {
 
     private void sendCategory(String uid, String category) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-        Call<ResponseBody> call = retrofitService.sendCategory(uid, category);
+
+        String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
+        Call<ResponseBody> call = retrofitService.sendCategory(uid, category, mirrorUid);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -24,23 +24,31 @@ public interface RetrofitService {
     );
 
     @GET("/sendSwitchStatus")
-    Call<ResponseBody> sendSwitchStatus(
+    Call<String> sendSwitchStatus(
             @Query("uid") String uid,
             @Query("activityName") String activityName,
             @Query("isChecked") boolean isChecked,
             @Query("mirrorUid") String mirrorUID
     );
 
-    @GET("/sendCategory")
+    @POST("/sendCategory")
     Call<ResponseBody> sendCategory(
             @Query("uid") String uid,
-            @Query("category") String category
+            @Query("category") String category,
+            @Query("mirrorUid") String mirrorUID
     );
 
     @POST("/sendLocation")
     Call<ResponseBody> sendLocation(
-            @Query("location") String location,
+            @Query("latitude") String latitude,
+            @Query("longitude") String longitude,
             @Query("uid") String uid
+    );
+
+    @POST("/setMirror")
+    Call<ResponseBody> sendMirrorData(
+            @Query("uid") String uid,
+            @Query("mirrorUid") String mirrorUid
     );
 
     /*

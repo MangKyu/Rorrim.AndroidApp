@@ -275,7 +275,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
                 if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic();
                     binding.mypageFaceIv.setImageURI(photoURI);
-                    sendImage(photoURI);
+                    sendImage();
                 }
                 break;
         }
@@ -346,7 +346,6 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         }
     }
     public void getMirrorUid()  {
-        final Context context = getApplicationContext();
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("My Rorrim");
         alert.setMessage("로림 고유번호를 적어주세요.");
@@ -356,7 +355,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 mirrorUid = name.getText().toString();
-                DataManager.getInstance().saveMirrorUid(context, mirrorUid);
+                setMirror(mirrorUid);
             }
         });
 
@@ -368,14 +367,43 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         alert.show();
     }
 
+    private void setMirror(final String mirrorUid) {
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String uid = AuthManager.getInstance().getUser().getUid();
+
+        Call<ResponseBody> call = retrofitService.sendMirrorData(uid, mirrorUid);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+
+                    Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
+                            Toast.LENGTH_SHORT).show();
+
+                    DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
+                } else {
+                    Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
+                                    "로림에서 등록을 해주세요",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("Location", "Send Location Failed");
+            }
+        });
+
+    }
+
 
     public void sendLocation(String latitude, String longitude){
 
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
-
-        final String location = latitude + "," + longitude;
-        Call<ResponseBody> call = retrofitService.sendLocation(location, uid);
+        Call<ResponseBody> call = retrofitService.sendLocation(latitude, longitude, uid);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -396,9 +424,9 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         });
     }
 
-    public void sendImage(Uri albumURI){
+    public void sendImage(){
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
-        File file = new File(albumURI.getPath());
+        File file = new File(mCurrentPhotoPath);
         RequestBody mirrorUid = RequestBody.create(MediaType.parse("text/plain"),AuthManager.getInstance().getUser().getMirrorUid());
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);

@@ -126,13 +126,13 @@ public class MenuView extends RelativeLayout {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String mirrorUID = DataManager.getInstance().getMirrorUid(getContext());
         String uid = AuthManager.getInstance().getUser().getUid();
-        Call<ResponseBody> call = retrofitService.sendSwitchStatus(uid, activityName, isChecked, mirrorUID);
+        Call<String> call = retrofitService.sendSwitchStatus(uid, activityName, isChecked, mirrorUID);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 // you  will get the reponse in the response parameter
-                if(response.isSuccessful()) {
+                if(response.isSuccessful() && response.body().equals("Changed Complete") ) {
                     DataManager.getInstance().saveStatus(getContext(), activityName, isChecked);
                 }else {
                     //int statusCode  = response.code();
@@ -140,7 +140,7 @@ public class MenuView extends RelativeLayout {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Log.d("MenuView", "Send Switch Status Failed");
             }
         });
