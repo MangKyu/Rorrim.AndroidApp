@@ -68,16 +68,32 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:background="@drawable/logo"/>
-
-        <TextView
+        <ViewFlipper
+            android:id="@+id/mFlipper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:textSize="30sp"
-            android:textColor="@color/myBlue"
-            android:onClick="@{()->activity.googleSignIn()}"
-            android:text="클릭하여 시작하기" >
-        </TextView>
+            android:flipInterval="1000">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:textSize="30sp"
+                android:textColor="@color/myBlue"
+                android:onClick="@{()->activity.googleSignIn()}"
+                android:text="터치하여 시작하기" >
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:textSize="30sp"
+                android:textColor="@color/myBlue"
+                android:onClick="@{()->activity.googleSignIn()}"
+                android:text="" >
+            </TextView>
+        </ViewFlipper>
+
+
 
         <TextView
             android:layout_width="wrap_content"

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -44,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
+
+        ViewFlipper d;
+
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("로그인 중입니다.");
         setGoogleLogin();
