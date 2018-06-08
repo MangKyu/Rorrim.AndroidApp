@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -27,9 +29,17 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
+import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Model.User;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityLoginBinding;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -109,8 +119,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                 }else{
-
                                     //Intent intent = new Intent(LoginActivity.this, MusicActivity.class);
+                                    readMirrorUid();
+
                                     Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
                                     startActivity(intent);
                                 }
@@ -123,6 +134,11 @@ public class LoginActivity extends AppCompatActivity {
                 // 인증이 성공적이지 못한 경우
             }
         }
+    }
+
+    private void readMirrorUid(){
+        String mirrorUId = DataManager.getInstance().getMirrorUid(this);
+        AuthManager.getInstance().getUser().setMirrorUid(mirrorUId);
     }
 
     private void setGoogleLogin() {

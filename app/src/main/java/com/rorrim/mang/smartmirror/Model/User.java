@@ -18,6 +18,8 @@ public class User implements Connectable{
     @SerializedName("profileUrl")
     private String profileUrl;
 
+    private String mirrorUid;
+
     public User(String uid, String email, String profileUrl){
         this.uid = uid;
         this.email = email;
@@ -45,6 +47,14 @@ public class User implements Connectable{
 
     public void setProfileUrl(String profileUrl){
         this.profileUrl = profileUrl;
+    }
+
+    public String getMirrorUid(){
+        return mirrorUid;
+    }
+
+    public void setMirrorUid(String mirrorUid){
+        this.mirrorUid = mirrorUid;
     }
 
     @Override

@@ -24,6 +24,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
@@ -45,11 +48,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.MediaRecorder.VideoSource.CAMERA;
+
 
 public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     private String mCurrentPhotoPath;
     private Uri photoURI, albumURI;
+    private String mirrorUid;
 
     private ActivityMypageBinding binding;
 
@@ -61,7 +67,32 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
     private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
 
-    public void getLocation(){
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage);
+        binding.mypageCameraBtn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                if(ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)   {
+                    ActivityCompat.requestPermissions(MyPageActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
+                }
+                else {
+                    if(DataManager.getInstance().getMirrorUid(MyPageActivity.this).equals("null"))
+                        Toast.makeText(MyPageActivity.this,
+                                "Mirror 등록전까지 사진을 등록할수 없습니다.", Toast.LENGTH_SHORT).show();
+                    else
+                        captureCamera();
+                }
+            }
+        });
+        binding.setActivity(this);
+        binding.setUser(AuthManager.getInstance().getUser());
+//        checkPermission();
+    }
+
+    public void getLocation() {
         if (!isPermission) {
             callPermission();
             return;
@@ -70,12 +101,9 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         gps = new GpsInfo(this);
         // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
-
-             String latitude = String.valueOf(gps.getLatitude());
-             String longitude = String.valueOf(gps.getLongitude());
-
-             sendLocation(latitude, longitude);
-            Toast.makeText(getApplicationContext(), latitude + "," +longitude, Toast.LENGTH_LONG).show();
+            String latitude = String.valueOf(gps.getLatitude());
+            String longitude = String.valueOf(gps.getLongitude());
+            sendLocation(latitude, longitude);
 
         } else {
             // GPS 를 사용할수 없으므로
@@ -107,20 +135,15 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     }
 
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_mypage);
-        binding.setActivity(this);
-        binding.setUser(AuthManager.getInstance().getUser());
-        checkPermission();
-
-
-    }
-
-    public void gotoNews() {
-        Intent intent = new Intent(MyPageActivity.this, NewsActivity.class);
-        startActivity(intent);
+    public void gotoContents(){
+        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        if(!mirrorUid.equals("null")) {
+            Intent intent = new Intent(this, NewsActivity.class);
+            this.startActivity(intent);
+        }
+        else    {
+            Toast.makeText(this, "Mirror를 등록하세요.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void captureCamera() {
@@ -159,7 +182,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         // Create an image file name
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "id.jpg";
-        File imageFile = null;
+        File imageFile;
+
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "id");
 
         if (!storageDir.exists()) {
@@ -257,8 +281,9 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         }
     }
 
-
+    /*
     private void checkPermission() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
             if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
@@ -286,11 +311,12 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
             }
-        }else{
+        } else {
             Log.e("MyPage Activity", "Manifest Permission of Write External Storage Denied");
         }
+//    }
     }
-
+*/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -319,6 +345,28 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             isPermission = true;
         }
     }
+    public void getMirrorUid()  {
+        final Context context = getApplicationContext();
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("My Rorrim");
+        alert.setMessage("로림 고유번호를 적어주세요.");
+        final EditText name = new EditText(this);
+        alert.setView(name);
+
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                mirrorUid = name.getText().toString();
+                DataManager.getInstance().saveMirrorUid(context, mirrorUid);
+            }
+        });
+
+        alert.setNegativeButton("no",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        alert.show();
+    }
 
 
     public void sendLocation(String latitude, String longitude){
@@ -334,7 +382,8 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
-                    Log.d("Location", location);
+                    Toast.makeText(MyPageActivity.this, "Send Location Success",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     int statusCode = response.code();
                 }
@@ -350,14 +399,14 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     public void sendImage(Uri albumURI){
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         File file = new File(albumURI.getPath());
-
+        RequestBody mirrorUid = RequestBody.create(MediaType.parse("text/plain"),AuthManager.getInstance().getUser().getMirrorUid());
         RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part image = MultipartBody.Part.createFormData("Image", file.getName(), reqFile);
         //String uid = AuthManager.getInstance().getUser().getUid();
         RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), AuthManager.getInstance().getUser().getUid());
 
 
-        Call<ResponseBody> call = retrofitService.sendImage(image, uid);
+        Call<ResponseBody> call = retrofitService.sendImage(image, uid, mirrorUid);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/menu"
-                android:onClick="@{()->activity.gotoNews()}"/>
+                android:onClick="@{()->activity.gotoContents()}"/>
 
             <ImageButton
                 android:id="@+id/menu_user"
@@ -92,8 +92,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/camera"
-                android:layout_centerHorizontal="true"
-                android:onClick="@{()->activity.captureCamera()}"/>
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:layout_centerHorizontal="true"
@@ -139,7 +138,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/mypage_mirror"
                 android:layout_centerHorizontal="true"
-                android:onClick="@{()->activity.getAlbum()}"/>
+                android:onClick="@{()->activity.getMirrorUid()}"/>
 
             <TextView
                 android:layout_centerHorizontal="true"
@@ -186,28 +185,6 @@
             </android.widget.LinearLayout>
 
         </android.widget.LinearLayout>
-
-        <!--
-        <TextView
-            android:id="@+id/mypage_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/mypage_face_iv"
-            android:layout_marginTop="224dp"
-            android:singleLine="true"
-            android:text="연락처"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/mypage_phone_tv"
-            android:layout_width="182dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/mypage_phone"
-            android:layout_centerHorizontal="true"
-            android:singleLine="true"
-            android:text="@{user.phoneNumber}"
-            android:textSize="20sp" />
-                    -->
 
     </LinearLayout>
 </layout>
