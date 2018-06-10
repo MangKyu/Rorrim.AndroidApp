@@ -84,7 +84,7 @@ public class CalendarActivity extends Activity
         binding.calendarMenuLayout.setSwitch();
 
         mProgress = new ProgressDialog(this);
-        mProgress.setMessage("Calling Google Calendar API ...");
+        mProgress.setMessage("Google 일정을 불러오는중...");
 
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))

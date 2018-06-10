@@ -132,7 +132,7 @@ public class MenuView extends RelativeLayout {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 // you  will get the reponse in the response parameter
-                if(response.isSuccessful() && response.body().equals("Changed Complete") ) {
+                if(response.isSuccessful()) {
                     DataManager.getInstance().saveStatus(getContext(), activityName, isChecked);
                 }else {
                     //int statusCode  = response.code();
