@@ -47,9 +47,10 @@ public interface RetrofitService {
     );
 
     @POST("/setMirror")
-    Call<ResponseBody> sendMirrorData(
+    Call<String> sendMirrorData(
             @Query("uid") String uid,
-            @Query("mirrorUid") String mirrorUid
+            @Query("mirrorUid") String mirrorUid,
+            @Query("email") String email
     );
 
     @GET("/receieMusic")

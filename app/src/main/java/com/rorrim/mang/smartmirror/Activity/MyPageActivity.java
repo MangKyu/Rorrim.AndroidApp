@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Interface.AuthInterface;
@@ -370,19 +371,23 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     private void setMirror(final String mirrorUid) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
+        String email = AuthManager.getInstance().getUser().getEmail();
 
-        Call<ResponseBody> call = retrofitService.sendMirrorData(uid, mirrorUid);
+        Call<String> call = retrofitService.sendMirrorData(uid, mirrorUid, email);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
+                    if(response.body().equals("true") || response.body().equals("True")) {
+                        DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
+                        AuthManager.getInstance().getUser().setMirrorUid(mirrorUid);
+                        Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-                    Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
-                            Toast.LENGTH_SHORT).show();
 
-                    DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
                 } else {
                     Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
                                     "로림에서 등록을 해주세요",
@@ -391,7 +396,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Log.d("Location", "Send Location Failed");
             }
         });
