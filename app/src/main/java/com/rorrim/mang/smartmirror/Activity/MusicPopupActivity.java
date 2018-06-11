@@ -19,6 +19,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -28,30 +30,30 @@ import com.rorrim.mang.smartmirror.File.FileManager;
 import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
 import com.rorrim.mang.smartmirror.R;
-import com.rorrim.mang.smartmirror.databinding.ActivityMusicBinding;
+import com.rorrim.mang.smartmirror.databinding.ActivityMusicpopupBinding;
 
 import java.util.List;
 
 
-public class MusicActivity extends Activity {
+public class MusicPopupActivity extends Activity {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 2;
-    private ActivityMusicBinding binding;
+    private ActivityMusicpopupBinding binding;
     private ObservableArrayList<Music> musicList;
     private MusicAdapter mAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+        Log.d("하이","드루옴?");
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_music);
-        binding.musicMenuLayout.setSwitch();
-        musicList = new ObservableArrayList<>();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_musicpopup);
         binding.setActivity(this);
+        musicList = new ObservableArrayList<>();
+
         mAdapter = new MusicAdapter(this, musicList, new RecyclerViewClickListener() {
             @Override
             public void onItemClick(Music music) {
-                deleteListMusic(music);
+                sendMusicFile(music);
             }
         });
         binding.musicMusicRv.setAdapter(mAdapter);
@@ -59,9 +61,7 @@ public class MusicActivity extends Activity {
         requestMusicList();
     }
 
-    public void deleteListMusic(final Music music){
-        /* 재생목록에서 음악을 지우자!
-        * 이름으로 서버에서도 지우자!!! */
+    public void sendMusicFile(final Music music){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -69,8 +69,7 @@ public class MusicActivity extends Activity {
                     case DialogInterface.BUTTON_NEGATIVE: {
                         //Yes 버튼을 클릭했을때 처리
                         try {
-                            Log.e("끼야양", "didid");
-  //                          FileManager.getInstance().uploadMusic(getContext(), music);
+                            FileManager.getInstance().uploadMusic(getContext(), music);
                         }
                         catch (Exception e) {
                             Log.e("SimplePlayer", e.getMessage());
@@ -85,14 +84,13 @@ public class MusicActivity extends Activity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("지울거야?").setPositiveButton("아니?", dialogClickListener)
-                .setNegativeButton("그래!", dialogClickListener).show();
+        builder.setMessage("서버로 전송합니다").setPositiveButton("취소", dialogClickListener)
+                .setNegativeButton("확인", dialogClickListener).show();
 
     }
 
     public void sendMusic(String albumId){
-        Toast.makeText(MusicActivity.this, albumId,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(MusicPopupActivity.this, albumId,                Toast.LENGTH_SHORT).show();
     }
 
 
@@ -118,7 +116,7 @@ public class MusicActivity extends Activity {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             getMusicList();
                         } else {
-                            Toast.makeText(MusicActivity.this, "Permission Denined.",
+                            Toast.makeText(MusicPopupActivity.this, "Permission Denined.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -128,10 +126,6 @@ public class MusicActivity extends Activity {
     }
 
     private void getMusicList(){
-
-        /* 서버에서 가져오자!!! */
-
-        /*
         //가져오고 싶은 컬럼 명을 나열합니다. 음악의 아이디, 앰블럼 아이디, 제목, 아스티스트 정보를 가져옵니다.
         String[] projection = {MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.ALBUM_ID,
@@ -151,27 +145,11 @@ public class MusicActivity extends Activity {
             musicList.add(music);
         }
         cursor.close();
-        */
-
-        Music music = new Music();
-        music.setId("d");
-        music.setAlbumId(null);
-        music.setTitle("d");
-        music.setArtist("d");
-        musicList.add(music);
-    }
-
-    //버튼
-    public void gotoMusicPopup() {
-         //String activityName = getActivityName();
-         Intent intent = new Intent(getContext(), MusicPopupActivity.class);
-         startActivity(intent);
-
     }
 
     public Boolean getState()   {
         boolean temp;
-        SharedPreferences prefs = getSharedPreferences("Activity.MusicActivity", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("Activity.MusicPopupActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
     }
@@ -179,5 +157,39 @@ public class MusicActivity extends Activity {
     public Context getContext(){
         return this;
     }
+
+    //버튼
+    public void gotoMusicPopup(){
+
+        Intent intent = new Intent(this, MusicPopupActivity.class);
+        startActivityForResult(intent, 1);
+
+        /*
+        String activityName = getActivityName();
+        if(!activityName.equals("Activity.MusicPopup")) {
+            Intent intent = new Intent(getContext(), MusicPopupActivity.class);
+            getContext().startActivity(intent);
+        }
+        */
+    }
+
+    //확인 버튼 클릭
+    public void mOnClose(View v){
+        //데이터 전달하기
+        Intent intent = new Intent();
+        intent.putExtra("result", "Close Popup");
+        setResult(RESULT_OK, intent);
+
+        //액티비티(팝업) 닫기
+        finish();
+    }
+    public boolean onTouchEvent(MotionEvent event) {
+        //바깥레이어 클릭시 안닫히게
+        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
+            return false;
+        }
+        return true;
+    }
+
 
 }

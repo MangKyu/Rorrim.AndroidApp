@@ -136,7 +136,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
 
     public void gotoContents(){
-        String mirrorUid = DataManager.getInstance().getMirrorUid(this);
+        String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();//DataManager.getInstance().getMirrorUid(this);
         if(!mirrorUid.equals("null")) {
             Intent intent = new Intent(this, NewsActivity.class);
             this.startActivity(intent);

@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }else{
                                     //Intent intent = new Intent(LoginActivity.this, MusicActivity.class);
                                     readMirrorUid();
-
+                                    AuthManager.getInstance().getUser().setMirrorUid("rorrim1234567890");
                                     Intent intent = new Intent(LoginActivity.this, MyPageActivity.class);
                                     startActivity(intent);
                                 }

@@ -8,7 +8,7 @@
             type="com.rorrim.mang.smartmirror.Model.Music"/>
         <variable
             name="activity"
-            type="com.rorrim.mang.smartmirror.Activity.MusicPopupActivity"/>
+            type="com.rorrim.mang.smartmirror.Activity.MusicActivity"/>
     </data>
 
     <LinearLayout
@@ -62,8 +62,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/heart"
-                android:onClick="@{() -> activity.sendMusic(music.albumId)}"/>
+                android:src="@drawable/heart" />
 
              </RelativeLayout>
          </LinearLayout>

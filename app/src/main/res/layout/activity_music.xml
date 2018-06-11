@@ -8,6 +8,7 @@
         <import type="android.databinding.ObservableArrayList" />
         <import type="com.rorrim.mang.smartmirror.Model.Music"/>
 
+        <variable name="activity" type="com.rorrim.mang.smartmirror.Activity.MusicActivity"/>
         <variable
             name="musicList"
             type="ObservableArrayList&lt;Music&gt;" />
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Activity.MusicActivity"
+        android:background="@color/myBlue"
         tools:showIn="@layout/activity_music">
 
         <com.rorrim.mang.smartmirror.Activity.MenuView
@@ -26,13 +28,34 @@
             android:layout_height="wrap_content">
         </com.rorrim.mang.smartmirror.Activity.MenuView>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00ffff00"
+            android:layout_below="@id/music_menu_layout"
+            android:id="@+id/add_btn"
+            android:text="음악 추가하기"
+            android:textSize="20dp"
+            android:textColor="@color/myWhite"
+            android:layout_centerHorizontal="true"
+            android:onClick="@{()->activity.gotoMusicPopup()}"/>
+
+        <TextView
+            android:id="@+id/playlist_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나의 재생목록"
+            android:layout_below="@+id/add_btn"
+            android:textColor="@color/myWhite"
+            android:textSize="20dp"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/music_music_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            android:layout_below="@id/music_menu_layout"
+            android:layout_below="@id/playlist_txt"
             bind:music="@{musicList}" />
     </RelativeLayout>
 

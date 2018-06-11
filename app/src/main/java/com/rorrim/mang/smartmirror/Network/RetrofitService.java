@@ -8,6 +8,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -49,6 +50,12 @@ public interface RetrofitService {
     Call<ResponseBody> sendMirrorData(
             @Query("uid") String uid,
             @Query("mirrorUid") String mirrorUid
+    );
+
+    @GET("/receieMusic")
+    Call<ResponseBody> receiveMusic(
+            @Query("uid") String uid
+    //        @Body String fileName
     );
 
     /*
