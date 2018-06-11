@@ -42,7 +42,33 @@ public class NewsActivity extends Activity {
     protected void onStart() {
         super.onStart();
         binding.newsMenuLayout.setSwitch();
-
+        setCategory();
+    }
+    public void setCategory()   {
+        String temp;
+        temp = DataManager.getInstance().getCategory(this);
+        switch(temp)    {
+            case "IT/과학":
+                binding.it.setChecked(true);
+                break;
+            case "생활/문화":
+                binding.life.setChecked(true);
+                break;
+            case "사회":
+                binding.social.setChecked(true);
+                break;
+            case "정치":
+                binding.politics.setChecked(true);
+                break;
+            case "세계":
+                binding.world.setChecked(true);
+                break;
+            case "경제":
+                binding.economy.setChecked(true);
+                break;
+            default:
+                break;
+        }
     }
 
     public void sendCategoryName()   {
@@ -69,7 +95,7 @@ public class NewsActivity extends Activity {
             binding.upRadioGroup.clearCheck();
     }
 
-    private void sendCategory(String uid, String category) {
+    private void sendCategory(String uid, final String category) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
 
         String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
@@ -81,6 +107,7 @@ public class NewsActivity extends Activity {
                 if (response.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Success set category.",
                             Toast.LENGTH_SHORT).show();
+                    DataManager.getInstance().saveCategory(NewsActivity.this, category);
                 } else {
                     int statusCode = response.code();
                 }

@@ -64,5 +64,17 @@ public class DataManager {
         temp = prefs.getString("mirror", "null");
         return temp;
     }
+    public void saveCategory(Context context, String category)   {
+        SharedPreferences prefs = context.getSharedPreferences("Category", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("myCategory", category);
+        editor.commit();
+    }
+    public String getCategory(Context context)  {
+        String temp;
+        SharedPreferences prefs = context.getSharedPreferences("Category", MODE_PRIVATE);
+        temp = prefs.getString("myCategory", "null");
+        return temp;
+    }
 
 }
