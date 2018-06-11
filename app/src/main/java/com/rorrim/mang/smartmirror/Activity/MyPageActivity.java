@@ -381,11 +381,13 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
                     if(response.body().equals("true") || response.body().equals("True")) {
+                        DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
+                        AuthManager.getInstance().getUser().setMirrorUid(mirrorUid);
                         Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
                                 Toast.LENGTH_SHORT).show();
                     }
 
-                    DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
+
                 } else {
                     Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
                                     "로림에서 등록을 해주세요",

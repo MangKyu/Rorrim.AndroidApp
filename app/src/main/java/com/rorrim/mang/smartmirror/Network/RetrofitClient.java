@@ -17,7 +17,7 @@ public class RetrofitClient implements Connectable {
     public RetrofitClient() {
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
 
-        client = new OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS)
+        client = okHttpBuilder.connectTimeout(20, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
