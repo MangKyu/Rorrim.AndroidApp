@@ -78,7 +78,7 @@ public class MusicPopupActivity extends Activity {
                         //Yes 버튼을 클릭했을때 처리
                         try {
                             FileManager.getInstance().uploadMusic(getContext(), music);
-                            sendName(music);
+                            //sendName(music);
                         }
                         catch (Exception e) {
                             Log.e("SimplePlayer", e.getMessage());

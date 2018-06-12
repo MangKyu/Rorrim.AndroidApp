@@ -56,6 +56,8 @@ public class FileManager {
         String id = music.getId();
         Uri musicURI = Uri.withAppendedPath(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+id);
+        final String uid = AuthManager.getInstance().getUser().getUid();
+        final String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
         String filePath = getRealPathFromURI(context, musicURI);
         String fileExt = filePath.substring(filePath.lastIndexOf("."));
         final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
@@ -88,6 +90,7 @@ public class FileManager {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     dialog.dismiss();
                     DataManager.getInstance().uploadAudio(music.getArtist(), music.getTitle(), fileName);
+                    sendMusicName(context, music, uid, mirrorUid);
                     Toast.makeText(context, "File Manager Success", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -107,6 +110,7 @@ public class FileManager {
         String filePath = getRealPathFromURI(context, musicURI);
         String fileExt = filePath.substring(filePath.lastIndexOf("."));
         final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
+        Log.d("시작하기전에 출력한다: ", fileName);
         Call<String> call = retrofitService.pushMusic(uid, mirrorUid, fileName);
 
         call.enqueue(new Callback<String>() {
