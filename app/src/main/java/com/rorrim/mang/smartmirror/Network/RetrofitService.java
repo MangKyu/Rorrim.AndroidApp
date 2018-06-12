@@ -4,6 +4,8 @@ import com.rorrim.mang.smartmirror.Model.JSonMessage;
 import com.rorrim.mang.smartmirror.Model.User;
 
 
+import java.util.HashMap;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -59,6 +61,27 @@ public interface RetrofitService {
     //        @Body String fileName
     );
 
+    @GET("/getPlayList")
+    Call<HashMap<String, String>> get(
+            @Query("uid") String uid,
+            @Query("mirrorUid") String mirrorUid
+    );
+
+    @GET("/getMusic")
+    Call<String> pushMusic(
+            @Query("uid") String uid,
+            @Query("mirrorUid") String mirrorUid,
+            @Query("fileName") String fileName
+    );
+
+    @POST("/removeMusic")
+    Call<String> popMusic(
+            @Query("uid") String uid,
+            @Query("mirrorUid") String mirrorUid,
+            @Query("fileName") String fileName,
+            @Query("artist") String artist,
+            @Query("song") String song
+    );
     /*
     @Multipart
     @POST("/sendFile")

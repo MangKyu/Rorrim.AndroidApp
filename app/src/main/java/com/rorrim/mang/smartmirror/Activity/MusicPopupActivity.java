@@ -24,15 +24,23 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.File.FileManager;
 import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityMusicpopupBinding;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MusicPopupActivity extends Activity {
@@ -70,6 +78,7 @@ public class MusicPopupActivity extends Activity {
                         //Yes 버튼을 클릭했을때 처리
                         try {
                             FileManager.getInstance().uploadMusic(getContext(), music);
+                            sendName(music);
                         }
                         catch (Exception e) {
                             Log.e("SimplePlayer", e.getMessage());
@@ -87,6 +96,11 @@ public class MusicPopupActivity extends Activity {
         builder.setMessage("서버로 전송합니다").setPositiveButton("취소", dialogClickListener)
                 .setNegativeButton("확인", dialogClickListener).show();
 
+    }
+    public void sendName(final Music music)    {
+        String uid = AuthManager.getInstance().getUser().getUid();
+        String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
+        FileManager.getInstance().sendMusicName(getContext(), music, uid, mirrorUid);
     }
 
     public void sendMusic(String albumId){

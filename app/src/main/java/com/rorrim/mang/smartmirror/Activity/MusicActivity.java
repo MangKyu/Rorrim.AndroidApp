@@ -23,14 +23,22 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.rorrim.mang.smartmirror.Adapter.MusicAdapter;
+import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.File.FileManager;
 import com.rorrim.mang.smartmirror.Listener.RecyclerViewClickListener;
 import com.rorrim.mang.smartmirror.Model.Music;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
 import com.rorrim.mang.smartmirror.R;
 import com.rorrim.mang.smartmirror.databinding.ActivityMusicBinding;
 
+import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MusicActivity extends Activity {
@@ -39,6 +47,7 @@ public class MusicActivity extends Activity {
     private ActivityMusicBinding binding;
     private ObservableArrayList<Music> musicList;
     private MusicAdapter mAdapter;
+    private HashMap<String, String> playList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +66,7 @@ public class MusicActivity extends Activity {
         binding.musicMusicRv.setAdapter(mAdapter);
         binding.setMusicList(musicList);
         requestMusicList();
+        getPlayList();
     }
 
     public void deleteListMusic(final Music music){
@@ -130,7 +140,11 @@ public class MusicActivity extends Activity {
     private void getMusicList(){
 
         /* 서버에서 가져오자!!! */
-
+        // 노래를 지우고싶을때
+        // 노래를 선택하면 노래제목, 아티스트, full 네임, uid, mirrorUid를
+        // retrofit으로 보내주면됨 method 이름은 popMusic
+        // 인자는 위에 적어둔 5개
+        // 성공시 String형 true 반환, 실패시 String형 false 반환
         /*
         //가져오고 싶은 컬럼 명을 나열합니다. 음악의 아이디, 앰블럼 아이디, 제목, 아스티스트 정보를 가져옵니다.
         String[] projection = {MediaStore.Audio.Media._ID,
@@ -174,6 +188,32 @@ public class MusicActivity extends Activity {
         SharedPreferences prefs = getSharedPreferences("Activity.MusicActivity", MODE_PRIVATE);
         temp = prefs.getBoolean("myState", false);
         return temp;
+    }
+    public void getPlayList()  {
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String uid = AuthManager.getInstance().getUser().getUid();
+        String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
+        Call<HashMap<String, String>> call = retrofitService.get(uid, mirrorUid);
+        call.enqueue(new Callback<HashMap<String, String>>() {
+            @Override
+            public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response) {
+                if(response.isSuccessful()) {
+                    playList(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HashMap<String, String>> call, Throwable t) {
+                Log.d("PlayList", "Get PlayList Failed");
+            }
+        });
+    }
+
+    public void playList(HashMap<String, String> map)   {
+        playList = map;
+        for(String song : playList.keySet())    {
+            Log.d("노래 : ", playList.get(song));
+        }
     }
 
     public Context getContext(){

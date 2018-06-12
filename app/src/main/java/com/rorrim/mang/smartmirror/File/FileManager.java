@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -19,9 +20,16 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.rorrim.mang.smartmirror.Activity.MyPageActivity;
 import com.rorrim.mang.smartmirror.Auth.AuthManager;
 import com.rorrim.mang.smartmirror.Data.DataManager;
 import com.rorrim.mang.smartmirror.Model.Music;
+import com.rorrim.mang.smartmirror.Network.RetrofitClient;
+import com.rorrim.mang.smartmirror.Network.RetrofitService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FileManager {
     private FirebaseStorage storage;
@@ -90,6 +98,34 @@ public class FileManager {
         }
 
     }
+
+    public void sendMusicName(Context context, final Music music, String uid, String mirrorUid)    {
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String id = music.getId();
+        Uri musicURI = Uri.withAppendedPath(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+id);
+        String filePath = getRealPathFromURI(context, musicURI);
+        String fileExt = filePath.substring(filePath.lastIndexOf("."));
+        final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
+        Call<String> call = retrofitService.pushMusic(uid, mirrorUid, fileName);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Location", "Send Location Failed");
+            }
+        });
+
+    }
+
 
     private String getRealPathFromURI(Context context, Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
