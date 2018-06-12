@@ -222,7 +222,6 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     // 카메라 전용 크랍
     public void cropImage() {
         Log.i("cropImage", "photoURI : " + photoURI + " / albumURI : " + albumURI);
-
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
         // 50x50픽셀미만은 편집할 수 없다는 문구 처리 + 갤러리, 포토 둘다 호환하는 방법
@@ -401,6 +400,32 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             }
         });
 
+    }
+
+    public void sendName(String name){
+
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        String uid = AuthManager.getInstance().getUser().getUid();
+        Call<String> call = retrofitService.sendName(uid, name);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+                    if(response.body().equals("true") || response.body().equals("True")) {
+                        DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
+                        AuthManager.getInstance().getUser().setMirrorUid(mirrorUid);
+                        Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
+                                    "로림에서 등록을 해주세요",
+                            Toast.LENGTH_SHORT).show();
+                }
     }
 
 

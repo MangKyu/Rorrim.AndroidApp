@@ -66,12 +66,21 @@ public class MusicActivity extends Activity {
         binding.musicMusicRv.setAdapter(mAdapter);
         binding.setMusicList(musicList);
         requestMusicList();
-        getPlayList();
+//        getPlayList();
     }
 
     public void deleteListMusic(final Music music){
         /* 재생목록에서 음악을 지우자!
         * 이름으로 서버에서도 지우자!!! */
+        // 노래를 지우고싶을때
+        // 노래를 선택하면 노래제목, 아티스트, full 네임, uid, mirrorUid를
+        // retrofit으로 보내주면됨 method 이름은 popMusic
+        // 인자는 위에 적어둔 5개
+        // 성공시 String형 true 반환, 실패시 String형 false 반환
+
+        final String uid = AuthManager.getInstance().getUser().getUid();
+        final String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
+
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -80,7 +89,7 @@ public class MusicActivity extends Activity {
                         //Yes 버튼을 클릭했을때 처리
                         try {
                             Log.e("끼야양", "didid");
-  //                          FileManager.getInstance().uploadMusic(getContext(), music);
+                            FileManager.getInstance().sendDeleteMusic(getContext(), music, uid, mirrorUid);
                         }
                         catch (Exception e) {
                             Log.e("SimplePlayer", e.getMessage());
@@ -112,7 +121,7 @@ public class MusicActivity extends Activity {
         if(permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
         } else {
-            getMusicList();
+            getPlayList();
         }
     }
 
@@ -126,7 +135,7 @@ public class MusicActivity extends Activity {
                     int grantResult = grantResults[i];
                     if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                            getMusicList();
+                            getPlayList();
                         } else {
                             Toast.makeText(MusicActivity.this, "Permission Denined.",
                                     Toast.LENGTH_SHORT).show();
@@ -137,43 +146,6 @@ public class MusicActivity extends Activity {
         }
     }
 
-    private void getMusicList(){
-
-        /* 서버에서 가져오자!!! */
-        // 노래를 지우고싶을때
-        // 노래를 선택하면 노래제목, 아티스트, full 네임, uid, mirrorUid를
-        // retrofit으로 보내주면됨 method 이름은 popMusic
-        // 인자는 위에 적어둔 5개
-        // 성공시 String형 true 반환, 실패시 String형 false 반환
-        /*
-        //가져오고 싶은 컬럼 명을 나열합니다. 음악의 아이디, 앰블럼 아이디, 제목, 아스티스트 정보를 가져옵니다.
-        String[] projection = {MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.ALBUM_ID,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ARTIST
-        };
-
-        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                projection, null, null, null);
-
-        while(cursor.moveToNext()){
-            Music music = new Music();
-            music.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
-            music.setAlbumId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
-            music.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
-            music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-            musicList.add(music);
-        }
-        cursor.close();
-        */
-
-        Music music = new Music();
-        music.setId("d");
-        music.setAlbumId(null);
-        music.setTitle("d");
-        music.setArtist("d");
-        musicList.add(music);
-    }
 
     //버튼
     public void gotoMusicPopup() {
@@ -190,6 +162,7 @@ public class MusicActivity extends Activity {
         return temp;
     }
     public void getPlayList()  {
+
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
         String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
@@ -213,6 +186,14 @@ public class MusicActivity extends Activity {
         playList = map;
         for(String song : playList.keySet())    {
             Log.d("노래 : ", playList.get(song));
+            String[] data = playList.get(song).split("\\-");
+            Music music = new Music();
+            music.setAlbumId("null");
+            music.setArtist(data[0]);
+            music.setTitle(data[1]);
+            music.setId(playList.get(song));
+            musicList.add(music);
+
         }
     }
 

@@ -74,7 +74,7 @@ public interface RetrofitService {
             @Query("fileName") String fileName
     );
 
-    @POST("/removeMusic")
+    @GET("/removeMusic")
     Call<String> popMusic(
             @Query("uid") String uid,
             @Query("mirrorUid") String mirrorUid,
@@ -82,6 +82,13 @@ public interface RetrofitService {
             @Query("artist") String artist,
             @Query("song") String song
     );
+
+    @POST("/setName")
+    Call<String> sendName(
+            @Query("uid") String uid,
+            @Query("name") String name
+    );
+
     /*
     @Multipart
     @POST("/sendFile")

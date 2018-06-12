@@ -130,6 +130,27 @@ public class FileManager {
 
     }
 
+    public void sendDeleteMusic(Context context, final Music music, String uid, String mirrorUid)    {
+        RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
+        Log.d("시작하기전에 출력한다: ", music.getId());
+        Call<String> call = retrofitService.popMusic(uid, mirrorUid, music.getId(),music.getArtist(),music.getTitle());
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                // you  will get the reponse in the response parameter
+                if (response.isSuccessful()) {
+                } else {
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Location", "Send Location Failed");
+            }
+        });
+
+    }
+
 
     private String getRealPathFromURI(Context context, Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
