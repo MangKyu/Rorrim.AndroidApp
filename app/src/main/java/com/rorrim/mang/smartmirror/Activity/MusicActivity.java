@@ -193,7 +193,7 @@ public class MusicActivity extends Activity {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
         String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
-        Call<HashMap<String, String>> call = retrofitService.get(uid, mirrorUid);
+        Call<HashMap<String, String>> call = retrofitService.getPlayList(uid, mirrorUid);
         call.enqueue(new Callback<HashMap<String, String>>() {
             @Override
             public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response) {

@@ -54,15 +54,15 @@ public interface RetrofitService {
             @Query("mirrorUid") String mirrorUid,
             @Query("email") String email
     );
-
+/*
     @GET("/receieMusic")
     Call<ResponseBody> receiveMusic(
             @Query("uid") String uid
     //        @Body String fileName
     );
-
+*/
     @GET("/getPlayList")
-    Call<HashMap<String, String>> get(
+    Call<HashMap<String, String>> getPlayList(
             @Query("uid") String uid,
             @Query("mirrorUid") String mirrorUid
     );
