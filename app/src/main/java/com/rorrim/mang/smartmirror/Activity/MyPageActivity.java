@@ -410,7 +410,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
 
                 } else {
-                    Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
+                    Toast.makeText(MyPageActivity.this, "로림 고유번호가 잘못되었거나 " +
                                     "로림에서 등록을 해주세요",
                             Toast.LENGTH_SHORT).show();
                 }
