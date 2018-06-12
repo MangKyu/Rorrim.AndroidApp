@@ -57,6 +57,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
     private String mCurrentPhotoPath;
     private Uri photoURI, albumURI;
     private String mirrorUid;
+    private String name;
 
     private ActivityMypageBinding binding;
 
@@ -367,6 +368,27 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         alert.show();
     }
 
+    public void getName(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("My Name");
+        alert.setMessage("로림이 불러드릴 이름을 적어주세요.");
+        final EditText nameTxt = new EditText(this);
+        alert.setView(nameTxt);
+
+        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                name = nameTxt.getText().toString();
+                sendName(name);
+            }
+        });
+
+        alert.setNegativeButton("no",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        alert.show();
+    }
+
     private void setMirror(final String mirrorUid) {
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
@@ -402,7 +424,7 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
 
     }
 
-    public void sendName(String name){
+    public void sendName(final String name){
 
         RetrofitService retrofitService = RetrofitClient.getInstance().getRetrofit().create(RetrofitService.class);
         String uid = AuthManager.getInstance().getUser().getUid();
@@ -413,20 +435,26 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
             public void onResponse(Call<String> call, Response<String> response) {
                 // you  will get the reponse in the response parameter
                 if (response.isSuccessful()) {
-                    if(response.body().equals("true") || response.body().equals("True")) {
-                        DataManager.getInstance().saveMirrorUid(MyPageActivity.this, mirrorUid);
-                        AuthManager.getInstance().getUser().setMirrorUid(mirrorUid);
-                        Toast.makeText(MyPageActivity.this, "로림 등록이 완료되었습니다.",
+                    if (response.body().equals("true") || response.body().equals("True")) {
+                        AuthManager.getInstance().getUser().setName(name);
+                        Toast.makeText(MyPageActivity.this, "이름 등록이 완료되었습니다.",
                                 Toast.LENGTH_SHORT).show();
                     }
-
-
-                } else {
-                    Toast.makeText(MyPageActivity.this, "로림 고요번호가 잘못되었거나 " +
-                                    "로림에서 등록을 해주세요",
+                }else {
+                    Toast.makeText(MyPageActivity.this, "이름을 등록해주세요 "                   ,
                             Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Name", "Send Name Failed");
+            }
+        });
+
     }
+
+
 
 
     public void sendLocation(String latitude, String longitude){

@@ -60,7 +60,7 @@ public class FileManager {
         final String mirrorUid = AuthManager.getInstance().getUser().getMirrorUid();
         String filePath = getRealPathFromURI(context, musicURI);
         String fileExt = filePath.substring(filePath.lastIndexOf("."));
-        final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
+        final String fileName = music.getArtist()+ "-"+music.getTitle() + fileExt;
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Sending File...");
@@ -109,7 +109,7 @@ public class FileManager {
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, ""+id);
         String filePath = getRealPathFromURI(context, musicURI);
         String fileExt = filePath.substring(filePath.lastIndexOf("."));
-        final String fileName = music.getArtist()+ "- "+music.getTitle() + fileExt;
+        final String fileName = music.getArtist()+ "-"+music.getTitle() + fileExt;
         Log.d("시작하기전에 출력한다: ", fileName);
         Call<String> call = retrofitService.pushMusic(uid, mirrorUid, fileName);
 

@@ -20,11 +20,14 @@ public class User implements Connectable{
 
     private String mirrorUid;
 
+    private String name;
+
     public User(String uid, String email, String profileUrl){
         this.uid = uid;
         this.email = email;
         this.profileUrl = profileUrl;
         this.profileUrl = baseURL + "/profileImage.jpg?fileName="+uid;
+        this.name = name;
     }
 
     public User(String uid, String email){
@@ -55,6 +58,11 @@ public class User implements Connectable{
 
     public void setMirrorUid(String mirrorUid){
         this.mirrorUid = mirrorUid;
+    }
+
+    public String getName(){ return name;}
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override

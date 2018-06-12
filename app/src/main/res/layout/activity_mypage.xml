@@ -72,7 +72,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/star"
                 android:layout_centerHorizontal="true"
-                android:onClick="@{()->activity.getLocation()}"/>
+                android:onClick="@{()->activity.getName()}"/>
 
             <TextView
                 android:layout_centerHorizontal="true"

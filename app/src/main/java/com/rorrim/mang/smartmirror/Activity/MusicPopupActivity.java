@@ -155,7 +155,14 @@ public class MusicPopupActivity extends Activity {
             music.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
             music.setAlbumId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
             music.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
-            music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+
+            String artist = cursor.getString(cursor.getColumnIndex((MediaStore.Audio.Media.ARTIST)));
+
+            if(artist.contains("unknown")){ /* parsing for <unknown> */
+                music.setArtist("unknown");
+            }else{
+                music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+            }
             musicList.add(music);
         }
         cursor.close();

@@ -185,13 +185,16 @@ public class MusicActivity extends Activity {
     public void playList(HashMap<String, String> map)   {
         playList = map;
         for(String song : playList.keySet())    {
-            Log.d("노래 : ", playList.get(song));
-            String[] data = playList.get(song).split("\\-");
+ //           String[] data = playList.get(song).split("\\-");
+            int lineIndex = playList.get(song).indexOf("-");
+            int dotIndex = playList.get(song).indexOf(".");
+
             Music music = new Music();
             music.setAlbumId("null");
-            music.setArtist(data[0]);
-            music.setTitle(data[1]);
+            music.setArtist(playList.get(song).substring(0,lineIndex));
+            music.setTitle(playList.get(song).substring(lineIndex+1,dotIndex));
             music.setId(playList.get(song));
+
             musicList.add(music);
 
         }
