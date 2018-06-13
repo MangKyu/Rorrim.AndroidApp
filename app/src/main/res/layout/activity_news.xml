@@ -41,16 +41,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/myYellow"
-                        android:textColor="@color/myWhite"
-                        android:onClick="@{()->activity.downClear()}"
-                        android:text="통합"/>
-
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/politics"
                         android:layout_width="wrap_content"

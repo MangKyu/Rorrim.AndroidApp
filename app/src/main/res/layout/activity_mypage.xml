@@ -50,7 +50,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="10dp"
-            android:text="나의 Face ID"
+            android:text="나의 로림"
             android:textSize="30sp"/>
 
     <LinearLayout
