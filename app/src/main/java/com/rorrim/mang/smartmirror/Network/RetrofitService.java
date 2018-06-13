@@ -83,7 +83,7 @@ public interface RetrofitService {
             @Query("song") String song
     );
 
-    @POST("/setName")
+    @GET("/setName")
     Call<String> sendName(
             @Query("uid") String uid,
             @Query("name") String name

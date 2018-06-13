@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -91,6 +93,12 @@ public class MyPageActivity extends AppCompatActivity implements AuthInterface {
         });
         binding.setActivity(this);
         binding.setUser(AuthManager.getInstance().getUser());
+
+        binding.mypageFaceIv.setBackground(new ShapeDrawable(new OvalShape()));
+        if(Build.VERSION.SDK_INT >= 21) {
+            binding.mypageFaceIv.setClipToOutline(true);
+        }
+
 //        checkPermission();
     }
 

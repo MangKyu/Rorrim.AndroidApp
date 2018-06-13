@@ -64,8 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-
-
             <ImageButton
                 android:id="@+id/mypage_name_btn"
                 android:layout_width="50dp"
@@ -190,7 +188,7 @@
             >
 
             <android.widget.LinearLayout
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:gravity="center"
@@ -200,7 +198,7 @@
                     android:id="@+id/mypage_face_iv"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center"
                     android:layout_margin="20dp"
                     app:imageUrl="@{user.profileUrl}"
                     />
