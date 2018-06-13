@@ -88,8 +88,9 @@ public class MusicActivity extends Activity {
                     case DialogInterface.BUTTON_NEGATIVE: {
                         //Yes 버튼을 클릭했을때 처리
                         try {
-                            Log.e("끼야양", "didid");
                             FileManager.getInstance().sendDeleteMusic(getContext(), music, uid, mirrorUid);
+                            musicList.remove(music);
+                            //getPlayList();
                         }
                         catch (Exception e) {
                             Log.e("SimplePlayer", e.getMessage());
@@ -114,6 +115,11 @@ public class MusicActivity extends Activity {
                 Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getPlayList();
+    }
 
     private void requestMusicList(){
         int permissionReadStorage = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -184,10 +190,11 @@ public class MusicActivity extends Activity {
 
     public void playList(HashMap<String, String> map)   {
         playList = map;
+        musicList.clear();
         for(String song : playList.keySet())    {
- //           String[] data = playList.get(song).split("\\-");
+            //           String[] data = playList.get(song).split("\\-");
             int lineIndex = playList.get(song).indexOf("-");
-            int dotIndex = playList.get(song).indexOf(".");
+            int dotIndex = playList.get(song).lastIndexOf(".");
 
             Music music = new Music();
             music.setAlbumId("null");

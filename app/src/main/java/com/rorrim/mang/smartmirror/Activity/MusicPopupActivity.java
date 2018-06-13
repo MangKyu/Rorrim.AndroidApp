@@ -154,14 +154,22 @@ public class MusicPopupActivity extends Activity {
             Music music = new Music();
             music.setId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
             music.setAlbumId(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
-            music.setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+            String musicTitle = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+            if(musicTitle.contains(".")){
+                String title = "";
+                String[] words = musicTitle.split("\\.");
+                for(int i = 0; i < words.length; i++)   {
+                    title = title + " " + words[i];
+                }
+                musicTitle = title;
+            }
+            music.setTitle(musicTitle);
 
             String artist = cursor.getString(cursor.getColumnIndex((MediaStore.Audio.Media.ARTIST)));
-
             if(artist.contains("unknown")){ /* parsing for <unknown> */
                 music.setArtist("unknown");
             }else{
-                music.setArtist(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+                music.setArtist(artist);
             }
             musicList.add(music);
         }
@@ -204,13 +212,11 @@ public class MusicPopupActivity extends Activity {
         //액티비티(팝업) 닫기
         finish();
     }
-    public boolean onTouchEvent(MotionEvent event) {
-        //바깥레이어 클릭시 안닫히게
-        if(event.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
-        }
-        return true;
-    }
 
+    public void gotoMusic() {
+        Intent intent = new Intent(getContext(), MusicActivity.class);
+        startActivity(intent);
+
+    }
 
 }
