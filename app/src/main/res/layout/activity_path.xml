@@ -49,7 +49,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/myWhite"
                 android:textSize="20dp"
-                android:text="로림! 길 안내 해줘" />
+                android:text="로림! 가는길 알려줘" />
 
             <TextView
                 android:layout_below="@id/on_path"
