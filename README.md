@@ -1,6 +1,6 @@
 # Rorrim - AndroidApp
 
-This is a android app for manage Smart Mirror System.
+This is an Native Android Application to manage Smart Mirror System.
 
 <br>
 
@@ -23,9 +23,9 @@ You can find other program's source in..
 
 ### Features
 
-* **Face Classification** : User logs in to the system through face recognition (based on Deep-Learning)
+* **Face Classification** : User can sign-in to the system through face recognition and classification(based on Deep-Learning with fine tuned Google Inception V3)
 
-* **Voice Recognition** : All functions can be executed with the voice command.
+* **Voice Recognition** : All functions can be executed with the voice command through google speech api
 
   <br>
 
@@ -71,7 +71,7 @@ You can login with your google account.
 
 3. tap '카메라' or '앨범' button to register photo for Face ID.
 
-4. tap '거울등록' button to synchronize with Mirror hardware.
+4. tap '거울등록' button to synchronize with Mirror Iot.
 
    <br>
 
@@ -97,10 +97,14 @@ In Android Studio selection "Open an Existing Android Studio Project"
 
 ## Libraries used
 
+* Data Binding
+* Retrofit 2
+* Glide
+* Gson
+
+
+## API used
 * [Firebase](https://firebase.google.com/)
 * [Oauth 2.0](https://oauth.net/2/)
 * [Google Calendar API](https://developer.salesforce.com/page/Google_Calendar_API)
-* AppCompat
-* Data Binding
-* Retrofit 2
-
+* [Google Storage API]
